@@ -1,0 +1,139 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Some custom packages
+%%
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{xspace}
+\usepackage{listings}
+\usepackage{epigraph}
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{newlfont}
+\usepackage{csquotes}
+\usepackage{footmisc}
+\usepackage[utf8]{inputenc}
+
+\sisetup{
+	round-mode= places,
+	round-precision= 3,
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts (like different typewriter fonts etc.)
+%%
+%\RequirePackage[scaled=.87]{couriers}
+%\RequirePackage[T1]{fontenc}
+%\renewcommand\rmdefault{psb}
+\usepackage{mdframed,xcolor}
+\definecolor{mygrayone}{gray}{0.8}
+\definecolor{mygraytwo}{gray}{0.4}
+\newcounter{esempio}[chapter]
+\renewcommand{\theesempio}{\thechapter.\arabic{esempio}}
+\newenvironment{esempio}[1]
+{\begin{mdframed}[margin=\parindent, leftmargin=0pt,rightmargin=0pt,
+		linewidth=0pt,backgroundcolor=mygrayone]
+		\refstepcounter{esempio}\vspace*{-4.75pt}\leavevmode\kern-\parindent
+		{\fboxrule=0pt \fcolorbox{white}{mygraytwo}{%
+				\color{white}\spacedallcaps{Example}\enspace\theesempio}}%
+		\enspace#1\\*[\medskipamount]}
+	{\end{mdframed}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Style (Changing the visual style of chapter headings and stuff.)
+%%
+\RequirePackage{titlesec}
+% [Fixes issue #34 (see https://github.com/cambridge/thesis/issues/34). Solution from: http://tex.stackexchange.com/questions/299969/titlesec-loss-of-section-numbering-with-the-new-update-2016-03-15
+\RequirePackage{etoolbox}
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% end of issue #34 fix]
+\newcommand{\PreContentTitleFormat}{\titleformat{\chapter}[display]{\scshape\Large}
+{\Large\filleft\MakeUppercase{\chaptertitlename} \Huge\thechapter}
+{1ex}
+{}
+[\vspace{1ex}\titlerule]}
+\newcommand{\ContentTitleFormat}{\titleformat{\chapter}[display]{\scshape\huge}
+{\Large\filleft\MakeUppercase{\chaptertitlename} \Huge\thechapter}
+{1ex}
+{\titlerule\vspace{1ex}\filright}
+[\vspace{1ex}\titlerule]}
+\newcommand{\PostContentTitleFormat}{\PreContentTitleFormat}
+\PreContentTitleFormat
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bibliography (special style etc.)
+%%
+\RequirePackage[numbers,sort&compress]{natbib}
+%\bibliographystyle{plainat}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Theorems, definitions, and examples
+%%
+\RequirePackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+%% Support for `Examples` (provides a counter for examples, the possibility to
+%% label and reference them etc.)
+%%
+\newtheorem{example}{Example}[chapter]
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Captions: This makes captions of figures use a boldfaced small font. 
+%%
+\RequirePackage[small,bf]{caption}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Subfigure (note: this must be included after the `caption` package). 
+%%
+\RequirePackage{subfig}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Graphics (we set the central folder for all included graphics to
+%% `./Figures/`)
+%%
+\graphicspath{{./Figures/}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Content commands
+%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Glossary entries
+%%
+%\newglossaryentry{pi}{
+%    name={\ensuremath{\pi}},
+%    sort={pi},
+%    description={ratio of the circumference of a circle to the diameter}
+%}

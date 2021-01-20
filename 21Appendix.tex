@@ -1,9 +1,9 @@
 \appendix
 \chapter{Code}
 
-\section{Wikipedia script}
+\section{Dataset estraction}
 
-\subsection{PetScan Query}
+\subsection{RCV1}
 \label{appendix:petscanQuery}
 We used as parameter depth 2 and this list of categories: \textit{Salute} (i.e. health in italian), \textit{Medicina} (i.e. medicine in italian),  \textit{Procedure mediche} (i.e. medical procedures in italian),  \textit{Diagnostica medica} (i.e. medical diagnostics in italian) and \textit{Specialità medica} (i.e. medical specialty in italian). The language of the result pages is by default "it" (i.e. italian).
 
@@ -14,7 +14,7 @@ We used as parameter depth 2 and this list of categories: \textit{Salute} (i.e. 
 \url{https://petscan.wmflabs.org/?language=it\&project=wikipedia\&depth=2\&categories=Salute\&combination=subset\&negcats=\&ns\%5B0\%5D=1\&larger=\&smaller=\&minlinks=\&maxlinks=\&before=\&after=\&max\_age=\&show\_redirects=no\&edits\%5Bbots\%5D=both\&edits\%5Banons\%5D=both\&edits\%5Bflagged\%5D=both\&page\_image=any\&ores\_type=any\&ores\_prob\_from=\&ores\_prob\_to=\&ores\_prediction=any\&templates\_yes=\&templates\_any=\&templates\_no=\&outlinks\_yes=\&outlinks\_any=\&outlinks\_no=\&links\_to\_all=\&links\_to\_any=\&links\_to\_no=\&sparql=\&manual\_list=\&manual\_list\_wiki=\&pagepile=\&wikidata\_source\_sites=\&subpage\_filter=either\&common\_wiki=auto\&source\_combination=\&wikidata\_item=no\&wikidata\_label\_language=\&wikidata\_prop\_item\_use=\&wpiu=any\&sitelinks\_yes=\&sitelinks\_any=\&sitelinks\_no=\&min\_sitelink\_count=\&max\_sitelink\_count=\&labels\_yes=\&cb\_labels\_yes\_l=1\&langs\_labels\_yes=\&labels\_any=\&cb\_labels\_any\_l=1\&langs\_labels\_any=\&labels\_no=\&cb\_labels\_no\_l=1\&langs\_labels\_no=\&format=json\&output\_compatability=catscan\&sortby=none\&sortorder=ascending\&regexp\_filter=\&min\_redlink\_count=1\&doit=Do\%20it\%21\&interface\_language=en\&active\_tab=tab\_output}
 %\end{lstlisting}
 
-\subsection{MLStripper}
+\subsection{GDELT}
 \label{appendix:MLStripper}
 To retrieve a single document, we parsed the HTML of every Wikipedia page with HTMLParser subclassed with a customized class MLStripper, that stripped away all HTML tags.
 \begin{lstlisting}[language=Python]
@@ -37,9 +37,9 @@ def strip_tags(html):
 
 \end{lstlisting}
 
-\section{Word2vec}
+\section{Model}
 
-\subsection{Load pre-trained vectors}
+\subsection{Feature extraction}
 \label{appendix:loadWikiW2V}
 Code \ref{code:loadWikiW2V} shows how to load the model from the pre-trained vectors.
 \begin{lstlisting}[caption={How to load Wikipedia pre-trained model}, label={code:loadWikiW2V}, language=Python, breaklines=true, frame=single] 
@@ -65,7 +65,7 @@ model.train(documents,
 \end{lstlisting}
 \end{minipage}
 
-\subsection{Plotting}
+\subsection{Evaluation}
 \label{appendix:plotModel}
 Code \ref{code:plotModel} shows how to plot words' vectors. We used pyplot from \textit{matplotlib}\footnote{\url{https://matplotlib.org/api/pyplot_api.html}} module and PCA from \textit{sklearn.decomposition}\footnote{\url{http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}} module.
 \begin{lstlisting}[caption={How to plot words' vectors}, label={code:plotModel}, language=Python, breaklines=true, frame=single] 

@@ -1,9 +1,28 @@
-\chapter{Domain specific word embedding}
+\chapter{State of the art}
 
 %%Description of the training iperparameters (CODE IN APPENDIX)
 Word2vec (Mikolov et al., 2013a) has gained kinds of traction today. As the name shows, it translates words to vectors called word embeddings. That is to say, it gets the vector representations of words. We used gensim\footnote{\url{https://radimrehurek.com/gensim/}}, a python tool, to get word2vec module, that uses by default Continuos Bag of Words (CBOW) method.
 
-\section{Training}
+\section{SVM studies}
+
+\subsection{SVM studies on authorship attribution}
+
+\section{GDELT studies}
+
+\subsection{Victorian era books}
+
+\subsection{Authorship attribution GDELT}
+
+\section{RCV1 studies}
+
+\subsection{Studies on RCV1 on authorship attribution}
+
+\section{The guardian studies}
+
+\subsection{Cross-topic authorship attribution}
+
+\section{Studies on Stanford Amazon Food Reviews}
+
 
 The elements that have an impact on the performance of the model are the input corpora, model architecture and the hyper-parameters.
 In many works lemmatized, lowercased and shuffled input during training the word2vec are recommended; we carried out our experiments with these settings as detailed above.\\
@@ -31,7 +50,7 @@ In the end we trained each corpus separately forming 3 separate models and one j
 
 Code for training the models can be found in Appendix \ref{appendix:trainModel}.
 
-\section{Typing errors}
+
 %During diagnosis the doctor does a lot of typing errors, with SDO I can take them in consideration
 
 If you parse emergency room discharge records data, you can easily notice how much noisy the data are. Especially dealing with such short sentence, it's very important to take action with misspelled words. 
@@ -98,7 +117,7 @@ The first 10 most similar word vectors to \textit{diabete} (diabetes) are indeed
 	\caption[Diabetes - 10 most similar words plotted for JoinData model]{Top 10 most similar words to diabetes in the JoinData model.}
 	\label{fig:diabeteJoinData}
 \end{figure}
-\section{Medical jargon}
+
 %Abbreviazioni non intuitive (dx, rx, tc, pz)
 Medical terminology is made up of numerous Greek and/or Latin suffixes and prefixes. It describes body parts, functions, surgical procedures, and is used in medical reports. Every language has his own lingo and even every specific group of doctors has its own. When writing down an emergency room discharge records, doctors very often use abbreviations and sort of codes known specifically in the medical jargon to describe body parts and common words. This is done for plenty of reasons: first of all in Italy doctors still use quite a lot handwritten emergency room discharge records, but even typing on a keyboard doctors are known to be a little bit lazy.
 From our evaluated models we can look for meaning of the main common medical abbreviation and on the other hand knowing how a word is commonly abbreviated by doctors.\\
@@ -156,10 +175,10 @@ We can see in chart \ref{fig:pazienteJoinData} the 2D vectors representation of 
 	\label{fig:pazienteJoinData}
 \end{figure}
 
-\section{Words frequency}
+
 %Grafici delle TOp10
 
-\subsection{Emergency room discharge records}
+
 Figure \ref{fig:chartSDO} shows top ten most frequent words in the emergency room discharge records corpus. As we can see the words are: \textit{cardiopatia} (hearth disease), \textit{dolore} (pain), \textit{addominale} (abdomen), \textit{ipertensione} (hypertension), \textit{dx} (abbreviation of right), \textit{pz} (abbreviation of patient), \textit{diabete} (diabetes), \textit{paziente} (patient), \textit{trauma} (trauma) and \textit{cronica} (chronic).
 The word \textit{cardiopatia} shows up \textbf{92'639} times (on \textbf{20'281'315} total words) in the diagnosis. \\
 %TODO: explain why
@@ -172,7 +191,7 @@ In addition, the hearth diseases are placed, according to a study of Istat\footr
 	\label{fig:chartSDO}
 \end{figure}
 
-\subsection{Wikipedia domain-specific}
+
 Figure \ref{fig:chartWikipedia} shows top ten most frequent words in the Wikipedia health-related corpus. As we can see the words are: \textit{essere} (to be), \textit{altri} (others), \textit{viene} (comes), \textit{portale} (portal), \textit{consultato} (consulted), \textit{solo} (only), \textit{possono} (can), \textit{medicina} (medicine), \textit{parte} (part) and isbn\footnote{International Standard Book Number}.
 The word \textit{essere} (to be) shows up \textbf{36484} times (on \textbf{13'195'758} total words) in the corpus data.\\
 %TODO: explain why
@@ -184,7 +203,7 @@ This is a very common word in Wikipedia, placed among the top 62 in all Wikipedi
 	\label{fig:chartWikipedia}
 \end{figure}
 
-\subsection{ICD-9-CM Dictionary}
+
 Figure \ref{fig:chartDictionary} shows top ten most frequent words in the dictionary. As we can see the words are: \textit{altre} (other), \textit{specificata} (specified), \textit{senza} (without), \textit{menzione} (mention), \textit{frattura} (fracture),  \textit{perdita} (loss), \textit{tumori} (tumors), \textit{traumatismo} (traumas), \textit{coscienza} (consciousness) and \textit{condizione} (condition).
 The word \textit{altre} (other) shows up \textbf{1761} times (on \textbf{130'218} total words) in the vocabulary.\\
 %TODO: explain why
@@ -224,16 +243,16 @@ Table \ref{tab:tableICd9CMaltre} shows first 5 coded diagnosis that contains the
 	\label{fig:chartDictionary}
 \end{figure}
 
-\section{Evaluated models}
+
 %Modelli prodotti e perchè ognuno contribuisce
 We trained 4 models one for each corpus data and one joining all health-specific datasets calling it \enquote*{JoinData} model. Each corpus is essential to result in a complete health-specific word embeddings. 
-\subsection{Emergency room discharge records}
+
 This corpus data is essential for plenty of reasons. First of all, we have a lot of examples of how doctors write diagnosis and emergency room discharge records. Secondly we have all the medical jargon (or lingo) that in Italy, and especially in Forlì Hospital, doctors use. Moreover, we can take in consideration all the typo errors and common mistakes doctors often do when writing discharge records. Everything that is in this corpus is essential for the real approach to the diagnosis. 
-\subsection{Wikipedia health-specific}
+
 This corpus is the most used corpus data for word embeddings. It's easy to download, there's no copyright issues and also it's available in almost every language you need. Downloading only the health-specific pages increased not only the quantity of words vectors in the word embedding but also the correct spelled medical words and some other non-doctors spoken terms that can be useful especially to those who aren't medical expert.
-\subsection{ICD-9-CM Dictionary}
+
 This corpus is essential for 2 main reasons: first it let us have the right terms and definition of each diagnosis and secondly we can have in the embeddings all the possible diagnosis, especially those who aren't likely to be found maybe because of Forlì Hospital isn't that big or because in Italy we haven't some diseases due to their rareness. 
-\section{Domain-specific vs General Purpose}
+
 
 Our main purpose is to show that domain-specific word embeddings is actually better than general word embedding trained with a big data corpus.\\As a matter of fact what we can show is trying to find out most similar words to health-related terms and see which words are more close to the meaning in each model. We expect that our \enquote*{JoinData} model that was trained with emergency room discharge records, wikipedia health-specific pages and the ICD-9-CM dictionary performs better than any other separate model and all of them performs better than a general model.\\
 We choose to evaluate the word: \textit{arteria} (artery) and \textit{frattura} (fracture).\\
@@ -408,18 +427,18 @@ For what concern the model trained with only emergency room discharge records, w
 	\label{fig:arteriaSDO}
 \end{figure}
 
-\section{Another method of evaluation in a related work}
+
 
 In a related work, we tried to automatically assign the codes corresponding to a textual diagnosis through a classifier. This classifier used our domain-specific word embedding for weighting words instead of using a general-purpose one and noticed a real gain in terms of accuracy.
 
-\subsection{The classifier}
+
 This supervised classifier was trained using a 14-thousands-diagnosis dataset (that is just a tiny subset of the more than 700 thousands diagnosis collected from Forlì emergency room) manually labeled by qualified personnel.\\
 Textual diagnoses were first preprocessed in order to minimize spelling errors and meaningless symbols. In this process, we built a token dictionary of words contained in the training set.\\
 Subsequently we created an embedding matrix where multidimensional vector were associated to each word of each diagnosis.
 To build the embedding matrix we start from a matrix of dimension = (number of words in the diagnosis, length of the embedding vector) where each element is initialized to 0. The matrix is progressively filled by iterating on the tokenizer indexes, where each row corresponds to an index(and therefore to a corresponding word) and its content is the word vector embedded.
 This embedding matrix is used to associate a certain weight with words of the input diagnosis to the classifier in order to capture the semantics of sentences and increase final precision.
 
-\subsection{Results}
+
 
 We computed the accuracy of each word embedding through the f1 score\footnote{\url{http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html}} of the built classifier. The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal.\\The formula for the F1 score is:\\
 \begin{lstlisting}

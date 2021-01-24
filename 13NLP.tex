@@ -1,16 +1,37 @@
 \chapter{Text characteristics analysis}
+
+\epigraph{\textit{The main problem in working with language processing is that machine learning algorithms cannot work on the raw text directly. So, we need some feature extraction techniques to convert text into a matrix(or vector) of features.}}
+
 In order to identify the authorship of an unknown text document using machine learning the document needs to be quantified first. The simple and natural way to characterize a document is to consider it as a sequence of tokens grouped into sentences where each token can be one of the three: word, number, punctuation mark.
 To quantify the overall writing style of an author, stylometric features are defined and studied in different domains. Mainly, computations of stylometric features can be categorized into five groups as lexical, character, semantic, syntactic, and application specific features. Lexical and character features mainly considers a text document as a sequence of word tokens or characters, respectively. This makes it easier to do computations comparing to other features. On the other hand, syntactic and semantic features require deeper linguistic analysis and more computation time. Application specific features are defined based on the text domains or languages. These five features are studied and the methods to extract them are also provided for interested readers.
-Moreover there's a sixth characteristic in hand-written text, which was used for years in the past and it's still studied nowadays \cite{mironovsky2018graphological}, which is the \textit{graphological analysis}.
+Moreover there's a sixth characteristic regarding only hand-written text, which was used for years in the past and it's still studied nowadays \cite{mironovsky2018graphological}, which is the \textit{graphological analysis}.
 Although the problem of recognition of handwriting text is still far from its final solution, in this work, we will focus only on the first 5 characteristics because the main focus since digitalization era has been on studies of digital text characteristics analysis.
 
 \section{Character Features}
 
-Based on these features a sentence consists of a sequence of characters. Some of the character-level features are alphabetic characters count, digit characters count, uppercase and lowercase character counts, letter frequencies, character n-gram fre-quencies. This type of feature extraction techniques has been found quite useful to quantify the writing style.\cite{grieve2007quantitative}
-A more practical approach in character-level features are the extraction of n-gram characters. This procedure of extracting such features are language independent and requires less complex toolboxes. On the other hand, comparing to word n-grams approach the dimensionality of these approaches are vastly increased and it has a curse of dimensionality problem. A simple way of explaining what a character n-grams could be with the following example: assume that a word “student” is going to be represented by 2-gram characters. So, the resulting sets of points will be {“st", "tu", "ud", "de", "en", "nt"}.\\\\
+Based on these features a sentence consists of a characters sequence. Some of the character-level features are alphabetic characters count, digit characters count, uppercase and lowercase character counts, letter and character n-gram frequencies. This type of feature extraction techniques has been found quite useful to quantify the writing style.\cite{grieve2007quantitative}
+A more practical approach in character-level features are the extraction of n-gram characters. This procedure of extracting such features are language independent and requires less complex toolboxes. On the other hand, comparing to word n-grams approach the dimensional of these approaches are vastly increased and it has a curse of dimensional problem. A simple way of explaining what a character n-grams could be with the following example: assume that a word “thesis” is going to be represented by 2-gram characters. So, the resulting sets of points will be {“th", "he", "es", "si", "is"}.\\
+A simple python algorithm is shown in \ref{lst:CharNGramSplit}:\\
+
+
+\begin{python}
+	def get_char_n_gram(text, n=2):
+		"""Convert text into character n-grams list"""
+		return [text[i:i+n] for i in range(len(text)-n+1)]
+	
+	# Examples character 2-grams
+	
+	print(get_char_n_gram("thesis"))
+	>>Out: ['th', 'he', 'es', 'si', 'is']
+	
+	print(get_char_n_gram("student", n=3))
+	>>Out: ['stu', 'tud', 'ude', 'den', 'ent']
+\end{python}
+\begin{lstlisting}[frame=none,caption={Split word into character n-grams, parametric on n},captionpos=b,label=lst:CharNGramSplit]
+\end{lstlisting}
 
 In \cite{sapkota2015not} have been identified 10 character n-grams categories, being proven as the most successful feature in both single-domain and cross-domain Authorship Attribution.\\
-This 10 categories are grouped into 3 groups: Affix n-grams, Word n-grams, Punctuaction n-grams.
+This 10 categories are grouped into 3 groups: Affix n-grams, Word n-grams, Punctuation n-grams.
 
 \subsection{Affix n-grams}
 Character n-grams are generally too short to represent any deep syntax, but some of them can reflect morphology to some degree. In particular, the following affix-like features are extracted by looking at n-grams that begin or end a word:
@@ -42,56 +63,234 @@ The main stylistic choices that character n-grams can capture are the author’s
 	\item \textbf{end-punct}: A character n-gram whose last character is punctuation, but middle characters are not.
 \end{itemize}
 
+In \cite{sapkota2015not} they've observed that in their data almost 80\% of the n-grams in the punct-beg and punct-mid categories contain a space. They stated that "this tight coupling of punctuation and spaces is due to the rules of English orthography: most punctuation marks require a space following them". The 20\% of n-grams that have punctuation but no spaces correspond mostly to the exceptions to this rule: quotation marks, mid-word hyphens, etc.
+They've conducted an experiment on RCV1 dataset both the \textit{CCAT\_10 split} and the \textit{CCAT\_50 split}. They've also used the Guardian dataset as a cross-domain authorship attribution experiment. In their work they stated that for the single-domain the top four categories for authorship attribution are: \textit{prefix}, \textit{suffix}, \textit{space-prefix} and \textit{mid-word}. On the other hand, for cross-domain authorship attribution the top four categories have been proven to be: \textit{prefix}, \textit{space-prefix}, \textit{beg-punct} and \textit{mid-punct}.
+For both single-domain and cross-domain authorship attribution, \textit{prefix} and \textit{space-prefix} are strong features, and are generally better than the \textit{suffix} features, perhaps because authors have more control over prefixes in English,
+while suffixes are often obligatory for grammatical reasons. For cross-domain authorship attribution, \textit{beg-punct} and \textit{mid-punct} they found to be the top features, likely because an author’s use of punctuation is consistent even when the topic
+changes. For single-domain authorship attribution, \textit{mid-word} was also
+a good feature, probably because it captured lexical information that correlates with authors’ preferences towards writing about specific topic.
+
 \section{Lexical Features}
 
 Lexical features relate to the words or vocabulary of a language. It is the very plain way of representing a sentence structure that consists of words, numbers, punctuation marks. These features are very first attempts to attribute authorship in earlier studies \cite{fox2012statistical}, \cite{argamon2005measuring}, \cite{stanko2013whose}. The main advantage of Lexical features is that it is universal and can be applied to any language easily. These features consist of bag of words representation, word N-grams, vocabulary richness, number of punctuation marks, average number of words in a sentence, and many more. Even though the number of lexical features can vary a lot, not all of them are good for every authorship attribution problem. That is why, it is important to know how to extract these features and try out different combinations on different classifiers.
 
 \subsection{Bag of Words}
 It is the representation of a sentence with frequency of words. It is a simple and efficient solution but it disregards word-order information.
-In the approach, for each text fragment the number of instances of each unique word is found to create a vector representation of word counts. Since there are uniquely 10, 000 words in the whole dataset you can choose the range of the words you want to use in your feature vector. We have also shown how to extract top words usage author-wise in every author’s text corpus.
-As expected top words are determiners that every writer use while constructing an English sentence. For example, for Arthur Conan Doyle top 20 words are “the, to, of, he, a, and, i, that, in, you, was, it, she, his, her, had, as, not, with, for” but for Charles Dickens they are “the, to, of, i, and, a, in, that, it, is, he, she, be, her, you, was, as, not, with, for” in decreasing order. Even though the two sets are mostly the same the orders are different for most authors.
-The main assumption with authorship attribution problems is that every authors word usage and content differs and based on these differences the work of one author can be differentiated from the other. In order to illustrate this assumption, the content and word usages for every book can be seen as a picture of some forms as illustrated for two sample books in the 50-author dataset in for Charles Dickens’s famous book Oliver Twist and Mark Twain’s book Horse Tale. Afterwards, stop words (common words) are removed and using the frequency of remaining words we have plotted it on a boy’s figure and a horse’s figure, respectively in using word-cloud library here.\\
-In both figures, most frequent words are written in bigger fonts and these words are recognized firstly when looking at the figures.\\\\
+At the very beginning, we applied this representation to our datasets, using the already implemented $CountVectorizer$ from $sklearn.feature_extraction.text$. We gave this hyper-parameter to the function:
+\begin{itemize}
+	\item \textbf{max\_df}=0.8
+	\item \textbf{max\_features}=10000
+	\item \textbf{min\_df}=0.02
+	\item \textbf{ngram\_range}=(1, 2)
+\end{itemize}
+In the approach, for each text fragment the number of instances of each unique word is found to create a vector representation of word counts. We capped the max number of features to 10'000 words and discarding the words with a higher frequency of 0.8 across the document and a lower frequency of 0.02. We've also taken into account both single word and word bi-grams. In order to give the reader a better perspective of the impact of this process for the task of authorship attribution, we choose two among the top ten most prolific authors in the RCV1 dataset: \textit{David Lawder} and \textit{Alexander Smith}.
+In \ref{fig:chartRCV1Top2Authors} we can see the number of documents written by the two selected authors in the RCV1 corpus for the \textit{CCAT} topic.
 
-The same methodology can be applied to 3-author dataset as well. Using Vectorizer 3 a simple model is being shown on the tutorial. It simply takes the whole corpus and vectorize it based on the frequency of each word. It is found that in the training set, there are 25068 unique words whereas in the testing set the number of unique words is 17546. It is also shown how to extract total number of appearance in the whole corpus. As an example a search has been done on “Frankenstein” and it is found to appear “6301” times. In order to apply the same methodology to 50-author dataset a conversion algorithm has been provided for readers.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{top_2_authors_rcv1_ccat}
+	\caption[Number of documents for authors in RCV1]{The number of documents written by David Lawder and Alexander Smith in the Reuters Corpus for the \textit{CCAT} topic.}
+	\label{fig:chartRCV1Top2Authors}
+\end{figure}
 
-One important aspect of the authors in our dataset is that they are English language writers. However, some of these authors like Charles Dickens or William Black are originally from United Kingdom and some like Thomas Nelson Page are from United States. There are slightly differences between British English and American
-English. These differences also affect the usage of some of the words in the author’s work. Words in American English such as “humor, color, honor, endeavor, theater” are used as “humour, colour, honour, endeavour, theatre” in British English. Using these features could improve the accuracy of the model and a simple algorithm has been provided to use it with Word2Vec here.
+With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can get the most common words for an author across all the documents we gathered in the dataset.
+
+\begin{python}
+	from collections import Counter
+	
+	def get_most_common_words_in_df(df, n=20):
+		"""Split a collection of document in single word and order by frequencies across all documents"""
+		most_common_words = Counter(" ".join(df["articles"]).split()).most_common(n)
+		return most_common_words
+\end{python}
+\begin{python}	
+	# Examples
+	
+	# 1. Top 20 words with their frequency for every document written by David Lawder
+	
+	print(get_most_common_words_in_df(dataset[dataset['author']=='David Lawder']))
+	>>Out: [('the', 7844), ('to', 5133), ('of', 3875), ('and', 3746), ('a', 3719), ('in', 3552), ('said', 1749), ('that', 1720), ('for', 1574), ('GM', 1453), ('on', 1286), ('at', 1267), ('its', 1153), ('The', 1098), ('with', 990), ('is', 957), ('it', 897), ('will', 875), ('by', 868), ('from', 824)]
+	
+	# 2. Top 20 words without their frequency for every document written by David Lawder
+	
+	print([m[0] for m in get_most_common_words_in_df(dataset[dataset['author']=='David Lawder'])])
+	>>Out: ['the',
+			'to',
+			'of',
+			'and',
+			'a',
+			'in',
+			'said',
+			'that',
+			'for',
+			'GM',
+			'on',
+			'at',
+			'its',
+			'The',
+			'with',
+			'is',
+			'it',
+			'will',
+			'by',
+			'from']
+	
+\end{python}
+\begin{lstlisting}[frame=none,caption={Top 20 most common words in a document or a collection of document by the same author},captionpos=b,label=lst:MostCommonWords]
+\end{lstlisting}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{rcv1_top20_words_alexander_smith_vs_david_lawder}
+	\caption[David Lawder vs Alexander Smith top 20 words]{Frequency usage of the top 20 words used in the RCV1 corpus by David Lawder, compared to the frequencies of the same words in the corpus by Alexander Smith}
+	\label{fig:chartRCV1ALvsDL}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{David_Lawder_wordcloud}
+	\caption[David Lawder WordCloud in RCV1]{Image Generated on \href{wordclouds.com} for every word in RCV1 corpus data for the documents written by David Lawder}
+	\label{fig:wordcloudDL}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{Alexander_Smith_wordcloud}
+	\caption[Alexander Smith WordCloud in RCV1]{Image Generated on \href{wordclouds.com} for every word in RCV1 corpus data for the documents written by Alexander Smith}
+	\label{fig:wordcloudAS}
+\end{figure}
+
+As expected top words are determiners that every writer use while constructing an English sentence. For example, for \textit{David Lawder} top 20 words are \textit{"the, to, of, and, a, in, said, that, for, GM, on, at, its, The, with, is, it, will, by, from"} but for \textit{Alexander Smith} they are \textit{"the, of, to, and, a, in, said, was, for, on, it, had, by, be, its, is, with, would, that, as"} in decreasing order. Even though the two sets are mostly the same, the orders and the frequency are different for most authors.
+
+The main assumption with authorship attribution problems is that every authors word usage and content differs and based on these differences the work of one author can be differentiated from the other. In order to illustrate this assumption, in \ref{fig:chartRCV1ALvsDL} we can see the top 20 words in the RCV1 corpus in the document written by David Lawder, compared to the same words in the documents of Alexander Smith.
+
+In figure \ref{fig:wordcloudDL} \& \ref{fig:wordcloudAS} we plotted using \href{wordclouds.com} the Word Cloud identikit of David Lawder and Alexander Smith, generated by every document written by them in the RCV1 corpus.
+
 
 \subsection{Word N-grams}
-It is a type of probabilistic language model for predicting the next item in the form of a (n-1) order. Considering n-grams are useful since Bag of words miss out the word order when considering a text. For example, a verb “take on” can be missed out by Bag of words representation which considers “take” and “on” as two separate words. N-gram also establishes the approach of “Skip-gram” language model. An N-gram is a consecutive subsequence of length N of some sequence of sentence while a Skip-gram is a N-length subsequence where the components occur at a distance of at most k from each other \cite{mikolov2013efficient}.
-In order to extract N-grams from a given text data a model has been built and tested on 50-author and 3-author dataset 6 . Stop-words have not been considered while constructing the N-grams. In 3-author dataset, for Edgar Allan Poe “upon, let us, general john b, general john b c” are the most occurrent uni-gram, bi-gram,
-three-gram, and four-gram respectively whilst in Mary Shelley they are “ one, lord raymond, let us go, nearest town took post” and in HP Lovecraft they are “one, old man, heh heh heh, oonai city lutes dancing”. Features such as “lord raymond” or “heh heh heh” could be a good identifiers as one mentions about the specific character in the book whilst the other one shows a preference of the author when it comes to
-phrasing an emotion.
+It is a type of probabilistic language model for predicting the next item in the form of a (n-1) order. Considering n-grams are useful since Bag of words miss out the word order when considering a text. For example, a verb “take on” can be missed out by Bag of words representation which considers “take” and “on” as two separate words. N-gram also establishes the approach of “Skip-gram” language model. An N-gram is a consecutive sub-sequence of length $N$ of some sequence of sentence while a Skip-gram is a N-length sub-sequence where the components occur at a distance of at most $k$ from each other \cite{mikolov2013efficient}.
+In order to extract N-grams from a given text data a simple snippet of code is shown in \ref{lst:MostCommonGrams}, tested for the word grams on the documents written by David Lawder and Alexander Smith of the RCV1 corpus data. No pre-processing on the dataset, such as discarding stopwords, has been done while constructing the N-grams. For David Lawder “the, of the, General Motors Corp.” are the most occurrent uni-gram, bi-gram and 
+three-gram respectively whilst in Alexander Smith documents they are “the, of the, said it would”.
 
-Table 4.1 contains uni-grams, bi-grams, three-grams from authors Arthur Conan Doyle, William Carleton, Anne Manning. It also provides characteristic features about the persona in their books such as “sugar princess, mr george, sir john”. Same task can be also be achieved with considering the stop-words and can be better visualized as in Figure 4.3. In this task we have simply scanned through all consecutive word pairs of two and saved it in a dictionary. After sorting the dictionary based on the frequency of each bi-grams we have plotted it on a network diagram.
+\begin{lstlisting}[frame=none,caption={Get the top 3 most common grams in the corpus, for uni-grams, bi-grams and three-grams},captionpos=b,label=lst:MostCommonGrams]
+\end{lstlisting}
+\begin{python}	
+	from collections import Counter
+	from nltk import ngrams
+	
+	def get_Xigram(text, n):
+		"""Get n-grams for a given text. The number of grams are controlled by parameter n"""
+		return list(ngrams(text.split(), n))
+	
+	def get_top_3_gram(df):
+		"""Return a list of three elements, each one containing the top 3 most common grams in the corpus given as a Dataframe parameter. The three elements corresponds to the uni-gram, bi-grams and three-grams."""
+		result = []
+		for i in range(1,4):
+			result.append(Counter(get_Xigram(" ".join(df["articles"]), i)).most_common(3))
+		return result
+	
+	print(get_top_3_gram(df_david_lawder))
+	print(get_top_3_gram(df_alexander_smith))	
+\end{python}
+
+
+\begin{table}[h!]
+	\begin{center}  
+		\caption[Top 3 n-grams in RCV1 corpus]{Top 3 uni-grams, bi-grams and three-grams by David Lawder and Alexander Smith in the RCV1 corpus data} 
+		\label{tab:tableNGramsRCV1}
+		%\resizebox{\linewidth}{!}{  %
+		\begin{tabular}{|c | c | c | c|}
+			\hline 
+			Author & Uni-gram & Bi-gram & Three-gram \\
+			\hline \hline
+			David Lawder & the & of the & General Motors Corp. \\ \hline
+			David Lawder & to & in the	& United Auto Workers \\ \hline
+			David Lawder & of & for the	& Ford Motor Co. \\ \hline
+			Alexander Smith & the & of the & said it would \\ \hline
+			Alexander Smith & of & in the	& the end of \\ \hline
+			Alexander Smith & to & said the	& a result of \\ \hline
+			%\bottomrule 
+		\end{tabular} 
+		%}
+	\end{center}
+\end{table}
+
+Table \ref{tab:tableNGramsRCV1} contains top 3 uni-grams, bi-grams, three-grams from the authors David Lawder and Alexander Smith.
 
 \subsection{Vocabulary Richness}
-It is also referred as vocabulary diversity. It attempts to quantify the diversity of the vocabulary text. It is simply the ratio of V /N where V refers to the total number of unique tokens and N refers to the total number of tokens in the considered texts [31]. In order to apply this feature to both 50-author dataset and 3-author dataset a model has been built here. For 3-author dataset due to the large number of texts of Edgar Allan Poe, it was dominating the overall richness number but when normalized with the overall text number for each author the value became around 0.9. As for 50-author dataset the vocabulary richness has been found the lowest for William Carleton and the highest for Henry Haggard. Overall distribution of
-vocabulary richness is plotted in Figure 4.4.
+It is also referred as vocabulary diversity. It attempts to quantify the diversity of the vocabulary text. It is simply the ratio of $V / N$ where $V$ refers to the total number of unique tokens and $N$ refers to the total number of tokens in the considered texts \cite{stamatatos2009survey}. As an example, we applied this feature to the RCV1 CCAT\_10 dataset\footnote{The top ten most prolific authors in the RCV1 corpus, selecting the documents belonging to the \textit{CCAT} topic}.
+A snippet of the code to extract such feature, is shown in \ref{lst:vocabRichNessRCV1CCAT10}.
+
+\begin{lstlisting}[frame=none,caption={Calculate vocabulary richness in RCV1 CCAT10 dataset},captionpos=b,label=lst:vocabRichNessRCV1CCAT10]
+\end{lstlisting}
+\begin{python}	
+		tmp_df = dataset
+		tmp_df["num_unique_words"] = tmp_df["articles"].apply(lambda x: len(set(str(x).split()))/len(str(x).split()))
+		
+		objects = {}
+		for author_i in tmp_df.author.unique():
+			objects[author_i] = sum(tmp_df[tmp_df.author==author_i]['num_unique_words'])/len(tmp_df[tmp_df.author==author_i])
+		
+		plt.bar(range(len(objects)), list(objects.values()), align='center')
+		plt.xticks(range(len(objects)), list(objects.keys()))
+		ax = plt.gca()
+		plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment='right')
+		plt.show()
+\end{python}
+
+For this portion of the dataset, has been found the lowest vocabulary richness in \textit{Marcel Michelson} and the highest in \textit{Jim Gilchrist}.
+Overall distribution of
+vocabulary richness is plotted in Figure \ref{fig:rcv1_ccat10_vocab_richness}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{rcv1_ccat10_vocab_richness}
+	\caption[Vocabularity Richness RCV1 CCAT\_10]{Bar Plot of vocabulary richness of RCV1 CCAT\_10 authors across all their documents}
+	\label{fig:rcv1_ccat10_vocab_richness}
+\end{figure}
 
 \subsection{Stylometric features}
 
-These are features such as number of sentences in a text piece, number of words in a text piece, average number of words in a sentence, average word length in a text piece, number of periods, number of exclamation marks, number of commas, number of colons, number of semicolons, number of incomplete sentences, number of uppercase, title case, camel case, lower case letters. During the preprocessing of 50-author dataset
-we have excluded punctuations from the dataset. Hence, calculating stylometric features are not available at the current stage for 50-author dataset. However, we can compute these features for 3-author dataset as in here. Overall distribution of some of the features introduced here are applied and the resulting density measures are calculated for each author and shown in Table 4.2. Among these five features introduced, number of punctuations and number of stop words usage varies the most among the authors and hence they can be better distinguisher comparing to other feature sets.
+These are features such as number of sentences in a text piece, number of words in a text piece, average number of words in a sentence, average word length in a text piece, number of periods, number of exclamation marks, number of commas, number of colons, number of semicolons, number of incomplete sentences, number of uppercase, title case, camel case, lower case letters. We computed these features comparing the stylometric differences for the documents belonging to David Lawder and the ones of Alexander Smith in the RCV1 corpus. Overall distribution of some of the features introduced here (such as: \textit{number of punctuation, number of words upper case, number of words title, average length of the word, number of stopwords}) are applied and the resulting density measures are calculated for each of the two authors and shown in Table \ref{tab:stylometricFeatRCV1}. Among these five features introduced, number of punctuations and number of stop words usage varies the most among the authors and hence they can be better distinguisher comparing to other feature sets.
 
-\subsection{Power Words}
-
-These are the words that affect the readers emotionally. It could be shown under the category of “semantic features”, too. These words give emotional excitements or fears and serve as an emotional roller coaster. A great example could be given from the Winston Churchill.
-“We have before us an ordeal of the most grievous kind. We have before us many, many long months of struggle and of suffering. You ask, what is our policy? I can say: It is to wage war, by sea, land and air, with all our might and with all the strength that God can give us; to wage war against a monstrous tyranny, never surpassed in the dark, lamentable catalog of human crime. That is our policy. You ask, what is our aim? I can answer in one word: It is victory, victory at all costs, victory in spite of all terror, victory, however long and hard the road may be; for without victory, there is no survival.”
-These frequency of such words in the database can also be studied to see how the authors are affectively using such words. 
-The power words that are in 50-author dataset is also provided and their frequency for every author has been calculated.
-Then their density value which is the total number of power words divided by the text fragments for every author has been recorded. Figure 4.5 shows the distribution of these recordings for every author. The writings of Jane Austen has the most power words density whilst William Carleton has the lowest usage of such words.
+\begin{table}[h!]
+	\begin{center}  
+		\caption[Comparing stylometric features of 2 authors in RCV1]{Comparing some stylometric features between David Lawder and Alexander Smith calculated on the documents in the RCV1 corpus data and normalized by the number of documents} 
+		\label{tab:stylometricFeatRCV1}
+		%\resizebox{\linewidth}{!}{  %
+		\begin{tabular}{|c | c | c |}
+			\hline 
+			Stylometric Feature & David Lawder & Alexander Smith \\
+			\hline \hline
+			Number of punctuation symbols & 101.78 & 88.73 \\ \hline
+			Number of uppercase words & 12.59  & 9.89 \\ \hline
+			Number of title words & 76.59 & 68.30 \\ \hline
+			Word length mean & 5.09 & 5.11 \\ \hline
+			Number of stopwords & 191.38 & 234.97 \\ \hline
+			%\bottomrule 
+		\end{tabular} 
+		%}
+	\end{center}
+\end{table}
 
 \subsection{Function Words}
 
-Function words are the words that have little meaning on their own but they’re necessary to construct a sentence in English language. They express grammatical relationships among other words within a sentence, or specify the attitude or mood of the speaker. Some of the examples of function words might be prepositions, pronouns, auxiliary verbs, conjunctions, grammatical articles. Words that are not functions words are called as content words and they can also be studied to further analysis the use case in the authorship attribution problems. In order to implement the use case of function words in our dataset a model is built. The list of commonly used function words are chosen from Robert Layton’s book on data mining [32] and the overall function word density measure is plotted on Figure 4.6. Among the authorsin training set, George Moore has the lowest usage of function words whereas Bret Harte has the highest function words density.
+Function words are the words that have little meaning on their own but they’re necessary to construct a sentence in English language. They express grammatical relationships among other words within a sentence, or specify the attitude or mood of the speaker. Some of the examples of function words might be prepositions, pronouns, auxiliary verbs, conjunctions, grammatical articles. Words that are not functions words are called as content words and they can also be studied to further analysis the use case in the authorship attribution problems. The search for a single invariant measure of textual style
+was natural in the early stages of stylometric analysis, but with the development of more sophisticated multivariate analysis techniques, larger sets of features could be considered.
+Among the earliest studies to use multivariate approaches was that of Mosteller and Wallace (1964), who considered distributions of FWs. The reason for using FWs in preference to others is that we do not expect their frequencies to
+vary greatly with the topic of the text, and hence, we may hope to recognize texts by the same author on different topics. It also is unlikely that the frequency of FW use can be
+consciously controlled, so one may hope that use of FWs for attribution will minimize the risk of being deceived \cite{chung2007psychological}.
+Many studies since that of Mosteller and Wallace (1964) have shown the efficacy of FWs for authorship attribution in different scenarios \cite{argamon2005measuring}, \cite{baayen2002experiment}, 
+\cite{koppel2005determining},
+\cite{zhao2005effective}, confirming the hypothesis that different authors tend to have different characteristic patterns of FW use.
+Typical modern studies using FWs in English use lists of a few hundred words, including pronouns, prepositions, auxiliary and modal verbs, conjunctions, and determiners.
+Numbers and interjections are usually included as well since they are essentially independent of topic, although they are not, strictly speaking, FWs. Results of different studies using
+somewhat different lists of FW have been similar, indicating that the precise choice of FW is not crucial. Discriminators built from FW frequencies often perform at levels competitive with those constructed from more complex features.
 
 \subsection{Tf-Idf}
 
 It stands for term frequency-inverse document frequency. It is often used as a weight in feature extraction techniques. The reason why Tf-Idf is a good feature can be explained in an example. Let’s assume that a text summarization needs to be done using few keywords. One strategy is to pick the most frequently occurring
-terms meaning words that have high term frequency (tf ). The problem here is that, the most frequent word is a less useful metric since some words like ’a’, ’the’ occur very frequently across all documents. Hence, a measure of how unique a word across all text documents needs to be measured as well (idf ). Hence, the product of tf x idf of a word gives a measure of how frequent this word is in the document multiplied by
-how unique the word is with respect to the entire corpus of documents. Words with a high tf-idf score are assumed to provide the most information about that specific text [31].
+terms meaning words that have high term frequency (tf ). The problem here is that, the most frequent word is a less useful metric since some words like ’a’, ’the’ occur very frequently across all documents. Hence, a measure of how unique a word across all text documents needs to be measured as well (idf). Hence, the product of tf x idf of a word gives a measure of how frequent this word is in the document multiplied by how unique the word is with respect to the entire corpus of documents. Words with a high tf-idf score are assumed to provide the most information about that specific text \cite{stamatatos2009survey}.
 By considering every authors texts alone within the text corpus a Tf-Idf model has been built both for 3 and 50-author datasets.
 In the model, not only the single forms of word tokens but their n-grams are considered as well. 
 As for the 3-author dataset, “afforded means, aware fact, dungeon make, perfectly uniform wall” are found to have highest Tf-Idf scores for Edgar Allan Poe, “fumbling mere mistake, occurred fumbling, mistake, fumbling” for HP Lovecraft, and “looked, beneath speckled, cheering fair, cottages wealthier, counties spread, happy cottages wealthier, lovely spring” for Mary Shelley. Table 4.3 provides the top 10 words and n-grams with highest Tf-Idf scores for the 50-author dataset. Comparing between Table 4.1, 4.3 new meaningful words have appeared that could serve as a new feature for each author such as “row, canal, passenger” for A. Doyle, or “writer, virtue, tale” for H. Greeley.
@@ -99,42 +298,28 @@ As for the 3-author dataset, “afforded means, aware fact, dungeon make, perfec
 
 \section{Syntactic Features}
 
-For certain text grammatical and syntactic features could be more useful compared to lexical or character level features. However, this kind of feature extraction techniques requires specific usage of Part of Speech taggers. Some of these features consider the frequency of nouns, adjectives, verbs, adverbs, prepositions, and tense information (past tense,etc). The motivation for extracting these features is that authors tend to use similar syntactic patterns unconsciously [31].
-Some researchers are also interested in exploring different dialects of the same language and building classifiers based on features derived from syntactic characteristic of the text. One great example is the work that aims to discriminate between texts written in either the Netherlandic or the Flemish variant of the Dutch language [34].
+For certain text grammatical and syntactic features could be more useful compared to lexical or character level features. However, this kind of feature extraction techniques requires specific usage of Part of Speech taggers. Some of these features consider the frequency of nouns, adjectives, verbs, adverbs, prepositions, and tense information (past tense,etc). The motivation for extracting these features is that authors tend to use similar syntactic patterns unconsciously \cite{stamatatos2009survey}.
+Some researchers are also interested in exploring different dialects of the same language and building classifiers based on features derived from syntactic characteristic of the text. One great example is the work that aims to discriminate between texts written in either the Netherlandic or the Flemish variant of the Dutch language \cite{van2017exploring}.
 The feature set in this case consists of lexical, syntactic and word-n grams build on different classifiers and F1-score has been recorded for each cases.
 
 Employed syntactic features are function words ratio, descriptive words to nominal words ratio personal pronouns ratio, question words ratio, question mark ratio, exclamation
-mark ratio [34]. Some of these features can also be implemented by using 3-author
-or 50-author dataset.
-By making use of the part of speech tagging, a model has been built to analyze the
-usage of adjectives, nouns, and verbs in every author’s training text corpus
-15
-. The
-main steps of the model consists of tokenizing text pieces author-wise and searching
-through the adjective, noun, verb list among the tokens. The measure of density is
-being defined as number of searched element divided by the total number of tokens
-for every author. In 3-author dataset, it is found that Edgar Allan Poe’s preferred
-sets of top 3 adjectives, verbs, nouns list “little, other, more, was, is, had, time man
-day”, HP Lovecraft uses “old, great, many, was, had, were, man, night, time”, and
-Mary Shelley’s set is “own, other, many, was, had, be, life, heart, Raymond”.
-
-Same methodology has also been implemented on the 50-author dataset. Figure 4.8 shows the density measure comparison across authors who are A.Doyle, C.Darwin, C. Dickens, E. Wharton, H. Greeley. List of top five adjectives, verbs, and nouns used by every author has also been recorded in Table 4.5. Noun variations across different authors is much significant than adjective and verb variations as expected.
+mark ratio \cite{van2017exploring}.
 
 \section{Semantic Features}
 Features that we discussed so far aim at analyzing the structural concept of a text
 such. Semantic feature extraction from text data is a bit challenging. That might
 explain why there is limited work in this area. One example is the work of Yang who
 has proposed combination of lexical and semantic features for short text classification
-[35]. Their approach consists of choosing a broader domain related to target categories
+\cite{yang2013combining}. Their approach consists of choosing a broader domain related to target categories
 and then applying topic models such as Latent Dirichlet Allocation to learn a certain
 number of topics from longer documents. The most discriminative feature words
-of short text are then mapped to corresponding topics in longer documents [35].
+of short text are then mapped to corresponding topics in longer documents \cite{yang2013combining}.
 Their experimental results show significant improvements compared to other related
 techniques studying short text classification.
 Positivity, neutrality, and negativity index, and synonym usage preference are
 good examples of semantic features. Distributed representation of words, Word2Vec,
 is also an attempt to extract and represent the semantic features of a word, sentence,
-and paragraph [25]. The usage of Word2Vec in authorship attribution tasks has not
+and paragraph \cite{mikolov2010recurrent}. The usage of Word2Vec in authorship attribution tasks has not
 yet been studied explicitly. Due to the application domain dependency of Word2Vec
 features their usage will be introduced when discussing application specific feature
 sets.
@@ -144,13 +329,7 @@ In order to understand the general mood and the preference of positive and negat
 has been built. 
 In the algorithm, the sentences that have positive polarity score
 have been labeled as positive and the negative polarity scored ones are labeled as
-negative. In 3-author dataset, the most negative person has been found to be HP
-Lovecraft whereas the most positive one is Mary Shelley.
-In the 50-author training set, again the works of the authors A. Doyle, C. Darwin,
-C. Dickens, E. Wharton, H. Greeley have been chosen and their polarity scores have
-been calculated. Figure 4.9 shows the calculated positivity and negativity index for
-the chosen authors. Among these five authors the most negative one is found to be
-E. Wharton and the most positive one is C. Darwin.
+negative.
 
 \subsection{Synonym Usage}
 
@@ -164,23 +343,17 @@ a sentence with the average of all word vectors in the sentence. Using these two
 approaches an example model has been created. 
 In the example model, given a synonym. its antonym set can be retrieved using NLTK wordnet library. Also, a
 similarity score can be calculated comparing the average vector forms of two sentences.
-Synonym and antonym word usage in 3 and 50-author dataset has not yet been studied
-and applied. Interested researchers can use the example model to further explore their
-affect in the authorship attribution problems.
 
 \section{Application Specific Features}
 
 When the application domain of the authorship attribution problems are different
-such as email messages or online forum messages, author style can be better char-
-acterized using structural, content specific, and language specific features. In such
+such as email messages or online forum messages, author style can be better characterized using structural, content specific, and language specific features. In such
 domains, the use of greetings and farewells, types of signatures, use of indentation,
-paragraph lengths, font color, font size could be good features [31]. Word2Vec can
-still be implemented in such domains as well as in 3 and 50-author dataset, but the
-way to use such vector forms depend on the creativity of one’s approach.
+paragraph lengths, font color, font size could be good features \cite{stamatatos2009survey}.
 
 \subsection{Vector embeddings of words (Word2Vec)}
 It gives the ability to represent a word in a vector dimension of your choosing.
-The ways to make use of Word2Vec in 3-author and 50-author dataset is various.
+The ways to make use of Word2Vec in the dataset is various.
 For example, a Word2Vec model can either be built by considering every authors
 text data separately, or can be imported using previously trained word vectors on
 other large text corpus. It can, then, be plotted into two dimensional vector space
@@ -189,7 +362,7 @@ based Word2Vec training and using TSNE to decrease it to two dimensions. In the 
 train Word2Vec on both of these authors text sets separately. Then, we have checked
 the word closeness for “listen” in both of these authors using 300 dimensional word
 vectors. Figure 4.10 shows the closest words in 2 dimensions for E. Wharton. The
-same comparison can also be done between pre-trained word vectors of Google or
+same comparison can also be done between pre-trained word vectors of
 Glove to see the difference of usages in such words between an author and a pre-
 trained word vector.
 Moving with the idea of training Word2Vec per author, one can also do a cosine
@@ -204,7 +377,7 @@ we only consider taking the average vector without Tf-Idf gain for now. In this 
 cosine distance has been recorded as 0.258 which is much larger than the distance for
 the word “listen”. The reason is that “her lips were parted” is an exact phrase that
 is extracted from A. Doyle whereas “listen” is a common verb for both authors. The
-same comparison can also be done by considering the Google’s pretrained Word2Vec.
+same comparison can also be done by considering the Glove’s pretrained Word2Vec.
 The cosine distance for “listen” between A. Doyle and pretrained set is found as 0.015
 whereas for E. Wharton, it is 0.012. As for “her lips were parted”, the cosine difference
 for A. Doyle and pretrained set is -0.009, and for E. Wharton, it is 0.012. This implies
@@ -217,9 +390,6 @@ readers to move forward with this methodology.
 \subsection{Vector embeddings of documents (Doc2Vec)}
 
 Distributed word representation in a vector space (word embeddings) is a novel technique that allows to represent words in terms of the elements in the neighborhood.
-Distributed representations can be extended to larger language structures like phrases, sentences, paragraphs and documents. The capability to encode semantic information of texts and the ability to handle high- dimensional datasets are the reasons why this representation is widely used in various natural language processing tasks such as text summarization, sentiment analysis and syntactic parsing.
+Distributed representations can be extended to larger language structures like phrases, sentences, paragraphs and documents. The capability to encode semantic information of texts and the ability to handle high-dimensional datasets are the reasons why this representation is widely used in various natural language processing tasks such as text summarization, sentiment analysis and syntactic parsing.
 
-It aims to represent words in terms of fixed length, continuous and dense feature vectors. A very popular model architecture for learning distributed word vector representations (Word2Vec) using a neural network was proposed in Mikolov et al. (2013a, b). This technique captures semantic and syntactic word relations: Similar words are close to each other in the vector space. For example, it was shown in Mikolov et al. (2013c) that $ vector [King] - vector [Man] + vector [Woman]$ results in the vector that is closest to the representation of the $ vector [Queen] $. 
-Another two well-known continuous representations of words are latent semantic analysis (LSA) (Wiemer-Hastings et al. 2004) and latent Dirichlet allocation (LDA) (Trejo et al. 2015).
-Unlike LSA and LDA, the vector representations obtained by Mikolov et al. (2013a, b) preserve linear regularities between words.
-Distributed representations can be extended to model not only words, but also larger language structures like phrases, sentences and documents (Le and Mikolov 2014).
+Distributed representations can be extended to model not only words, but also larger language structures like phrases, sentences and documents \cite{le2014distributed}.

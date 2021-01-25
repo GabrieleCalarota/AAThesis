@@ -290,10 +290,40 @@ somewhat different lists of FW have been similar, indicating that the precise ch
 \subsection{Tf-Idf}
 
 It stands for term frequency-inverse document frequency. It is often used as a weight in feature extraction techniques. The reason why Tf-Idf is a good feature can be explained in an example. Let’s assume that a text summarization needs to be done using few keywords. One strategy is to pick the most frequently occurring
-terms meaning words that have high term frequency (tf ). The problem here is that, the most frequent word is a less useful metric since some words like ’a’, ’the’ occur very frequently across all documents. Hence, a measure of how unique a word across all text documents needs to be measured as well (idf). Hence, the product of tf x idf of a word gives a measure of how frequent this word is in the document multiplied by how unique the word is with respect to the entire corpus of documents. Words with a high tf-idf score are assumed to provide the most information about that specific text \cite{stamatatos2009survey}.
-By considering every authors texts alone within the text corpus a Tf-Idf model has been built both for 3 and 50-author datasets.
-In the model, not only the single forms of word tokens but their n-grams are considered as well. 
-As for the 3-author dataset, “afforded means, aware fact, dungeon make, perfectly uniform wall” are found to have highest Tf-Idf scores for Edgar Allan Poe, “fumbling mere mistake, occurred fumbling, mistake, fumbling” for HP Lovecraft, and “looked, beneath speckled, cheering fair, cottages wealthier, counties spread, happy cottages wealthier, lovely spring” for Mary Shelley. Table 4.3 provides the top 10 words and n-grams with highest Tf-Idf scores for the 50-author dataset. Comparing between Table 4.1, 4.3 new meaningful words have appeared that could serve as a new feature for each author such as “row, canal, passenger” for A. Doyle, or “writer, virtue, tale” for H. Greeley.
+terms meaning words that have high term frequency (\textit{tf}). The problem here is that, the most frequent word is a less useful metric since some words like ’a’, ’the’ occur very frequently across all documents. Hence, a measure of how unique a word across all text documents needs to be measured as well (\textit{idf}). Hence, the product of \textit{tf} x \textit{idf} (\ref{TFIDF}) of a word gives a measure of how frequent this word is in the document multiplied by how unique the word is with respect to the entire corpus of documents. Words with a high tf-idf score are assumed to provide the most information about that specific text \cite{stamatatos2009survey}.
+\begin{equation}\label{TF}
+		TF(t) = \frac{\text{Number of times term t appears in a document}}{\text{Total numbers of terms in the document}}
+\end{equation}
+
+\begin{equation}\label{IDF}
+	IDF(t) = log_e(\frac{\text{Total number of documents}}{\text{Number of documents with term t in it}}) 
+\end{equation}
+
+\begin{equation}\label{TFIDF}
+	Tf - Idf = TF(t) * IDF(t)
+\end{equation}
+As an example, we buil a Tf-Idf model by considering documents alone within the text corpus for the authors David Lawder and Alexander Smith.
+In the model, not only the single forms of word tokens but their n-grams are considered as well. Table \ref{tab:tableTFIDFRCV1} provides the top 5 words with highest Tf-Idf scores for the two authors. Comparing between Table \ref{tab:tableNGramsRCV1} and Table \ref{tab:tableTFIDFRCV1} new meaningful words have appeared that could serve as a new feature for each author such as “dow, kmart, coupe” for David Lawder or “hsbc, pensions, panel” for Alexander Smith.
+
+\begin{table}[h!]
+	\begin{center}  
+		\caption[Top 5 IFIDF n-grams in RCV1 corpus]{Top 5 TFIDF words n-grams by David Lawder and Alexander Smith in the RCV1 corpus data} 
+		\label{tab:tableTFIDFRCV1}
+		%\resizebox{\linewidth}{!}{  %
+		\begin{tabular}{|c | c | c || c | c | c |}
+			\hline 
+			Author & Token & Value & Author & Token & Value \\
+			\hline \hline
+			David Lawder & \textbf{dow} & \textbf{0.702} & Alexander Smith & \textbf{hsbc} & \textbf{0.697} \\ \hline
+			David Lawder & kmart & 0.658	& Alexander Smith & pensions & 0.601  \\ \hline
+			David Lawder & south & 0.559	& Alexander Smith & bzw & 0.592 \\ \hline
+			David Lawder & coupe & 0.539 & Alexander Smith & panel & 0.579 \\ \hline
+			David Lawder & bags & 0.517 & Alexander Smith & read & 0.570 \\ \hline
+			%\bottomrule 
+		\end{tabular} 
+		%}
+	\end{center}
+\end{table}
 
 
 \section{Syntactic Features}

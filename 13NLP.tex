@@ -307,7 +307,7 @@ In the model, not only the single forms of word tokens but their n-grams are con
 
 \begin{table}[h!]
 	\begin{center}  
-		\caption[Top 5 IFIDF n-grams in RCV1 corpus]{Top 5 TFIDF words n-grams by David Lawder and Alexander Smith in the RCV1 corpus data} 
+		\caption[Top 5 TFIDF n-grams in RCV1 corpus]{Top 5 TFIDF words n-grams by David Lawder and Alexander Smith in the RCV1 corpus data} 
 		\label{tab:tableTFIDFRCV1}
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c || c | c | c |}
@@ -330,8 +330,7 @@ In the model, not only the single forms of word tokens but their n-grams are con
 
 For certain text grammatical and syntactic features could be more useful compared to lexical or character level features. However, this kind of feature extraction techniques requires specific usage of Part of Speech taggers. Some of these features consider the frequency of nouns, adjectives, verbs, adverbs, prepositions, and tense information (past tense,etc). The motivation for extracting these features is that authors tend to use similar syntactic patterns unconsciously \cite{stamatatos2009survey}.
 Some researchers are also interested in exploring different dialects of the same language and building classifiers based on features derived from syntactic characteristic of the text. One great example is the work that aims to discriminate between texts written in either the Netherlandic or the Flemish variant of the Dutch language \cite{van2017exploring}.
-The feature set in this case consists of lexical, syntactic and word-n grams build on different classifiers and F1-score has been recorded for each cases.
-
+The feature set in this case consists of lexical, syntactic and word-n grams build on different classifiers and F1-score has been recorded for each cases.\\
 Employed syntactic features are function words ratio, descriptive words to nominal words ratio personal pronouns ratio, question words ratio, question mark ratio, exclamation
 mark ratio \cite{van2017exploring}.
 
@@ -341,7 +340,7 @@ such. Semantic feature extraction from text data is a bit challenging. That migh
 explain why there is limited work in this area. One example is the work of Yang who
 has proposed combination of lexical and semantic features for short text classification
 \cite{yang2013combining}. Their approach consists of choosing a broader domain related to target categories
-and then applying topic models such as Latent Dirichlet Allocation to learn a certain
+and then applying topic models such as \textit{Latent Dirichlet Allocation} to learn a certain
 number of topics from longer documents. The most discriminative feature words
 of short text are then mapped to corresponding topics in longer documents \cite{yang2013combining}.
 Their experimental results show significant improvements compared to other related
@@ -355,24 +354,43 @@ features their usage will be introduced when discussing application specific fea
 sets.
 
 \subsection{Positivity and Negativity index}
-In order to understand the general mood and the preference of positive and negative sentence structure in each author’s work, a positivity and negativity score model
-has been built. 
-In the algorithm, the sentences that have positive polarity score
-have been labeled as positive and the negative polarity scored ones are labeled as
-negative.
+In order to understand the general mood and the preference of positive and negative sentence structure in each author’s work, a positivity and negativity score has been calculated for the authors \textit{David Lawder} and \textit{Alexander Smith} for the documents in the RCV1 corpora.
+The code is shown in \ref{lst:posnegRCV1CCAT10}, whereas in \ref{fig:rcv1_ccat10_sentiment_analysis} we can see the results that points out Alexander Smith writing more negative articles than David Lawder. Both of the authors wrote the majority of the articles classified as positive than negative.
 
-\subsection{Synonym Usage}
+\begin{lstlisting}[frame=none,caption={Compute sentence Positivity and Negativity scores},captionpos=b,label=lst:posnegRCV1CCAT10]
+\end{lstlisting}
+\begin{python}	
+	from nltk.sentiment.vader import SentimentIntensityAnalyzer
+	nltk.download('vader_lexicon')
+	# Pre-Processing
+	SIA = SentimentIntensityAnalyzer()
+	# Applying Model, Variable Creation
+	sentiment = pd.concat([df_david_lawder, df_alexander_smith])
+	sentiment['polarity_score']=sentiment.articles.apply(lambda x:SIA.polarity_scores(x)['compound'])
+	sentiment['neutral_score']=sentiment.articles.apply(lambda x:SIA.polarity_scores(x)['neu'])
+	sentiment['negative_score']=sentiment.articles.apply(lambda x:SIA.polarity_scores(x)['neg'])
+	sentiment['positive_score']=sentiment.articles.apply(lambda x:SIA.polarity_scores(x)['pos'])
+	sentiment['sentiment']=''
+	sentiment.loc[sentiment.polarity_score>0,'sentiment']='POSITIVE'
+	sentiment.loc[sentiment.polarity_score==0,'sentiment']='NEUTRAL'
+	sentiment.loc[sentiment.polarity_score<0,'sentiment']='NEGATIVE'
+	# Normalize for Size
+	auth_sent= sentiment.groupby(['author','sentiment'])[['articles']].count().reset_index()
+	for x in ['David Lawder', 'Alexander Smith']:
+	auth_sent.articles[auth_sent.author == x] = (auth_sent.articles[auth_sent.author == x]/\
+	auth_sent[auth_sent.author ==x].articles.sum())*100
+	ax= sns.barplot(x='sentiment', y='articles',hue='author',data=auth_sent)
+	ax.set(xlabel='Author', ylabel='Sentiment Percentage')
+	ax.figure.suptitle("Author by Sentiment", fontsize = 24)
+	plt.show()
+\end{python}
 
-The preference to use synonyms and antonyms in different text structure could
-be an identifiable feature in different tasks as well. However, extracting such features
-and modeling it could not be an easy task. The simple approach could be creating
-a domain knowledge where the pairs of synonyms and antonyms are paired. Then, a
-simple brute force approach can be used to find such words within a specific window
-size of sentences. Another approach is to employ the word vectors and represent
-a sentence with the average of all word vectors in the sentence. Using these two
-approaches an example model has been created. 
-In the example model, given a synonym. its antonym set can be retrieved using NLTK wordnet library. Also, a
-similarity score can be calculated comparing the average vector forms of two sentences.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{positivity_negativity_rcv1}
+	\caption[Positivity and Negativity scores for RCV1 authors]{Bar Plot of sentiment analysis for 2 of the authors in the RCV1 CCAT\_10 corpora across all their documents}
+	\label{fig:rcv1_ccat10_sentiment_analysis}
+\end{figure}
 
 \section{Application Specific Features}
 
@@ -382,40 +400,29 @@ domains, the use of greetings and farewells, types of signatures, use of indenta
 paragraph lengths, font color, font size could be good features \cite{stamatatos2009survey}.
 
 \subsection{Vector embeddings of words (Word2Vec)}
-It gives the ability to represent a word in a vector dimension of your choosing.
+Word2Vec\footnote{\url{https://code.google.com/archive/p/word2vec/}} leverages the context of the target words. Essentially, we want to use the surrounding words to represent the target words with a Neural Network whose hidden layer encodes the word representation.
+Similar words are close
+to each other in the vector space. For example, it was shown in \cite{mikolov2013linguistic} that $vector[King] - vector[Man] + vector[Woman]$ results in the vector that is closest to the representation of the $vector[Queen]$.
+Figure \ref{fig:skip_gram_2} shows this representation in a simple way.
 The ways to make use of Word2Vec in the dataset is various.
 For example, a Word2Vec model can either be built by considering every authors
 text data separately, or can be imported using previously trained word vectors on
 other large text corpus. It can, then, be plotted into two dimensional vector space
-by using dimensionality reduction techniques. We built a model based on profile
-based Word2Vec training and using TSNE to decrease it to two dimensions. In the model, our baseline approach is to extract A. Doyle and E. Wharton’s text data and
-train Word2Vec on both of these authors text sets separately. Then, we have checked
-the word closeness for “listen” in both of these authors using 300 dimensional word
-vectors. Figure 4.10 shows the closest words in 2 dimensions for E. Wharton. The
-same comparison can also be done between pre-trained word vectors of
+by using dimensionality reduction techniques (TSNE, for example\footnote{t-Distributed Stochastic Neighbor Embedding (t-SNE) is a technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets}). 
+We can also make use of pre-trained word vectors of
 Glove to see the difference of usages in such words between an author and a pre-
 trained word vector.
 Moving with the idea of training Word2Vec per author, one can also do a cosine
-distance measure for the same word or same sentence. The measured cosine distance
-for A. Doyle and E. Wharton regarding the usage of “listen” is 0.094. In order to
-apply this strategy on sentence level, we can have a few ways to do so. One way is by
-simply taking the scaled average of Word2Vec vectors in the sentence. Another one is
-to employ Tf-Idf score of each word as a gain when calculating a sentence vector.
-We then take the scaled average of all word vectors in the text piece. For the simplicity,
-we only consider taking the average vector without Tf-Idf gain for now. In this case,
-“her lips were parted” has been compared for both A. Doyle and E. Wharton. The
-cosine distance has been recorded as 0.258 which is much larger than the distance for
-the word “listen”. The reason is that “her lips were parted” is an exact phrase that
-is extracted from A. Doyle whereas “listen” is a common verb for both authors. The
-same comparison can also be done by considering the Glove’s pretrained Word2Vec.
-The cosine distance for “listen” between A. Doyle and pretrained set is found as 0.015
-whereas for E. Wharton, it is 0.012. As for “her lips were parted”, the cosine difference
-for A. Doyle and pretrained set is -0.009, and for E. Wharton, it is 0.012. This implies
-that E. Wharton uses “listen” close to the pretrained set which was trained on large
-corpus of text data. As for sentence comparison, the sentence average vector is closer
-to A. Doyle stating that this sentence is more likely to be written by A. Doyle then
-E. Wharton. The way to achieve this comparison criteria has been provided here for
-readers to move forward with this methodology.
+distance measure for the same word or same sentence.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{skip_gram_2}
+	\caption[Word2Vec]{Examples of Word2Vec representation with vector distance}
+	\label{fig:skipgram}
+\end{figure}
+
+\subsection{Vector embeddings of paragraphs(Sentence2Vec)}
 
 \subsection{Vector embeddings of documents (Doc2Vec)}
 

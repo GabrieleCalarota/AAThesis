@@ -9,19 +9,18 @@ Vast majority of previous works focuses on authorship identification by taking i
 consideration the stylistic features of authors such as use of grammar, function words,
 frequent word allocations \cite{argamon2005measuring}, \cite{fox2012statistical}, \cite{hirst2007bigrams}. Some of the well-known problems
 in authorship attribution are disputed Federalist Papers classification and Shakespearean Authorship Dispute.
-The Federalist Papers are a collection of 85 articles and essays written by Alexan-
-der Hamilton, James Madison, and John Jay to persuade the citizens of New York
+The Federalist Papers are a collection of 85 articles and essays written by Alexander Hamilton, James Madison, and John Jay to persuade the citizens of New York
 to ratify the U.S. Constitution. Authorship of twelve of these papers has been in
 dispute. To address this problem, using linear support vector machines as classifier
 and relative frequencies of words as features a study identified these papers to be
-written by James Madison.\\
+written by James Madison \cite{mosteller2007inference}.\\
 Another dispute in authorship attribution among scholars across the world is
 whether William Shakespeare wrote the works attributed to him or not. It was argued
 that Shakespeare was not even educated and more than 80 authors were suggested to
 be the author of the writings that were under the name of Shakespeare. Christopher
 Marlowe is considered the most likely candidate to write these works under the name
 of Shakespeare when he was in jail. In order to analyze the stylistic fingerprint of
-Shakespeare and Marlowe and non-Shakespearean authors, namely Chapman,Jonson, Middleton, a corpus has been put together. \cite{fox2012statistical}
+Shakespeare and Marlowe and non-Shakespearean authors, namely Chapman,Jonson, Middleton, a corpus has been put together \cite{fox2012statistical}.\\
 The classification results for non-Shakespearean author candidates turned out to
 be highly accurate (Johnson \%100, Chapman \%92.9 and Middleton \%88.9). The
 results supported the hypothesis that writing styles of Marlowe and Shakespeare were
@@ -32,7 +31,7 @@ Another interesting study on the unknown texts is also
 done based on word-level features, vocabulary richness and syntactic features by using
 Liblinear SVM for classification purposes \cite{stanko2013whose}. Even though the classification accuracy
 results are not as high as other related works features like \enquote*{number of unique words}
-should be noted for use in any attribution problem.
+should be noted for use in any attribution problem.\\
 Usefulness of function words in authorship attribution is introduced by Mosteller
 and Wallace in their work on Federalist papers \cite{mosteller2007inference}. Argamon and Levitan has compared the characteristic features of frequent words, pairs and collocations using the
 SMO algorithm, and implemented it for two class (American or British) author nationality classification problem. Their results conclude that function words are useful
@@ -45,7 +44,7 @@ stylometry. It is a classification problem and several classifiers are used such
 Bayes, SVM. Among them, SVM is observed to fit best for these kinds of problems.
 
 \section{SVM}
-Support Vector Machines (SVMs) recently gained popularity in the learning community\cite{vapnik1999overview}. In its simplest
+Support Vector Machines (SVMs) recently gained popularity in the learning community \cite{vapnik1999overview}. In its simplest
 linear form, an SVM is a hyperplane that separates
 a set of positive examples from a set of negative examples with maximum interclass distance, the margin.
 \autoref{fig:svm_margin} shows such a hyperplane with the associated
@@ -85,11 +84,11 @@ models.
 
 \subsection{SVM for authorship attribution}
 Unlike currently used
-classification approaches, like neural networks or decision trees, it allows for the processing of hundreds of thousands of features. This offers the opportunity to use all words of a text as inputs instead of a few hundred carefully selected characteristic words only. In similar text classification problems aiming at thematic categorization, the SVM has been shown to be quite effective \cite{joachims1998making}, \cite{dumais1998inductive}.
+classification approaches, like neural networks or decision trees, SVM allows for the processing of hundreds of thousands of features. This offers the opportunity to use all words of a text as inputs instead of a few hundred carefully selected characteristic words only. In similar text classification problems aiming at thematic categorization, the SVM has been shown to be quite effective \cite{joachims1998making}, \cite{dumais1998inductive}.
 A SVM is able to classify a text with respect to content. In the framework of author attribution, it is not clear whether a specific topic addressed by the author or the structural or stylistic features of the authors language lead to a successful classification.
 Among the earliest methods to be applied were various types of neural networks, typically using small sets of FWs as features \cite{holmes1995forensic}.
-More recently, \cite{hirst2007bigrams} used neural networks on a wide variety of features. Other studies have used k-nearest neighbor \cite{zhao2005effective}, support vector machines \cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}, and Bayesian regression \cite{madigan2005author}.
-Comparative studies on machine learning methods for topic-based text categorization problems \cite{dumais1998inductive}, \cite{joachims1998making} have shown that in general, support vector machine (SVM) learning is at least as good for text categorization as any other
+More recently, \citeauthor{hirst2007bigrams} used neural networks on a wide variety of features. Other studies have used k-nearest neighbor \cite{zhao2005effective}, support vector machines \cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}, and Bayesian regression \cite{madigan2005author}.
+Comparative studies on machine learning methods for topic-based text categorization problems \citeauthor{dumais1998inductive}, \citeauthor{joachims1998making} have shown that in general, support vector machine (SVM) learning is at least as good for text categorization as any other
 learning method, and the same has been found for authorship attribution \cite{zheng2006framework}.
 The distinctive advantage of the SVM for text categorization is its ability to process many thousand different inputs. This opens the opportunity to use all words
 in a text directly as features. For each word $w_i$ the number of times of occurrence is recorded. Typically a corpus contains more than 100,000 different words,
@@ -102,144 +101,146 @@ neighbor). \citeauthor{joachims1999transductive} \cite{joachims1999transductive}
 \citeauthor{drucker1999support} \cite{drucker1999support} classify emails as spam and non spam. They find that boosting trees and SVMs have similar performance in terms of accuracy and speed. SVMs train significantly faster.
 
 \section{RCV1 studies}
-\cite{cheng2011author}
-Reuters newsgroup dataset
-Reuters is the world’s largest international multimedia news
-agency, providing myriad news and mutual fund information
-available on Reuters.com, video, mobile, and interactive television platforms. Reuters Corpus Volume 1 (RCV1) is drawn
-from one of those online databases (Online, 2000). This dataset
-consists of all English language stories produced by Reuters
-journalists between August 20, 1996 and August 19, 1997. The
-dataset is made available on two CD-ROMs and has been
-formatted in XML by Reuters, Ltd. in 2000, for research
-purposes. Both the archiving process and later preparation of
-the XML dataset involved substantial verification and validation of the content, attempts to remove spurious or duplicated
-documents, normalization of dateline and byline formats,
-addition of copyright statements, and so on. The stories cover
-a range of content typical of a large English language international newswire. They vary from a few hundred to several
-thousand words in length.
-We retrieved the information of the authors, categorized
-the documents by the gender of the journalists, and discarded
-the documents written by authors whose gender could not be
-ascertained (e.g., neutral names). The text messages were
-then extracted by removing unnecessary information (such as
-date and time) and all XML formatting. Then we kept only the
-messages that contained more than 200 but less than 1000
-words. Since most messages in the Reuters Corpus were
-newswire stories, these messages contained several quotes
-from others, which could bias the accuracy of the gender
-classifier. Therefore, we removed those messages that had too
-many quotations (”) by setting the threshold of number of
-quotes/character counts to be 0.002. Table 1 summarizes the
-corpus used in our analysis.
-
-Other corpus used to test our proposal was The Reuters
-Corpus Volume 1 (RCV1) (Lewis et al. 2004). It consists of
-a collection of newswire stories written in English that cover
-four main topics: corporate/industrial (CCAT), economics
-(ECAT), government/social (GCAT) and markets (MCAT).
-Although it was not compiled for authorship attribution task,
-it has been adapted to this task in previous works. For example, in Stamatatos (2008); Plakias and Stamatatos (2008) the
-10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50
-examples for testing were selected randomly with no overlapping between training and testing sets. In further sections,
-we will reference to this corpus as RCV1-10.
-In Houvardas and Stamatatos(2006), the authors proposed
-another adaptation of the RCV1 corpus for the authorship
-attribution task. They choose the 50 most prolific authors
-from the Reuters Corpus, keeping 50 examples per author
-for training and 50 examples per author for testing with no
-overlapping between them. We will refer to this corpus as
-RCV1-50.
-The RCV1-10 and RCV1-50 datasets are both balanced
-over different authors and have their genre fixed to news.
-The main category of the news in both cases is fixed to corporate/industrial, but there are many subtopics covered in
-the news and the length of the texts is short (from 2 to 8
-KBytes). These corpora resemble a more realistic scenario,
-when the amount of texts is limited and the number of candidate authors is large.
-In 2000, a large corpus for the English language, the Reuters Corpus Volume 1
-(RCV1) including over 800,000 newswire stories, become available for research
-purposes. A natural application of this corpus is to be used as test bed for topic-based
-text categorization tasks [18] since each document has been manually classified into a
-series of topic codes (together with industry codes and region codes). There are four
-main topic classes: CCAT (corporate/industrial), ECAT (economics), GCAT
-(government/social), and MCAT (markets). Each of these main topics has many
-subtopics and a document may belong to a subset of these subtopics. Although, not
-particularly designed for evaluating author identification approaches, the RCV1
-corpus contains ‘by-lines’ in many documents indicating authorship. In particular,
-there are 109,433 texts with indicated authorship and 2,361 different authors in total.
-RCV1 texts are short (approximately 2KBytes – 8KBytes), so they resemble a realworld author identification task where only short text samples per author may be
-available. Moreover, all the texts belong to the same text genre (newswire stories), so
-the genre factor is reduced in distinguishing among the texts. On the other hand, there
-are many duplicates (exactly the same or plagiarized texts). The application of Rmeasure to the RCV1 text samples has revealed a list of 27,754 duplicates [19].
-The RCV1 corpus has already been used in author identification experiments. In
-[19] the top 50 authors (with respect to total size of articles) were selected. Moreover,
-in the framework of the AuthorID project, the top 114 authors of RCV1 with at least
-200 available text samples were selected [20]. In contrast to these approaches, in this
-study, the criterion for selecting the authors was the topic of the available text
-samples. Hence, after removing all duplicate texts found using the R-measure, the top 50 authors of texts labeled with at least one subtopic of the class CCAT
-(corporate/industrial) were selected. That way, it is attempted to minimize the topic
-factor in distinguishing among the texts. Therefore, since steps to reduce the impact of
-genre have been taken, it is to be hoped that authorship differences will be a more
-significant factor in differentiating the texts. Consequently, it is more difficult to
-distinguish among authors when all the text samples deal with similar topics rather
-than when some authors deal mainly with economics, others with foreign affairs etc.
-The training corpus consists of 2,500 texts (50 per author) and the test corpus includes
-other 2,500 texts (50 per author) non-overlapping with the training texts. \cite{houvardas2006n}
+Reuters is the world’s largest international multimedia news agency, providing myriad news and mutual fund information available on \url{Reuters.com}, video, mobile, and interactive television platforms. Reuters Corpus Volume 1 (RCV1) is drawn from one of those online databases\footnote{Reuters corpora [Online]. Available, \url{http://trec.nist.gov/data/reuters/reuters.html}; 2000}. This dataset consists of all English language stories produced by Reuters journalists between August 20, 1996 and August 19, 1997. The dataset is made available on two CD-ROMs and has been formatted in XML by Reuters, Ltd. in 2000, for research purposes. Both the archiving process and later preparation of
+the XML dataset involved substantial verification and validation of the content, attempts to remove spurious or duplicated documents, normalization of dateline and byline formats, addition of copyright statements, and so on \cite{cheng2011author}. The stories cover a range of content typical of a large English language international newswire. They vary from a few hundred to several thousand words in length.\\
+It consists of a collection of newswire stories written in English that cover four main topics: corporate/industrial (CCAT), economics (ECAT), government/social (GCAT) and markets (MCAT).
+Although it was not compiled for authorship attribution task, it has been adapted to this task in previous works. For example, in \citeauthor{stamatatos2008author} (\citeyear{stamatatos2008author}); \citeauthor{plakias2008tensor} (\citeyear{plakias2008tensor}) the 10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50 examples for testing were selected randomly with no overlapping between training and testing sets. In further sections, we will reference to this corpus as RCV1-10.\\
+In \citet{houvardas2006n}, the authors proposed another adaptation of the RCV1 corpus for the authorship attribution task. They choose the 50 most prolific authors from the Reuters Corpus, keeping 50 examples per author for training and 50 examples per author for testing with no
+overlapping between them. We will refer to this corpus as RCV1-50.\\
+The RCV1-10 and RCV1-50 datasets are both balanced over different authors and have their genre fixed to news.
+The main category of the news in both cases is fixed to corporate/industrial, but there are many subtopics covered in the news and the length of the texts is short (from 2 to 8 KBytes). These corpora resemble a more realistic scenario, when the amount of texts is limited and the number of candidate authors is large.
 
 \subsection{Studies on RCV1 on authorship attribution}
 
+Although, not particularly designed for evaluating author identification approaches, the RCV1
+corpus contains ‘by-lines’ in many documents indicating authorship. In particular,
+there are 109,433 texts with indicated authorship and 2,361 different authors in total.
+RCV1 texts are short (approximately 2KBytes – 8KBytes), so they resemble a realworld author identification task where only short text samples per author may be available. Moreover, all the texts belong to the same text genre (newswire stories), so
+the genre factor is reduced in distinguishing among the texts. On the other hand, there
+are many duplicates (exactly the same or plagiarized texts).
+The RCV1 corpus has already been used in author identification experiments. In
+\citet{khmelev2003repetition} the top 50 authors (with respect to total size of articles) were selected. Moreover, in the framework of the AuthorID project, the top 114 authors of RCV1 with at least 200 available text samples were selected \cite{madigan2005author}. In contrast to these approaches, in this study, the criterion for selecting the authors was the topic of the available text
+samples. Hence, the top 50 authors of texts labeled with at least one subtopic of the class CCAT (corporate/industrial) were selected. That way, it is attempted to minimize the topic factor in distinguishing among the texts. Therefore, since steps to reduce the impact of genre have been taken, it is to be hoped that authorship differences will be a more significant factor in differentiating the texts. Consequently, it is more difficult to distinguish among authors when all the text samples deal with similar topics rather than when some authors deal mainly with economics, others with foreign affairs etc.
+The training corpus consists of 2,500 texts (50 per author) and the test corpus includes
+other 2,500 texts (50 per author) non-overlapping with the training texts \cite{houvardas2006n}.
+
 \section{GDELT studies}
-The GDELT Project is one of the largest publicly available digitized book database
-which has more than 3.5 million books published from 1800-2015. The GDELT
-Project is an open platform for research and analysis of global society and thus all
-datasets released by the GDELT Project are available for unlimited and unrestricted
-use for any academic, commercial, or governmental use of any kind without any
-fee\footnote{\url{https://www.gdeltproject.org/about.html}}. The whole digitized dataset is publicly available and interested researchers
-can freely perform SQL queries using the Google big query platform. For example;
-the book names, publication year, quotations, themes, the original text of the book
-of “Mark Twain” which were written between 1890 to 1900 can be found as follows
-using the Big query platform of Google.
-To decrease the bias and create a reliable dataset the following criteria have been
-chosen to filter out authors: English language writing authors, authors that have
-enough books available (at least 5), 19th century authors. With these criteria 50
-authors have been selected and their books were queried through Big Query Gdelt
-database. The next task has been cleaning the dataset due to OCR reading problems
-in the original raw form. To achieve that, firstly all books have been scanned through
-to get the overall number of unique words and each words frequencies. While scanning
-the texts, the first 500 words and the last 500 words have been removed to take out
-specific features such as the name of the author, the name of the book and other word
-specific features that could make the classification task easier. After this step, we have
-chosen top 10, 000 words that occurred in the whole 50 authors text data corpus. The
-words that are not in top 10, 000 words were removed while keeping the rest of the
-sentence structure intact.
-Afterwards, the words are represented with numbers from
-1 to 10, 000 reverse ordered according to their frequencies. The entire book is split
-into text fragments with 1000 words each. We separately maintained author and
-book identification number for each one of them in different arrays. Text segments
-with less than 1000 words were filled with zeros to keep them in the dataset as well.
-1000 words make approximately 2 pages of writing, which is long enough to extract a variety of features from the document. The reason why we have represented top
-10, 000 words with numbers is to keep the anonymity of texts and allow researchers
-to run feature extraction techniques faster. Dealing with large amounts of text data
-can be more challenging than numerical data for some feature extraction techniques.
-In order to make the AA problem more realistic, when splitting the training and
-testing dataset the writings of George Eliot (5), Jack London (7), Frances Hodgson
-Burnett (31), Sarah Stickney Ellis (47), Thomas Nelson Page (49) have been removed
-from the training and added to testing set. This creates a non-exhaustive training set
-with 45 authors while the test set contains 50 authors. In total this leads to 53678
-training data instances, 39922 testing data instances. Each of these instances consist
-of 1000 words text fragment. Another important aspect we have considered while
-splitting training and testing data is to keep all fragments of the same book either in
-the training or testing dataset. This way we do not end up training and testing on the
-same books. Without this restriction the classification task would be much simpler
-and simple bag of words representation with SVM would give much higher F-1 scores.
-To study the sentence structure and writing style from a different perspective, the
-same steps also have been applied to create another dataset in which stop words have
-been removed while keeping the word order same for the remaining words.
+The GDELT Project is one of the largest publicly available digitized book database which has more than 3.5 million books published from 1800-2015. The GDELT Project is an open platform for research and analysis of global society and thus all datasets released by the GDELT Project are available for unlimited and unrestricted use for any academic, commercial, or governmental use of any kind without any fee\footnote{\url{https://www.gdeltproject.org/about.html}}. The whole digitized dataset is publicly available and interested researchers can freely perform SQL queries using the Google big query platform. For example; the book names, publication year, quotations, themes, the original text of the book of “Mark Twain” which were written between 1890 to 1900 can be found as follows
+using the Big query platform of Google in \autoref{lst:bigQuerySQL}.
+\begin{lstlisting}[frame=none,caption={Google Big Query on GDELT},captionpos=b,label=lst:bigQuerySQL]
+	SELECT Themes, V2Themes, Quotations, AllNames, TranslationInfo,
+	BookMeta_Identifier, BookMeta_Title, BookMeta_Creator,
+	BookMeta_Subjects, BookMeta_Year,
+	FROM (TABLE_QUERY([gdelt-bq:internetarchivebooks],
+	'REGEXP_EXTRACT(table_id, r"(\d{4})") BETWEEN "1890" AND "1900"'))
+	WHERE
+	BookMeta_Creator CONTAINS "Mark Twain"
+	LIMIT 50
+\end{lstlisting}
+To decrease the bias and create a reliable dataset the following criteria have been chosen to filter out authors: English language writing authors, authors that have enough books available (at least 5), 19th century authors. With these criteria 50 authors have been selected and their books were queried through Big Query Gdelt database. The next task has been cleaning the dataset due to OCR reading problems in the original raw form. To achieve that, firstly all books have been scanned through
+to get the overall number of unique words and each words frequencies. While scanning the texts, the first 500 words and the last 500 words have been removed to take out specific features such as the name of the author, the name of the book and other word specific features that could make the classification task easier. After this step, we have chosen top 10, 000 words that occurred in the whole 50 authors text data corpus. The words that are not in top 10, 000 words were removed while keeping the rest of the sentence structure intact.
+Afterwards, the words are represented with numbers from 1 to 10, 000 reverse ordered according to their frequencies. The entire book is split into text fragments with 1000 words each. We separately maintained author and book identification number for each one of them in different arrays. Text segments with less than 1000 words were filled with zeros to keep them in the dataset as well.
+1000 words make approximately 2 pages of writing, which is long enough to extract a variety of features from the document. The reason why we have represented top 10, 000 words with numbers is to keep the anonymity of texts and allow researchers to run feature extraction techniques faster. Dealing with large amounts of text data can be more challenging than numerical data for some feature extraction techniques.
 \subsection{Authorship attribution GDELT}
 
-\section{The guardian studies}
+\section{The guardian corpus: a case of cross-topic authorship attribution}
 
-\subsection{Cross-topic authorship attribution}
+First introduced by \cite{stamatatos2013robustness}
+The corpus used in this study is composed of texts published
+in The Guardian daily newspaper. The texts were downloaded
+using the publicly available API20 and preprocessed to keep the
+unformatted main text.21 An example is depicted in Table 1. 
+The majority of the corpus comprises opinion articles
+(comments). The newspaper describes the opinion articles using
+a set of tags indicating its subject. There are eight top-level tags
+(World, U.S., U.K., Belief, Culture, Life\&Style, Politics,
+Society), each one of them having multiple subtags. It is
+possible (and very common) for an article to be described by
+multiple tags belonging to different main categories (e.g., a
+specific article may simultaneously belong to U.K., Politics, and
+Society). In order to have a clearer picture of the thematic area
+of the collected texts, we only used articles that belong to a
+single main category. Therefore, each article can be described
+by multiple tags, all of them belonging to a single main
+category. Moreover, articles coauthored by multiple authors
+were discarded.
+In addition to opinion articles on several thematic areas, the
+presented corpus comprises a second text genre—book reviews.
+The book reviews are also described by a set of tags similar to
+the opinion articles. However, no thematic tag restriction was
+taken into account when collecting book reviews, since our main
+concern was to find texts of a specific genre that cover multiple thematic areas. Note that since all texts come from the same
+newspaper, they are expected to have been edited according to
+the same rules, so any significant difference among the texts is
+not likely to be attributed to the editing process.
+Table 1 shows details about The Guardian Corpus (“TGC”).
+It comprises texts from thirteen authors selected on the basis of
+having published texts in multiple thematic areas (Politics,
+Society, World, U.K.) and different genres (opinion articles and
+book reviews). At most 100 texts per author and category have
+been collected—all of them published within a decade (from
+1999 to 2009). Note that the opinion article thematic areas can
+be divided into two pairs of low similarity, namely PoliticsSociety and World-U.K. In other words, the Politics texts are
+more likely to have some thematic similarities with World or
+U.K. texts than with the Society texts.
+TGC provides texts on two different genres from the same
+set of authors. Moreover, one genre is divided into four
+thematic areas. Therefore, it can be used to examine authorship
+attribution models under cross-genre and cross-topic conditions.
+\cite{gomez2018document}
+Various techniques were developed for solving the AA task. In [24], the authors present
+a reproducibility study on AA research. They evaluated state-of-the-art methods on
+three corpora and showed that only four out of fifteen (4/15) approaches are stable
+across corpora. The majority of the studies on AA perform extensive feature engineering, focusing on the extraction of stylometric features that represent the personal style
+of authors [7,25,28]. The approaches that employ character-based features (character
+n-grams) seem to be the most effective ones for the AA problem under both single
+and cross-topic conditions [5,25].
+Previous work on AA focused mainly on the single-topic condition, i.e., the training
+and testing datasets have similar thematic properties. However, there are studies that
+tackle the AA problem under cross-topic conditions. Stamatatos [31] demonstrated that
+high frequency character n-grams allow to discriminate effectively between authors
+not only for single-topic AA, but also for cross-topic AA. The unmasking method
+yields reliable results under cross-genre [10] and cross-topic conditions [12]. Sapkota
+et al. [26] improve the prediction results in cross-topic AA using an enriched training
+corpus in order to predict authors on a corpus with different topics.
+The role of preprocessing steps was evaluated in [18]. The approach proposed in
+that paper is considered to be more topic-neutral by their authors, because they replace
+the named entities and some topic-related words while preprocessing the corpus. Their
+approach showed the importance of preprocessing, because it gave the improvement
+of 4\%.
+In [30], it is mentioned that the use of semantic features for the authorship attribution
+task usually improves the obtained results, however, very few attempts have been done
+to exploit high-level features for stylometric purposes. In this paper, we consider the
+usage of the distributed document representation for the cross-topic AA task, because
+of its capability to encode the semantic information of texts in a low dimension vector.
+Different document embeddings methods were introduced in recent studies, each
+tackling specific natural language processing tasks: weighted concatenation of word
+vectors [16], deep averaging network [8], paragraph vector n-gram model [15], recurrent neural networks [29], and convolutional neural networks [9].
+Recently, the Paragraph Vector (Doc2vec) model was proposed by Le \&
+Mikolov [14] for learning distributed representation for both sentences and documents. The Doc2vec model basically treats each document as a special word and learn
+both document vectors and word vectors simultaneously by predicting the target word.
+Vectors obtained by the Doc2vec model outperforms both bag-of-words and word ngrams models producing the new state-of-the-art results for several text classification
+and sentiment analysis tasks.
+The experiments were conducted on a cross-topic AA corpus introduced in [31].
+The corpus contains a set of articles gathered from 1999 to 2009 from the English
+newspaper The Guardian.
+2 The articles corresponding to 13 authors were collected
+and grouped into five topic categories: Politics, Society, World, UK, and Book reviews.
+In order to avoid category overlapping, those articles whose content includes more
+than one category were discarded. In this way, each category is mutually exclusive. An
+important remark about the proposed categories is that all the categories are composed
+by articles, but the Book reviews are considered different text genre. The Guardian
+corpus is a specific collection of samples, which provides both a cross-topic scenario
+(five different topics) and a cross-genre scenario (articles and reviews) for AA task.
+The number of samples in The Guardian corpus is not balanced. The gathered
+samples correspond to a realistic scenario that considers the production of each author
+over a period of 10 years.
+In order to test and compare our approach, we reproduce the testing scenario
+described in the previous research [31] using the Guardian corpus. The experimental
+scenario is as follows: (1) select at most ten samples per author in each topic category
+(in Fig. 2 the distribution of the samples per author and per category after considering
+the restriction of ten samples per author is shown), (2) use the samples in the Politics category as training set and train the classifier, and (3) finally, test the classifier using
+another topic category different from Politics (four possible pairings).
 
 \section{Studies on Stanford Amazon Food Reviews}
 

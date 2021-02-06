@@ -4,79 +4,23 @@
 \section{Dataset estraction}
 
 \subsection{RCV1}
-\label{appendix:petscanQuery}
-We used as parameter depth 2 and this list of categories: \textit{Salute} (i.e. health in italian), \textit{Medicina} (i.e. medicine in italian),  \textit{Procedure mediche} (i.e. medical procedures in italian),  \textit{Diagnostica medica} (i.e. medical diagnostics in italian) and \textit{Specialità medica} (i.e. medical specialty in italian). The language of the result pages is by default "it" (i.e. italian).
+
 
 
 \subsection{GDELT}
-\label{appendix:MLStripper}
-To retrieve a single document, we parsed the HTML of every Wikipedia page with HTMLParser subclassed with a customized class MLStripper, that stripped away all HTML tags.
-\begin{lstlisting}[language=Python]
-class MLStripper(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.reset()
-        self.fed = []
 
-    def handle_data(self, d):
-        self.fed.append(d)
-
-    def get_data(self):
-        return ''.join(self.fed)
-
-def strip_tags(html):
-    s = MLStripper()
-    s.feed(html)
-    return s.get_data()
-
-\end{lstlisting}
 
 \section{Model}
 
 \subsection{Feature extraction}
-\label{appendix:loadWikiW2V}
-Code \ref{code:loadWikiW2V} shows how to load the model from the pre-trained vectors.
-\begin{lstlisting}[caption={How to load Wikipedia pre-trained model}, label={code:loadWikiW2V}, language=Python, breaklines=true, frame=single] 
-# word2vec model
-from gensim.models import Word2Vec
-model = Word2Vec.load('wiki_iter=5_algorithm=skipgram_window=10_size=300_neg-samples=10.m')
-\end{lstlisting}
+
 
 \subsection{Train model}
-\label{appendix:trainModel}
-\begin{minipage}{\linewidth}
-Code \ref{code:trainModel} shows how to build the vocabulary for the model and train it.
-\begin{lstlisting}[caption={How to build vocabulary and train model}, label={code:trainModel}, language=Python, breaklines=true, frame=single] 
-# build vocabulary and train model
-model = gensim.models.Word2Vec(documents,
-                             size=200,
-                             window=10,
-                             min_count=2,
-                             workers=10)
-model.train(documents, 
-            total_examples=len(documents),
-            epochs=10)
-\end{lstlisting}
-\end{minipage}
+
 
 \subsection{Evaluation}
-\label{appendix:plotModel}
-Code \ref{code:plotModel} shows how to plot words' vectors. We used pyplot from \textit{matplotlib}\footnote{\url{https://matplotlib.org/api/pyplot_api.html}} module and PCA from \textit{sklearn.decomposition}\footnote{\url{http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}} module.
-\begin{lstlisting}[caption={How to plot words' vectors}, label={code:plotModel}, language=Python, breaklines=true, frame=single] 
-from matplotlib import pyplot
-from sklearn.decomposition import PCA
-def plot(model, words):
-	X = model[model.wv.vocab]
-	pca = PCA(n_components=2)
-	result = pca.fit_transform(X)
-	pyplot.scatter(result[:, 0], result[:, 1])
-	for i, word in enumerate(words):
-		pyplot.annotate((word[0], float(round(word[1], 2))), xy=(result[i, 0], result[i, 1]))
-	pyplot.show()
-\end{lstlisting}
+
 
 
 \listoffigures
 \listoftables
-%\listoffigures
-%\listoftables

@@ -204,7 +204,48 @@ scenario is as follows:
 \end{figure}
 
 \section{Method's selection}
+At this point, we had to face the problem of deciding the classifier method that would solve best our authorship attribution task.
+Although in previous studies over the past decades on authorship attribution SVM has been shown to be very convincing (\cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}), we initially wanted to construct an experimental approach that would lead us to exclude the other classifiers for our task.
 \subsection{Naive Approach}
+Our very first naive approach was to compare on different portions of the dataset (increasing number of authors) different classification methods to see which one performed best.
+Initially, we considered the author attribution study for groups of authors consisting of 6 or 10 authors. In truth, as many previous studies show, an author attribution model must perform well especially in situations where the group of authors is composed of several dozen candidates.
+The classifiers initially chosen were:
+\begin{itemize}
+	\item Naive Bayes
+	\item Multinomial Naive Bayes
+	\item Logistic Regression
+	\item XGBoost
+	\item XGBoost with Neural Networks
+	\item Random Forest
+\end{itemize}
+For text representation, we chose to use TFIDF and Bag Of Words, comparing the results depending on the dataset, the number of authors, and the method used.
+In \autoref{fig:RCV1_methods_accuracy} we can see the accuracy score of the testing set of the various classifiers tested on the groups of authors increasing from right to left on the RCV1 dataset.
+As on the groups of "small" authors, i.e. composed of 6 authors and 10 authors, almost all the classifiers exceed the threshold of 95\% accuracy that validates the approach even in non-research contexts. The classifier that seems to perform best among the various groups of authors increasing in number is RandomForest. On the other hand, it has been shown that decision tree type classifiers struggle to maintain high performance when the number of features used increases.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{RCV1_Test_Accuracy}
+	\caption[Methods performance on RCV1]{Accuracy scores for different groups of authors on RCV1 dataset}
+	\label{fig:RCV1_methods_accuracy}
+\end{figure}
+
+In fact in \autoref{fig:GDELT_methods_accuracy} and \ref{fig:AFR_methods_accuracy} we can see that in all 3 single topic datasets the various methods proposed have a decrease in performance when the number of authors increases reaching 50 authors (or 45 in the case of the GDELT dataset).
+This is probably due to the fact that by keeping the number of documents per author fixed at 50 in the training test (and in the testing set), the number of features to represent grows disproportionately as the number of authors increases. Therefore, we need to select a classification method that remains stable as the number of features we want to represent increases, and therefore remains valid for 6, 10, 30, 50 authors (and more).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{GDELT_Test_Accuracy}
+	\caption[Methods performance on GDELT]{Accuracy scores for different groups of authors on GDELT dataset}
+	\label{fig:GDELT_methods_accuracy}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{AFR_Test_Accuracy}
+	\caption[Methods performance on AFR]{Accuracy scores for different groups of authors on AFR dataset}
+	\label{fig:AFR_methods_accuracy}
+\end{figure}
+
 \subsection{TeaPot}
 
 \section{Features extraction}

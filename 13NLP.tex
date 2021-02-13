@@ -355,7 +355,7 @@ sets.
 
 \subsection{Positivity and Negativity index}
 In order to understand the general mood and the preference of positive and negative sentence structure in each author’s work, a positivity and negativity score has been calculated for the authors \textit{David Lawder} and \textit{Alexander Smith} for the documents in the RCV1 corpora.
-The code is shown in \ref{lst:posnegRCV1CCAT10}, whereas in \ref{fig:rcv1_ccat10_sentiment_analysis} we can see the results that points out Alexander Smith writing more negative articles than David Lawder. Both of the authors wrote the majority of the articles classified as positive than negative.
+The code is shown in \ref{lst:posnegRCV1CCAT10}, whereas in \autoref{fig:rcv1_ccat10_sentiment_analysis} we can see the results that points out Alexander Smith writing more negative articles than David Lawder. Both of the authors wrote the majority of the articles classified as positive than negative.
 
 \begin{lstlisting}[frame=none,caption={Compute sentence Positivity and Negativity scores},captionpos=b,label=lst:posnegRCV1CCAT10]
 \end{lstlisting}
@@ -403,7 +403,7 @@ paragraph lengths, font color, font size could be good features \cite{stamatatos
 Word2Vec\footnote{\url{https://code.google.com/archive/p/word2vec/}} leverages the context of the target words. Essentially, we want to use the surrounding words to represent the target words with a Neural Network whose hidden layer encodes the word representation.
 Similar words are close
 to each other in the vector space. For example, it was shown in \cite{mikolov2013linguistic} that $vector[King] - vector[Man] + vector[Woman]$ results in the vector that is closest to the representation of the $vector[Queen]$.
-Figure \ref{fig:skip_gram_2} shows this representation in a simple way.
+\autoref{fig:skipgram} shows this representation in a simple way.
 The ways to make use of Word2Vec in the dataset is various.
 For example, a Word2Vec model can either be built by considering every authors
 text data separately, or can be imported using previously trained word vectors on

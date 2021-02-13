@@ -246,7 +246,66 @@ This is probably due to the fact that by keeping the number of documents per aut
 	\label{fig:AFR_methods_accuracy}
 \end{figure}
 
-\subsection{TeaPot}
+\subsection{TPOT: automated method's selection}
+Therefore, considering the more or less unsuccessful approaches of the methods presented in the previous section, we tried to find an approach that would validate our choice and those of previous works on the use of the Support Vector Machine as a classification method.
+Our choice fell on TPOT\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
+In order to give the reader of what TPOT is and how it works, I'll report the first paragraph quoting the TPOT website:
+
+\begin{quote}
+	TPOT is meant to be an assistant that gives you ideas on how to solve a particular machine learning problem by exploring pipeline configurations that you might have never considered, then leaves the fine-tuning to more constrained parameter tuning techniques such as grid search.
+\end{quote}
+So TPOT helps you find good algorithms. TPOT is built on the scikit learn library and follows the scikit learn API closely. It can be used for regression and classification tasks and has special implementations for medical research.
+TPOT is open source, well documented, and under active development. It’s development was spearheaded by researchers at the University of Pennsylvania. TPOT appears to be one of the most popular autoML libraries, with more than 7,800 GitHub stars as of the moment of writing.
+TPOT has what its developers call a genetic search algorithm to find the best parameters and model ensembles. It could also be thought of as a natural selection or evolutionary algorithm. TPOT tries a pipeline, evaluates its performance, and randomly changes parts of the pipeline in search of better performing algorithms (An example is shown in \autoref{fig:TPOT_pipeline}).
+This power of TPOT comes from evaluating all kinds of possible pipelines automatically and efficiently. Doing this manually is cumbersome and slower.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{TPOT_pipeline2}
+	\caption[TPOT pipeline example]{An example TPOT Pipeline from TPOT docs}
+	\label{fig:TPOT_pipeline}
+\end{figure}
+
+In \autoref{lst:TPOTpipeline} we show a snippet of code we used for extracting TPOT pipeline with hyper parameters and research space. 
+
+
+\begin{lstlisting}[frame=none,caption={TPOT pipeline generation},captionpos=b,label=lst:TPOTpipeline]
+\end{lstlisting}
+\begin{python}	
+	!pip install -q tpot
+	from tpot import TPOTClassifier, TPOTRegressor
+	pipeline_optimizer = TPOTClassifier(generations=5, population_size=20, cv=5,
+	random_state=42, verbosity=2, scoring='accuracy', config_dict='TPOT sparse')
+	pipeline_optimizer.fit(tfidf_train, df_train['target'])
+	print(pipeline_optimizer.score(tfidf_test, df_test['target']))
+	pipeline_optimizer.export('tpot_exported_pipeline.py')
+\end{python}
+
+We chose the most appropriate hyperparameters and ran TPOT optimization pipelines on all 3 datasets with 50 authors \footnote{45 in the case of GDELT}. The result was as shown in \autoref{lst:TPOTexported} for all 3 selected single domain datasets, thus proving that SVM is the best choice as a model classifier for this task.
+
+\begin{lstlisting}[frame=none,caption={TPOT pipeline extracted},captionpos=b,label=lst:TPOTexported]
+\end{lstlisting}
+\begin{python}	
+	import numpy as np
+	import pandas as pd
+	from sklearn.model_selection import train_test_split
+	from sklearn.svm import LinearSVC
+	
+	# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+	tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+	features = tpot_data.drop('target', axis=1)
+	training_features, testing_features, training_target, testing_target = \
+	train_test_split(features, tpot_data['target'], random_state=42)
+	
+	# Average CV score on the training set was: 0.6912
+	exported_pipeline = LinearSVC(C=0.5, dual=True, loss="squared_hinge", penalty="l2", tol=1e-05)
+	# Fix random state in exported estimator
+	if hasattr(exported_pipeline, 'random_state'):
+	setattr(exported_pipeline, 'random_state', 42)
+	
+	exported_pipeline.fit(training_features, training_target)
+	results = exported_pipeline.predict(testing_features)
+\end{python}
 
 \section{Features extraction}
 \subsection{TFIDF \& BOW}

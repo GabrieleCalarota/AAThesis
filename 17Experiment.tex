@@ -8,7 +8,7 @@ Our main focus has always been on closed set authorship attribution, training wi
 The three milestones can be summarized as follows:
 \begin{enumerate}
 	\item Dataset selection and preparation
-	\item Classifier method's selection
+	\item Method selection
 	\item Features extraction
 \end{enumerate}
 
@@ -87,8 +87,8 @@ First of all we had to convert the dataset, that contained folders of xml files,
 
 The dataset was then filtered only with the documents with a \textit{"byline"} property defined. We end up with 109'433 documents written by 2400 distinct authors. At this point, we labeled this portion of the RCV1 original dataset as the \textit{"Full RCV1 dataset"}.
 In order to test and compare our approach, reproducing the testing scenario
-described in the previous research \cite{stamatatos2009survey}, the 10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50 examples for testing were selected randomly with no overlapping between training and testing sets. We will reference to this portion of the RCV1 dataset as the \textit{"RCV1\_10"}.
-In previous work \cite{houvardas2006n}, the authors proposed another adaptation of the RCV1 corpus for the authorship attribution task. They choose the 50 most prolific authors from the Reuters Corpus, keeping 50 examples per author for training and 50 examples per author for testing with no
+described in previous research \cite{stamatatos2009survey}, the 10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50 examples for testing were selected randomly with no overlapping between training and testing sets. We will reference to this portion of the RCV1 dataset as the \textit{"RCV1\_10"}.
+In previous works \cite{houvardas2006n}, the authors proposed another adaptation of the RCV1 corpus for the authorship attribution task. They choose the 50 most prolific authors from the Reuters Corpus, keeping 50 examples per author for training and 50 examples per author for testing with no
 overlapping between them. We will refer to this corpus as the \textit{RCV1\_50}.\\
 The RCV1\_10 and RCV1\_50 datasets are both balanced over different authors and have their genre fixed to news.
 The majority of our work has been conducted on the RCV1\_50, although to compare results with previous works we will show also the same techniques applied to the RCV1\_10 corpus.
@@ -113,7 +113,7 @@ The majority of our work has been conducted on the RCV1\_50, although to compare
 \end{table}
 
 \subsection{GDELT}
-The GDELT Project is one of the largest publicly available digitized book database
+The GDELT Project is one of the largest publicly available digitalized book database
 which has more than 3.5 million books published from 1800-2015.
 To decrease the bias and create a reliable dataset the following criteria have been
 chosen to filter out authors: English language writing authors, authors that have
@@ -127,7 +127,7 @@ specific features such as the name of the author, the name of the book and other
 specific features that could make the classification task easier. After this step, we have
 chosen top 10, 000 words that occurred in the whole 50 authors text data corpus. The
 words that are not in top 10, 000 words were removed while keeping the rest of the
-sentence structure intact 2 . Afterwards, the words are represented with numbers from
+sentence structure intact. Afterwards, the words are represented with numbers from
 1 to 10, 000 reverse ordered according to their frequencies. The entire book is split
 into text fragments with 1000 words each. We separately maintained author and
 book identification number for each one of them in different arrays. Text segments
@@ -136,9 +136,9 @@ with less than 1000 words were filled with zeros to keep them in the dataset as 
 10, 000 words with numbers is to keep the anonymity of texts and allow researchers
 to run feature extraction techniques faster. Dealing with large amounts of text data
 can be more challenging than numerical data for some feature extraction techniques.
-When gathering the dataset, we decided to discard 5 authors for which their writings were not enough consistent for the authorship attribution task.
+When gathering the dataset, we decided to discard 5 authors for which their writings were not consistent enough for the authorship attribution task.
 We ended up with a full dataset with 53'678 documents instances, each one containing 1000 words.
-In order to make training's methods reliable across dataset, we decided to select 100 documents of each authors, with a 50/50 split (i.e. 50 documents in the training set, 50 documents in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"GDELT\_45"}.
+In order to make training methods reliable across dataset, we decided to select 100 documents of each authors, with a 50/50 split (i.e. 50 documents in the training set, 50 documents in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"GDELT\_45"}.
 \autoref{tab:tableGDELTkpi} shows the metrics that describe best this dataset.
 
 \begin{table}[h!]
@@ -160,8 +160,8 @@ In order to make training's methods reliable across dataset, we decided to selec
 
 \subsection{Amazon Food Reviews (AFR)}
 This dataset consists of reviews of fine foods from amazon. The data span a period of more than 10 years, including all ~500,000 reviews up to October 2012. Reviews include product and user information, ratings, and a plain text review. It also includes reviews from all other Amazon categories.
-We decided to consider this dataset for our experiment, because we were missing a more "everyday" example of dataset to work with. As \autoref{tab:tableAFRkpi} shows, among the main metrics, that the average documents length is dramatically lower than the other two dataset presented previously, providing a good challenge for us to show consistency of our method across all these different scenarios.
-Moreover, in order to make training's methods reliable across dataset, we decided to select 100 reviews of each customers, with a 50/50 split (i.e. 50 reviews in the training set, 50 reviews in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"AFR\_50"}.
+We decided to consider this dataset for our experiment, because we were missing a more "everyday" example of dataset to work with. As \autoref{tab:tableAFRkpi} shows, the average documents length is dramatically lower than the other two datasets presented previously, providing us with a good challenge to show consistency of our method across all these different scenarios.
+Moreover, in order to make training methods reliable across dataset, we decided to select 100 reviews of each customers, with a 50/50 split (i.e. 50 reviews in the training set, 50 reviews in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"AFR\_50"}.
 
 \begin{table}[h!]
 	\begin{center}  
@@ -181,7 +181,7 @@ Moreover, in order to make training's methods reliable across dataset, we decide
 \end{table}
 
 \subsection{The Guardian newspaper}
-Although the majority of our time and effort was focused on the first 3 single domain closed set authorship attribution task, we wanted to test our approach with a cross domain dataset.
+Although the majority of our time and effort was focused on the first 3 single domain datasets for closed set authorship attribution task, we wanted to test our approach with a cross domain dataset.
 \textit{The Guardian corpus} is composed of texts published in The Guardian daily newspaper. The majority of the corpus comprises opinion articles
 (comments). The newspaper describes the opinion articles using a set of tags indicating its subject. There are eight top-level tags (World, U.S., U.K., Belief, Culture, Life\&Style, Politics, Society), each one of them having multiple subtags.
 In order to test and compare our approach, we reproduce the testing scenario
@@ -189,8 +189,8 @@ described in the previous research \cite{stamatatos2013robustness} using the Gua
 scenario is as follows: 
 \begin{enumerate}
 	\item Select at most ten samples per author in each topic category
-	(in \autoref{fig:tgc_dataset} the distribution of the samples per author for the Politics category after considering
-	the restriction of ten samples per author is shown)
+	(in \autoref{fig:tgc_dataset} we can see the distribution of the samples per author for the Politics category after considering
+	the restriction of ten samples per author)
 	\item Use the samples in the Politics category as training set and train the classifier
 	\item Finally, test the classifier using
 	another topic category different from Politics (four possible pairings)
@@ -203,12 +203,12 @@ scenario is as follows:
 	\label{fig:tgc_dataset}
 \end{figure}
 
-\section{Method's selection}
+\section{Method selection}
 At this point, we had to face the problem of deciding the classifier method that would solve best our authorship attribution task.
 Although in previous studies over the past decades on authorship attribution SVM has been shown to be very convincing (\cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}), we initially wanted to construct an experimental approach that would lead us to exclude the other classifiers for our task.
 \subsection{Naive Approach}
 Our very first naive approach was to compare on different portions of the dataset (increasing number of authors) different classification methods to see which one performed best.
-Initially, we considered the author attribution study for groups of authors consisting of 6 or 10 authors. In truth, as many previous studies show, an author attribution model must perform well especially in situations where the group of authors is composed of several dozen candidates.
+Initially, we considered the authorship attribution study for groups of authors consisting of 6 or 10 authors. In truth, as many previous studies show, an authorship attribution model must perform well especially in situations where the group of authors is composed of several dozen candidates.
 The classifiers initially chosen were:
 \begin{itemize}
 	\item Naive Bayes
@@ -230,7 +230,7 @@ As on the groups of "small" authors, i.e. composed of 6 authors and 10 authors, 
 \end{figure}
 
 In fact in \autoref{fig:GDELT_methods_accuracy} and \ref{fig:AFR_methods_accuracy} we can see that in all 3 single topic datasets the various methods proposed have a decrease in performance when the number of authors increases reaching 50 authors (or 45 in the case of the GDELT dataset).
-This is probably due to the fact that by keeping the number of documents per author fixed at 50 in the training test (and in the testing set), the number of features to represent grows disproportionately as the number of authors increases. Therefore, we need to select a classification method that remains stable as the number of features we want to represent increases, and therefore remains valid for 6, 10, 30, 50 authors (and more).
+This is probably due to the fact that by keeping the number of documents per author fixed at 50 in the training test (and in the testing set), the number of features to represent grows proportionately as the number of authors increases. Therefore, we need to select a classification method that remains stable as the number of features we want to represent increases, and therefore remains valid for 6, 10, 30, 50 authors (and more).
 
 \begin{figure}[ht]
 	\centering
@@ -246,7 +246,7 @@ This is probably due to the fact that by keeping the number of documents per aut
 	\label{fig:AFR_methods_accuracy}
 \end{figure}
 
-\subsection{TPOT: automated method's selection}
+\subsection{TPOT: automated method selection}
 Therefore, considering the more or less unsuccessful approaches of the methods presented in the previous section, we tried to find an approach that would validate our choice and those of previous works on the use of the Support Vector Machine as a classification method.
 Our choice fell on TPOT\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
 In order to give the reader of what TPOT is and how it works, I'll report the first paragraph quoting the TPOT website:
@@ -281,7 +281,7 @@ In \autoref{lst:TPOTpipeline} we show a snippet of code we used for extracting T
 	pipeline_optimizer.export('tpot_exported_pipeline.py')
 \end{python}
 
-We chose the most appropriate hyperparameters and ran TPOT optimization pipelines on all 3 datasets with 50 authors \footnote{45 in the case of GDELT}. The result was as shown in \autoref{lst:TPOTexported} for all 3 selected single domain datasets, thus proving that SVM is the best choice as a model classifier for this task.
+We chose the most appropriate hyperparameters and ran TPOT optimization pipelines on all 3 datasets with 50 authors \footnote{45 in the case of GDELT}. The result is shown in \autoref{lst:TPOTexported} for all 3 single domain selected datasets, thus proving that SVM is the best choice as a model classifier for this task.
 
 \begin{lstlisting}[frame=none,caption={TPOT pipeline extracted},captionpos=b,label=lst:TPOTexported]
 \end{lstlisting}
@@ -308,7 +308,127 @@ We chose the most appropriate hyperparameters and ran TPOT optimization pipeline
 \end{python}
 
 \section{Features extraction}
+After the choice of dataset and classification method, all our energies were spent on the choice of feature extraction. In order to identify the authorship of an unknown text document using machine learning the document needs to be quantified first. The simple and natural way to characterize a document is to consider it as a sequence of tokens grouped into sentences where each token can be one of the three: word, number, punctuation mark.
+As with the choice of classification method, we initially attempted a naive approach. In fact, many studies have focused on using methods such as TFIDF and Bag Of Words. In fact, our experiment is mainly aimed at showing that simple numerical text representation methods such as TFIDF or BOW, applied with the right hyperparameters, can somehow yield good performance in the same way as other more complex methods such as Doc2Vec or n-grams character selection.
 \subsection{TFIDF \& BOW}
+Once taken the route of the simple feature extraction approach via TFIDF and BOW, we had to choose the hyperparameters that would play a main role in the model performances for this task. 
+We initially chose a classical approach to the problem, extracting features with both TFIDFVectorizer and CountVectorizer, with standard hyperparameters.
+
+
+
+In \autoref{lst:vectorizers} we can see the initialization of the vectorizers with the chosen hyperparameters after a long process of tuning and validation.
+
+\begin{lstlisting}[frame=none,caption={TFIDF \& BOW Vectorizer},captionpos=b,label=lst:vectorizers]
+\end{lstlisting}
+\begin{python}	
+	tfidf_vec = TfidfVectorizer(max_df=0.75, max_features=None,
+	min_df=0.02, use_idf=False, tokenizer=custom_tokenizer, 
+	ngram_range=(1, 4))
+	counter_vect = CountVectorizer(max_df=0.8, max_features=10000,
+	min_df=0.02, tokenizer=custom_tokenizer, ngram_range=(1, 2))
+\end{python}
+
+After that, we shifted our focus to the tokenizer that instead of choosing to use the standard one, we preferred to use a "custom" one. We initially used a robust tokenizer for text categorization tasks, but we realized that for this kind of authorship attribution problem, some approaches valid for many text categorization problems would not work.
+In fact, in \autoref{lst:tokenizers} shows the choice of the three tokenizers we tried experimentally and which sequentially showed better and better results. The first one we tried was a custom tokenizer with classical approaches to text categorization. In fact, we used a "snowball" type stemmer for the English language and applied it to all the filtered words. We also converted all words to lowercase and removed the words from the English stopwords group. This type of tokenizer proved to be the weakest of the three because it removes too many features that best distinguish and characterize a text with respect to the author of the document itself.
+
+\begin{lstlisting}[frame=none,caption={Custom tokenizer for TFIDF and BOW},captionpos=b,label=lst:tokenizers]
+\end{lstlisting}
+\begin{python}	
+	def tokenize_and_stem(text):
+		"""
+		Below function tokenizes and lemmatizes the texts. It also does some cleaning by removing non dictionary words
+		This can be used to replace default tokenizer provided by feature extraction api of sklearn.
+		:param text: str
+		:return: list
+		"""
+		stemmer = SnowballStemmer("english")
+		stop_words = stopwords.words("english")
+		tokens = [word.lower() for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+		filtered_tokens = []
+		for token in tokens:
+			if re.search(r'[a-zA-Z-]{4,}', token) and token not in stop_words and len(wn.synsets(token)) > 0:
+				token.strip()
+				filtered_tokens.append(token)
+		filtered_tokens = [stemmer.stem(token) for token in filtered_tokens]
+	return filtered_tokens
+	
+	def simple_tokenizer(text):
+		text = re.sub('"([^"]*)"', '', text)
+		tokens = [word.lower() for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+		filtered_tokens = []
+		for token in tokens:
+			if len(wn.synsets(token)) > 0:
+				token.strip()
+				filtered_tokens.append(token)
+		return filtered_tokens
+	
+	def only_remove_quoting_tokenizer(text):
+		text = re.sub('"([^"]*)"', '', text)
+		tokens = [word.lower() for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
+		return tokens
+\end{python}
+
+
+In fact, the approach of purposely modifying words and removing stopwords, in the literature on authorship attribution has proven to be a wrong one. The most frequent words defined as "non-content" categorize worse a text in the sense of content and introduce noise, but better classify a text in respect of the author who wrote it, especially in cross domain contexts in which are precisely the content words that go to introduce noise.
+After evaluating our results with the available datasets, we agreed to change our approach regarding the tokenizer. We tried to build a simpler tokenizer called \textit{"simple\_tokenizer"} that would remove only the words between double-quotes because they were considered as phrases or quotation words and therefore would not classify well the text in respect of the author who reported them, after which we only removed those words that, after transforming them into lowercase, were not found as synonyms of an English dictionary (and therefore words that do not conform to the dictionary). This second approach showed better results than the first, but once again we wondered if the approach of removing words that did not conform to the dictionary was a correct approach for author attribution analysis. With these premises in fact, in the third and last approach we thought to remove only the words or phrases contained in quotation marks, without removing the words therefore wrong or not present in the official dictionary of the English language. This last approach, called \textit{"only\_remove\_quoting\_tokenizer"} proved to be the best of the three, thus underlining the importance of stopwords and common mistakes or words commonly used by the author and not present in the official English dictionary, in the face of this specific task of authorship attribution.
+Just for the purpose of making the reader aware, as a tokenizer we tried two additional approaches but they did not show the desired results.  Along the lines of thinking that the content words of a text are the ones that litter the numerical representation of a text the most in an authorship attribution context, one of the approaches attempted was text distortion. In fact as also shown in some previous articles \cite{stamatatos2017authorship}, using text distortion for autorship attribution tasks, especially in cross domain contexts could be very effective. The concept behind text distortion is to obfuscate and hide words in a document based on their frequency, so as not to create noise during feature extraction and focus only on the most relevant words. In the case of authorship attribution, the opposite is applied, i.e. less frequent words in a text are obfuscated (i.e. replaced by symbols like $ * $ and $ \# $) and the same applies to numbers. This approach can be divided into two: an approach that is length-preserving and an approach that particularly shortens the length of the text in order to make feature extraction even easier. In the first case we replace all letters of the selected target word with $ * $ or $ \# $ symbols for numbers, in the second case we replace the selected word with only one $ * $ or $ \# $ symbol for numbers, shortening the resulting text.
+We applied both of these two approaches as tokenizers of TFIDF and BOW, but the results obtained did not even pass the threshold of mention as they were considered completely unsuccessful.
+
 \subsection{GridSearchCV}
+In almost any Machine Learning project, we train different models on the dataset and selecting the one with the best performance. However, there is almost a room for improvement as we cannot say for sure that this particular model is best for the problem at hand, hence our aim is to improve the model in any way possible. One important factor in the performances of these models are their hyperparameters, once we set appropriate values for these hyperparameters, the performance of a model can improve significantly. At the state of the art, we can say that one of the well-established approaches is to optimize the values of the hyperparameters of a model using GridSearchCV.
+Note that there is no way to know in advance the best values for hyperparameters so ideally, we need to try all possible values to know the optimal values. Doing this manually could take a considerable amount of time and resources and thus we use GridSearchCV to automate the tuning of hyperparameters.
+GridSearchCV is a function that comes in Scikit-learn’s(or SK-learn) model\_selection package. This function helps to loop through predefined hyperparameters and fit your estimator (model) on your training set. So, in the end, we can select the best parameters from the listed hyperparameters.
+As mentioned above, we pass predefined values for hyperparameters to the GridSearchCV function. We do this by defining a dictionary in which we mention a particular hyperparameter along with the values it can take.
+
+\begin{lstlisting}[frame=none,caption={GridSearchCV with BOW, TFIDF and SGD},captionpos=b,label=lst:gridsearchcv]
+\end{lstlisting}
+\begin{python}	
+	pipeline = Pipeline([
+	('vect', CountVectorizer()),
+	('tfidf', TfidfTransformer()),
+	('clf', SGDClassifier()),
+	])
+	
+	# uncommenting more parameters will give better exploring power but will
+	# increase processing time in a combinatorial way
+	parameters = {
+		'vect__max_df': (0.5, 0.75, 1.0),
+		'vect__max_features': (None, 5000, 10000, 50000),
+		'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
+		'tfidf__use_idf': (True, False),
+		'tfidf__norm': ('l1', 'l2'),
+		'clf__max_iter': (20,),
+		'clf__alpha': (0.00001, 0.000001),
+		'clf__penalty': ('l2', 'elasticnet'),
+		'clf__max_iter': (10, 50, 80,),
+	}
+	
+	# find the best parameters for both the feature extraction and the
+	# classifier
+	grid_search = GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=1)
+	
+	print("Performing grid search...")
+	print("pipeline:", [name for name, _ in pipeline.steps])
+	print("parameters:")
+	print(parameters)
+	t0 = time.time()
+	grid_search.fit(dataset['articles'], dataset['author'])
+	print("done in %0.3fs" % (time.time() - t0))
+	print()
+	
+	print("Best score: %0.3f" % grid_search.best_score_)
+	print("Best parameters set:")
+	best_parameters = grid_search.best_estimator_.get_params()
+	for param_name in sorted(parameters.keys()):
+	print("\t%s: %r" % (param_name, best_parameters[param_name]))
+\end{python}
+
+ In \autoref{lst:gridsearchcv} we can see an example of GridSearchCV applied to the datasets with a simple pipeline with: CountVectorizer, TfidfTransformer and SGDClassifier. The pool of parameters we choose were based on previous research on same datasets.
+GridSearchCV tries all the combinations of the values passed in the dictionary and evaluates the model for each combination using the Cross-Validation method. Hence after using this function we get accuracy/loss for every combination of hyperparameters and we can choose the one with the best performance. The result of this first attempt at GridSearchCV was shown in \autoref{lst:vectorizers}, the picture of the final hyperparameter tuning we mentioned earlier in the section.
+
+
+
+
+
 \subsection{Doc2Vec}
 

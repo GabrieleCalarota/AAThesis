@@ -76,7 +76,7 @@ Lexical features relate to the words or vocabulary of a language. It is the very
 
 \subsection{Bag of Words}
 It is the representation of a sentence with frequency of words. It is a simple and efficient solution but it disregards word-order information.
-At the very beginning, we applied this representation to our datasets, using the already implemented $CountVectorizer$ from $sklearn.feature_extraction.text$. We gave this hyper-parameter to the function:
+At the very beginning, we applied this representation to our datasets, using the already implemented $CountVectorizer$ from $sklearn.feature\_extraction.text$. We gave this hyper-parameter to the function:
 \begin{itemize}
 	\item \textbf{max\_df}=0.8
 	\item \textbf{max\_features}=10000
@@ -95,6 +95,8 @@ In \ref{fig:chartRCV1Top2Authors} we can see the number of documents written by 
 
 With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can get the most common words for an author across all the documents we gathered in the dataset.
 
+\begin{lstlisting}[frame=none,caption={Top 20 most common words in a document or a collection of document by the same author},captionpos=b,label=lst:MostCommonWords]
+\end{lstlisting}
 \begin{python}
 	from collections import Counter
 	
@@ -136,8 +138,6 @@ With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can 
 			'from']
 	
 \end{python}
-\begin{lstlisting}[frame=none,caption={Top 20 most common words in a document or a collection of document by the same author},captionpos=b,label=lst:MostCommonWords]
-\end{lstlisting}
 
 \begin{figure}[ht]
 	\centering
@@ -355,7 +355,7 @@ sets.
 
 \subsection{Positivity and Negativity index}
 In order to understand the general mood and the preference of positive and negative sentence structure in each author’s work, a positivity and negativity score has been calculated for the authors \textit{David Lawder} and \textit{Alexander Smith} for the documents in the RCV1 corpora.
-The code is shown in \ref{lst:posnegRCV1CCAT10}, whereas in \autoref{fig:rcv1_ccat10_sentiment_analysis} we can see the results that points out Alexander Smith writing more negative articles than David Lawder. Both of the authors wrote the majority of the articles classified as positive than negative.
+The code is shown in \autoref{lst:posnegRCV1CCAT10}, whereas in \autoref{fig:rcv1_ccat10_sentiment_analysis} we can see the results that points out Alexander Smith writing more negative articles than David Lawder. Both of the authors wrote the majority of the articles classified as positive than negative.
 
 \begin{lstlisting}[frame=none,caption={Compute sentence Positivity and Negativity scores},captionpos=b,label=lst:posnegRCV1CCAT10]
 \end{lstlisting}
@@ -445,7 +445,7 @@ Distributed representations can be extended to larger language structures like p
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{dmd2v}
-	\caption[Doc2Vec]{Paragraph Vector-Distributed Memory model}
+	\caption[Doc2Vec]{Paragraph Vector-Distributed Memory model.}
 	\label{fig:pv-dm}
 \end{figure}
 
@@ -453,14 +453,14 @@ The goal of doc2vec is to create a numeric representation of a document, regardl
 Unlike words, documents do not come in logical structures such as words, so the another method has to be found.
 The concept that Mikilov and Le \cite{le2014distributed} have used was simple, yet clever: they have used the word2vec model, but instead of using just words to predict the next word, we also added another feature vector, which is document-unique.
 When training the word vectors W, the document vector D is trained as well, and in the end of training, it holds a numeric representation of the document.
-The model above is called \textit{Distributed Memory version of Paragraph Vector} (PV-DM) \ref{fig:pv-dm}. It acts as a memory that remembers what is missing from the current context — or as the topic of the paragraph. While the word vectors represent the concept of a word, the document vector intends to represent the concept of a document.
-As in word2vec, another algorithm, which is similar to skip-gram may be used \textit{Distributed Bag of Words version of Paragraph Vector} (PV-DBOW).
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{dbowd2v}
-	\caption[Doc2Vec]{Paragraph Vector-Distributed Bag of Words model}
+	\caption[Doc2Vec]{Paragraph Vector-Distributed Bag of Words model.}
 	\label{fig:pv-dbow}
 \end{figure}
 
+The model above is called \textit{Distributed Memory version of Paragraph Vector} (PV-DM) \ref{fig:pv-dm}. It acts as a memory that remembers what is missing from the current context — or as the topic of the paragraph. While the word vectors represent the concept of a word, the document vector intends to represent the concept of a document.
+As in word2vec, another algorithm, which is similar to skip-gram may be used \textit{Distributed Bag of Words version of Paragraph Vector} (PV-DBOW).
 As we can see in \ref{fig:pv-dbow}, this algorithm is actually faster (as opposed to word2vec) and consumes less memory, since there is no need to save the word vectors.

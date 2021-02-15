@@ -426,9 +426,5 @@ As mentioned above, we pass predefined values for hyperparameters to the GridSea
  In \autoref{lst:gridsearchcv} we can see an example of GridSearchCV applied to the datasets with a simple pipeline with: CountVectorizer, TfidfTransformer and SGDClassifier. The pool of parameters we choose were based on previous research on same datasets.
 GridSearchCV tries all the combinations of the values passed in the dictionary and evaluates the model for each combination using the Cross-Validation method. Hence after using this function we get accuracy/loss for every combination of hyperparameters and we can choose the one with the best performance. The result of this first attempt at GridSearchCV was shown in \autoref{lst:vectorizers}, the picture of the final hyperparameter tuning we mentioned earlier in the section.
 
-
-
-
-
 \subsection{Doc2Vec}
 

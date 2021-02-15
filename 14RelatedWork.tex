@@ -1,4 +1,4 @@
-\chapter{State of the art: Data collection and Techniques for Authorship Attribution}
+\chapter{Techniques and data collection for Authorship Attribution}
 
 \epigraph{\enquote*{\textit{State of the Art is the frenetic and relentless pursuit of doing what its best at that time!}}\\
 Da Anunciaç\~ao Marco}
@@ -20,7 +20,7 @@ that Shakespeare was not even educated and more than 80 authors were suggested t
 be the author of the writings that were under the name of Shakespeare. Christopher
 Marlowe is considered the most likely candidate to write these works under the name
 of Shakespeare when he was in jail. In order to analyze the stylistic fingerprint of
-Shakespeare and Marlowe and non-Shakespearean authors, namely Chapman,Jonson, Middleton, a corpus has been put together \cite{fox2012statistical}.\\
+Shakespeare and Marlowe and non-Shakespearean authors, namely Chapman, Jonson, Middleton, a corpus has been put together \cite{fox2012statistical}.\\
 The classification results for non-Shakespearean author candidates turned out to
 be highly accurate (Johnson \%100, Chapman \%92.9 and Middleton \%88.9). The
 results supported the hypothesis that writing styles of Marlowe and Shakespeare were
@@ -127,15 +127,15 @@ other 2,500 texts (50 per author) non-overlapping with the training texts \cite{
 \section{GDELT studies}
 The GDELT Project is one of the largest publicly available digitized book database which has more than 3.5 million books published from 1800-2015. The GDELT Project is an open platform for research and analysis of global society and thus all datasets released by the GDELT Project are available for unlimited and unrestricted use for any academic, commercial, or governmental use of any kind without any fee\footnote{\url{https://www.gdeltproject.org/about.html}}. The whole digitized dataset is publicly available and interested researchers can freely perform SQL queries using the Google big query platform. For example; the book names, publication year, quotations, themes, the original text of the book of “Mark Twain” which were written between 1890 to 1900 can be found as follows
 using the Big query platform of Google in \autoref{lst:bigQuerySQL}.
-\begin{lstlisting}[frame=none,caption={Google Big Query on GDELT},captionpos=b,label=lst:bigQuerySQL]
-	SELECT Themes, V2Themes, Quotations, AllNames, TranslationInfo,
-	BookMeta_Identifier, BookMeta_Title, BookMeta_Creator,
-	BookMeta_Subjects, BookMeta_Year,
-	FROM (TABLE_QUERY([gdelt-bq:internetarchivebooks],
-	'REGEXP_EXTRACT(table_id, r"(\d{4})") BETWEEN "1890" AND "1900"'))
-	WHERE
-	BookMeta_Creator CONTAINS "Mark Twain"
-	LIMIT 50
+\begin{lstlisting}[linewidth=18cm, frame=none,caption={Google Big Query on GDELT},captionpos=b,label=lst:bigQuerySQL]
+SELECT Themes, V2Themes, Quotations, AllNames, 
+TranslationInfo, BookMeta_Identifier, BookMeta_Title, 
+BookMeta_Creator, BookMeta_Subjects, BookMeta_Year,
+FROM (TABLE_QUERY([gdelt-bq:internetarchivebooks],
+'REGEXP_EXTRACT(table_id, r"(\d{4})") BETWEEN "1890" 
+AND "1900"'))
+WHERE BookMeta_Creator CONTAINS "Mark Twain"
+LIMIT 50
 \end{lstlisting}
 To decrease the bias and create a reliable dataset the following criteria have been chosen to filter out authors: English language writing authors, authors that have enough books available (at least 5), 19th century authors. With these criteria 50 authors have been selected and their books were queried through Big Query Gdelt database. The next task has been cleaning the dataset due to OCR reading problems in the original raw form. To achieve that, firstly all books have been scanned through
 to get the overall number of unique words and each words frequencies. While scanning the texts, the first 500 words and the last 500 words have been removed to take out specific features such as the name of the author, the name of the book and other word specific features that could make the classification task easier. After this step, we have chosen top 10, 000 words that occurred in the whole 50 authors text data corpus. The words that are not in top 10, 000 words were removed while keeping the rest of the sentence structure intact.

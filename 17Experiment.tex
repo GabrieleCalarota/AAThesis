@@ -428,3 +428,51 @@ GridSearchCV tries all the combinations of the values passed in the dictionary a
 
 \subsection{Doc2Vec}
 
+Since we did not want to rely only on some classical feature extraction methods such as TFIDF and BOW mentioned above, recent studies have shown how the use of techniques such as the vector spacing model that transforms document instances into vectors can be successfully applied to tasks such as autorship attribution. To make the reader understand better, the broad idea is to transform each author's documents into vectors of fixed size. These vectors will be "similar" for documents of the same author, so on documents of unknown author we will look for the collection of documents whose representation in vector format is closest to the vector representation of the document of unknown author.
+We used the Doc2vec \cite{le2014distributed} method available in the freely downloadable GENSIM module in order to implement our proposal. The implementation of the Doc2vec method requires the following three parameters:
+\begin{enumerate}
+	\item the number of features to be returned (length of the vector)
+	\item the size of the window that captures the neighborhood
+	\item the minimum frequency of words to be considered into the model
+\end{enumerate}
+
+The values of these parameters depend on the used corpus. In a previous work \cite{posadas2017application} it reported a representation of 300 features, a window size equal to 10
+and minimum frequency of 5. In \autoref{lst:doc2vectrain} we can see the implementation of the tagging document algorithm and the computation of the 2 different models for document embedding: Distributed Memory Model and Distributed Bag Of Words Model.
+
+\begin{lstlisting}[frame=none,caption={Doc2Vec for features extraction with gensim python library.},captionpos=b,label=lst:doc2vectrain]
+\end{lstlisting}
+\begin{python}	
+	from gensim.models.doc2vec import TaggedDocument
+	import gensim
+	from tqdm import tqdm
+	from gensim.models import Doc2Vec
+	
+	def tag_dataset(df):
+		return df.apply(lambda r: TaggedDocument(words=only_remove_quoting_tokenizer(r['articles']), tags=[r.author]), axis=1)
+	
+	df_train_tagged = tag_dataset(df_train)
+	df_test_tagged = tag_dataset(df_test)
+	
+	import multiprocessing
+	
+	cores = multiprocessing.cpu_count()
+	model_dmm = Doc2Vec(dm=1, dm_mean=1, vector_size=300, window=10, negative=5, min_count=1, workers=cores, alpha=0.065, min_alpha=0.065)
+	model_dmm.build_vocab([x for x in tqdm(df_train_tagged.values)])
+	
+	model_dbow = Doc2Vec(dm=0, vector_size=300, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
+	model_dbow.build_vocab([x for x in tqdm(df_train_tagged.values)])
+	
+	d2v_model = model_dmm
+	
+	from sklearn import utils
+	
+	# time
+	def train_d2v_model(model, df):
+		for epoch in range(30):
+			model.train(utils.shuffle([x for x in tqdm(df.values)]), total_examples=len(df.values), epochs=1)
+			model.alpha -= 0.002
+			model.min_alpha = model_dmm.alpha
+		model.save(os.path.join(base_dir, 'd2v_{}_model.vec'.format(PROJECT_NAME)))
+\end{python}
+
+After the evaluation of both models, we decided to keep only the Distributed Memory Model which resulted in better performance in terms of the score values of the testing set.

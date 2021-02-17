@@ -15,7 +15,7 @@ The three milestones can be summarized as follows:
 \section{Dataset preparation}
 In section 4.6 we have already shown the datasets we selected. In particular, in this section we are going to show the procedures done to prepare the datasets for the next steps. For the single topic authorship attribution task we decided to select the RCV1 dataset, the dataset of 45 Victorian era book authors from the GDELT project and the dataset of amazon food reviews collected in the first decade of the 2000s. Regarding the cross domain authorship attribution task, we selected the dataset extracted from The Guardian newspaper.
 
-\subsection{Reuters Corpus (RCV1)}
+\subsection{Reuters Corpus}
 It consists of a collection of newswire stories written in English that cover four main topics: corporate/industrial (CCAT), economics (ECAT), government/social (GCAT) and markets (MCAT).
 We sent a request to obtain the dataset on this webpage \url{https://trec.nist.gov/data/reuters/reuters.html}.
 After few days, we gathered the RCV1 Corpus as it contains 810,000 Reuters, English Language News stories (about 2.5 GB).
@@ -23,7 +23,7 @@ First of all we had to convert the dataset, that contained folders of xml files,
 \autoref{lst:RCV1Extraction} shows the process of documents and authors extraction, using `xml` python library. We decided to take into account this properties of the document: \textit{text, title, headline, byline, dateline, lang, corpus\_path, corpus\_subdirectory, corpus\_filename}.
 
 
-\begin{lstlisting}[frame=none,caption={Extract and Parse RCV1 XML document into csv},captionpos=b,label=lst:RCV1Extraction]
+\begin{lstlisting}[frame=none,caption={Extract and Parse RCV1 XML document into csv.},captionpos=b,label=lst:RCV1Extraction]
 \end{lstlisting}
 \begin{python}	
 	import os
@@ -96,7 +96,7 @@ The majority of our work has been conducted on the RCV1\_50, although to compare
 
 \begin{table}[h!]
 	\begin{center}  
-		\caption[RCV1 Corpus]{Main metrics to describe different portion of the dataset} 
+		\caption[Reuters Corpus metrics]{Main metrics to describe different portion of the Reuters Corpus dataset.} 
 		\label{tab:tableRCV1kpi}
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
@@ -143,7 +143,7 @@ In order to make training methods reliable across dataset, we decided to select 
 
 \begin{table}[h!]
 	\begin{center}  
-		\caption[GDELT Corpus]{Main metrics to describe different portion of the GDELT dataset} 
+		\caption[GDELT Corpus metrics]{Main metrics to describe different portion of the GDELT Corpus dataset.} 
 		\label{tab:tableGDELTkpi}
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
@@ -158,14 +158,14 @@ In order to make training methods reliable across dataset, we decided to select 
 	\end{center}
 \end{table}
 
-\subsection{Amazon Food Reviews (AFR)}
+\subsection{Amazon Food Reviews}
 This dataset consists of reviews of fine foods from amazon. The data span a period of more than 10 years, including all ~500,000 reviews up to October 2012. Reviews include product and user information, ratings, and a plain text review. It also includes reviews from all other Amazon categories.
 We decided to consider this dataset for our experiment, because we were missing a more "everyday" example of dataset to work with. As \autoref{tab:tableAFRkpi} shows, the average documents length is dramatically lower than the other two datasets presented previously, providing us with a good challenge to show consistency of our method across all these different scenarios.
 Moreover, in order to make training methods reliable across dataset, we decided to select 100 reviews of each customers, with a 50/50 split (i.e. 50 reviews in the training set, 50 reviews in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"AFR\_50"}.
 
 \begin{table}[h!]
 	\begin{center}  
-		\caption[AFR Corpus]{Main metrics to describe different portion of the AFR dataset} 
+		\caption[Amazon Food Reviews Corpus metrics]{Main metrics to describe different portion of the Amazon Food Reviews dataset.} 
 		\label{tab:tableAFRkpi}
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
@@ -199,126 +199,21 @@ scenario is as follows:
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{theguardian_dataset}
-	\caption[The Guardian Politics samples distribution]{The Guardian samples distribution for the Politics topic}
+	\caption[The Guardian Politics samples distribution]{The Guardian samples distribution for the Politics topic.}
 	\label{fig:tgc_dataset}
 \end{figure}
-
-\section{Method selection}
-At this point, we had to face the problem of deciding the classifier method that would solve best our authorship attribution task.
-Although in previous studies over the past decades on authorship attribution SVM has been shown to be very convincing (\cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}), we initially wanted to construct an experimental approach that would lead us to exclude the other classifiers for our task.
-\subsection{Naive Approach}
-Our very first naive approach was to compare on different portions of the dataset (increasing number of authors) different classification methods to see which one performed best.
-Initially, we considered the authorship attribution study for groups of authors consisting of 6 or 10 authors. In truth, as many previous studies show, an authorship attribution model must perform well especially in situations where the group of authors is composed of several dozen candidates.
-The classifiers initially chosen were:
-\begin{itemize}
-	\item Naive Bayes
-	\item Multinomial Naive Bayes
-	\item Logistic Regression
-	\item XGBoost
-	\item XGBoost with Neural Networks
-	\item Random Forest
-\end{itemize}
-For text representation, we chose to use TFIDF and Bag Of Words, comparing the results depending on the dataset, the number of authors, and the method used.
-In \autoref{fig:RCV1_methods_accuracy} we can see the accuracy score of the testing set of the various classifiers tested on the groups of authors increasing from right to left on the RCV1 dataset.
-As on the groups of "small" authors, i.e. composed of 6 authors and 10 authors, almost all the classifiers exceed the threshold of 95\% accuracy that validates the approach even in non-research contexts. The classifier that seems to perform best among the various groups of authors increasing in number is RandomForest. On the other hand, it has been shown that decision tree type classifiers struggle to maintain high performance when the number of features used increases.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{RCV1_Test_Accuracy}
-	\caption[Methods performance on RCV1]{Accuracy scores for different groups of authors on RCV1 dataset}
-	\label{fig:RCV1_methods_accuracy}
-\end{figure}
-
-In fact in \autoref{fig:GDELT_methods_accuracy} and \ref{fig:AFR_methods_accuracy} we can see that in all 3 single topic datasets the various methods proposed have a decrease in performance when the number of authors increases reaching 50 authors (or 45 in the case of the GDELT dataset).
-This is probably due to the fact that by keeping the number of documents per author fixed at 50 in the training test (and in the testing set), the number of features to represent grows proportionately as the number of authors increases. Therefore, we need to select a classification method that remains stable as the number of features we want to represent increases, and therefore remains valid for 6, 10, 30, 50 authors (and more).
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{GDELT_Test_Accuracy}
-	\caption[Methods performance on GDELT]{Accuracy scores for different groups of authors on GDELT dataset}
-	\label{fig:GDELT_methods_accuracy}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{AFR_Test_Accuracy}
-	\caption[Methods performance on AFR]{Accuracy scores for different groups of authors on AFR dataset}
-	\label{fig:AFR_methods_accuracy}
-\end{figure}
-
-\subsection{TPOT: automated method selection}
-Therefore, considering the more or less unsuccessful approaches of the methods presented in the previous section, we tried to find an approach that would validate our choice and those of previous works on the use of the Support Vector Machine as a classification method.
-Our choice fell on TPOT\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
-In order to give the reader of what TPOT is and how it works, I'll report the first paragraph quoting the TPOT website:
-
-\begin{quote}
-	TPOT is meant to be an assistant that gives you ideas on how to solve a particular machine learning problem by exploring pipeline configurations that you might have never considered, then leaves the fine-tuning to more constrained parameter tuning techniques such as grid search.
-\end{quote}
-So TPOT helps you find good algorithms. TPOT is built on the scikit learn library and follows the scikit learn API closely. It can be used for regression and classification tasks and has special implementations for medical research.
-TPOT is open source, well documented, and under active development. It’s development was spearheaded by researchers at the University of Pennsylvania. TPOT appears to be one of the most popular autoML libraries, with more than 7,800 GitHub stars as of the moment of writing.
-TPOT has what its developers call a genetic search algorithm to find the best parameters and model ensembles. It could also be thought of as a natural selection or evolutionary algorithm. TPOT tries a pipeline, evaluates its performance, and randomly changes parts of the pipeline in search of better performing algorithms (An example is shown in \autoref{fig:TPOT_pipeline}).
-This power of TPOT comes from evaluating all kinds of possible pipelines automatically and efficiently. Doing this manually is cumbersome and slower.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{TPOT_pipeline2}
-	\caption[TPOT pipeline example]{An example TPOT Pipeline from TPOT docs}
-	\label{fig:TPOT_pipeline}
-\end{figure}
-
-In \autoref{lst:TPOTpipeline} we show a snippet of code we used for extracting TPOT pipeline with hyper parameters and research space. 
-
-
-\begin{lstlisting}[frame=none,caption={TPOT pipeline generation},captionpos=b,label=lst:TPOTpipeline]
-\end{lstlisting}
-\begin{python}	
-	!pip install -q tpot
-	from tpot import TPOTClassifier, TPOTRegressor
-	pipeline_optimizer = TPOTClassifier(generations=5, population_size=20, cv=5,
-	random_state=42, verbosity=2, scoring='accuracy', config_dict='TPOT sparse')
-	pipeline_optimizer.fit(tfidf_train, df_train['target'])
-	print(pipeline_optimizer.score(tfidf_test, df_test['target']))
-	pipeline_optimizer.export('tpot_exported_pipeline.py')
-\end{python}
-
-We chose the most appropriate hyperparameters and ran TPOT optimization pipelines on all 3 datasets with 50 authors \footnote{45 in the case of GDELT}. The result is shown in \autoref{lst:TPOTexported} for all 3 single domain selected datasets, thus proving that SVM is the best choice as a model classifier for this task.
-
-\begin{lstlisting}[frame=none,caption={TPOT pipeline extracted},captionpos=b,label=lst:TPOTexported]
-\end{lstlisting}
-\begin{python}	
-	import numpy as np
-	import pandas as pd
-	from sklearn.model_selection import train_test_split
-	from sklearn.svm import LinearSVC
-	
-	# NOTE: Make sure that the outcome column is labeled 'target' in the data file
-	tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
-	features = tpot_data.drop('target', axis=1)
-	training_features, testing_features, training_target, testing_target = \
-	train_test_split(features, tpot_data['target'], random_state=42)
-	
-	# Average CV score on the training set was: 0.6912
-	exported_pipeline = LinearSVC(C=0.5, dual=True, loss="squared_hinge", penalty="l2", tol=1e-05)
-	# Fix random state in exported estimator
-	if hasattr(exported_pipeline, 'random_state'):
-	setattr(exported_pipeline, 'random_state', 42)
-	
-	exported_pipeline.fit(training_features, training_target)
-	results = exported_pipeline.predict(testing_features)
-\end{python}
 
 \section{Features extraction}
 After the choice of dataset and classification method, all our energies were spent on the choice of feature extraction. In order to identify the authorship of an unknown text document using machine learning the document needs to be quantified first. The simple and natural way to characterize a document is to consider it as a sequence of tokens grouped into sentences where each token can be one of the three: word, number, punctuation mark.
 As with the choice of classification method, we initially attempted a naive approach. In fact, many studies have focused on using methods such as TFIDF and Bag Of Words. In fact, our experiment is mainly aimed at showing that simple numerical text representation methods such as TFIDF or BOW, applied with the right hyperparameters, can somehow yield good performance in the same way as other more complex methods such as Doc2Vec or n-grams character selection.
-\subsection{TFIDF \& BOW}
+\subsection{Term Frequency - Inverse Document Frequency \& Bag Of Words}
 Once taken the route of the simple feature extraction approach via TFIDF and BOW, we had to choose the hyperparameters that would play a main role in the model performances for this task. 
 We initially chose a classical approach to the problem, extracting features with both TFIDFVectorizer and CountVectorizer, with standard hyperparameters.
 
 
-
 In \autoref{lst:vectorizers} we can see the initialization of the vectorizers with the chosen hyperparameters after a long process of tuning and validation.
 
-\begin{lstlisting}[frame=none,caption={TFIDF \& BOW Vectorizer},captionpos=b,label=lst:vectorizers]
+\begin{lstlisting}[frame=none,caption={TFIDF \& BOW Vectorizer.},captionpos=b,label=lst:vectorizers]
 \end{lstlisting}
 \begin{python}	
 	tfidf_vec = TfidfVectorizer(max_df=0.75, max_features=None,
@@ -331,7 +226,7 @@ In \autoref{lst:vectorizers} we can see the initialization of the vectorizers wi
 After that, we shifted our focus to the tokenizer that instead of choosing to use the standard one, we preferred to use a "custom" one. We initially used a robust tokenizer for text categorization tasks, but we realized that for this kind of authorship attribution problem, some approaches valid for many text categorization problems would not work.
 In fact, in \autoref{lst:tokenizers} shows the choice of the three tokenizers we tried experimentally and which sequentially showed better and better results. The first one we tried was a custom tokenizer with classical approaches to text categorization. In fact, we used a "snowball" type stemmer for the English language and applied it to all the filtered words. We also converted all words to lowercase and removed the words from the English stopwords group. This type of tokenizer proved to be the weakest of the three because it removes too many features that best distinguish and characterize a text with respect to the author of the document itself.
 
-\begin{lstlisting}[frame=none,caption={Custom tokenizer for TFIDF and BOW},captionpos=b,label=lst:tokenizers]
+\begin{lstlisting}[frame=none,caption={Custom tokenizer for TFIDF and BOW.},captionpos=b,label=lst:tokenizers]
 \end{lstlisting}
 \begin{python}	
 	def tokenize_and_stem(text):
@@ -374,13 +269,13 @@ After evaluating our results with the available datasets, we agreed to change ou
 Just for the purpose of making the reader aware, as a tokenizer we tried two additional approaches but they did not show the desired results.  Along the lines of thinking that the content words of a text are the ones that litter the numerical representation of a text the most in an authorship attribution context, one of the approaches attempted was text distortion. In fact as also shown in some previous articles \cite{stamatatos2017authorship}, using text distortion for autorship attribution tasks, especially in cross domain contexts could be very effective. The concept behind text distortion is to obfuscate and hide words in a document based on their frequency, so as not to create noise during feature extraction and focus only on the most relevant words. In the case of authorship attribution, the opposite is applied, i.e. less frequent words in a text are obfuscated (i.e. replaced by symbols like $ * $ and $ \# $) and the same applies to numbers. This approach can be divided into two: an approach that is length-preserving and an approach that particularly shortens the length of the text in order to make feature extraction even easier. In the first case we replace all letters of the selected target word with $ * $ or $ \# $ symbols for numbers, in the second case we replace the selected word with only one $ * $ or $ \# $ symbol for numbers, shortening the resulting text.
 We applied both of these two approaches as tokenizers of TFIDF and BOW, but the results obtained did not even pass the threshold of mention as they were considered completely unsuccessful.
 
-\subsection{GridSearchCV}
+\subsection{Grid Search Cross Validation}
 In almost any Machine Learning project, we train different models on the dataset and selecting the one with the best performance. However, there is almost a room for improvement as we cannot say for sure that this particular model is best for the problem at hand, hence our aim is to improve the model in any way possible. One important factor in the performances of these models are their hyperparameters, once we set appropriate values for these hyperparameters, the performance of a model can improve significantly. At the state of the art, we can say that one of the well-established approaches is to optimize the values of the hyperparameters of a model using GridSearchCV.
 Note that there is no way to know in advance the best values for hyperparameters so ideally, we need to try all possible values to know the optimal values. Doing this manually could take a considerable amount of time and resources and thus we use GridSearchCV to automate the tuning of hyperparameters.
 GridSearchCV is a function that comes in Scikit-learn’s(or SK-learn) model\_selection package. This function helps to loop through predefined hyperparameters and fit your estimator (model) on your training set. So, in the end, we can select the best parameters from the listed hyperparameters.
 As mentioned above, we pass predefined values for hyperparameters to the GridSearchCV function. We do this by defining a dictionary in which we mention a particular hyperparameter along with the values it can take.
 
-\begin{lstlisting}[frame=none,caption={GridSearchCV with BOW, TFIDF and SGD},captionpos=b,label=lst:gridsearchcv]
+\begin{lstlisting}[frame=none,caption={GridSearchCV with BOW, TFIDF and SGD.},captionpos=b,label=lst:gridsearchcv]
 \end{lstlisting}
 \begin{python}	
 	pipeline = Pipeline([
@@ -426,7 +321,7 @@ As mentioned above, we pass predefined values for hyperparameters to the GridSea
  In \autoref{lst:gridsearchcv} we can see an example of GridSearchCV applied to the datasets with a simple pipeline with: CountVectorizer, TfidfTransformer and SGDClassifier. The pool of parameters we choose were based on previous research on same datasets.
 GridSearchCV tries all the combinations of the values passed in the dictionary and evaluates the model for each combination using the Cross-Validation method. Hence after using this function we get accuracy/loss for every combination of hyperparameters and we can choose the one with the best performance. The result of this first attempt at GridSearchCV was shown in \autoref{lst:vectorizers}, the picture of the final hyperparameter tuning we mentioned earlier in the section.
 
-\subsection{Doc2Vec}
+\subsection{Vector embeddings of documents}
 
 Since we did not want to rely only on some classical feature extraction methods such as TFIDF and BOW mentioned above, recent studies have shown how the use of techniques such as the vector spacing model that transforms document instances into vectors can be successfully applied to tasks such as autorship attribution. To make the reader understand better, the broad idea is to transform each author's documents into vectors of fixed size. These vectors will be "similar" for documents of the same author, so on documents of unknown author we will look for the collection of documents whose representation in vector format is closest to the vector representation of the document of unknown author.
 We used the Doc2vec \cite{le2014distributed} method available in the freely downloadable GENSIM module in order to implement our proposal. The implementation of the Doc2vec method requires the following three parameters:
@@ -476,3 +371,107 @@ and minimum frequency of 5. In \autoref{lst:doc2vectrain} we can see the impleme
 \end{python}
 
 After the evaluation of both models, we decided to keep only the Distributed Memory Model which resulted in better performance in terms of the score values of the testing set.
+
+\section{Method selection}
+At this point, we had to face the problem of deciding the classifier method that would solve best our authorship attribution task.
+Although in previous studies over the past decades on authorship attribution SVM has been shown to be very convincing (\cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}), we initially wanted to construct an experimental approach that would lead us to exclude the other classifiers for our task.
+\subsection{Manual approach}
+Our very first naive approach was to compare on different portions of the dataset (increasing number of authors) different classification methods to see which one performed best.
+Initially, we considered the authorship attribution study for groups of authors consisting of 6 or 10 authors. In truth, as many previous studies show, an authorship attribution model must perform well especially in situations where the group of authors is composed of several dozen candidates.
+The classifiers initially chosen were:
+\begin{itemize}
+	\item Naive Bayes
+	\item Multinomial Naive Bayes
+	\item Logistic Regression
+	\item XGBoost
+	\item XGBoost with Neural Networks
+	\item Random Forest
+\end{itemize}
+For text representation, we chose to use TFIDF and Bag Of Words, comparing the results depending on the dataset, the number of authors, and the method used.
+In \autoref{fig:RCV1_methods_accuracy} we can see the accuracy score of the testing set of the various classifiers tested on the groups of authors increasing from right to left on the RCV1 dataset.
+As on the groups of "small" authors, i.e. composed of 6 authors and 10 authors, almost all the classifiers exceed the threshold of 95\% accuracy that validates the approach even in non-research contexts. The classifier that seems to perform best among the various groups of authors increasing in number is RandomForest. On the other hand, it has been shown that decision tree type classifiers struggle to maintain high performance when the number of features used increases.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{RCV1_Test_Accuracy}
+	\caption[Methods performance on Reuters Corpus]{Accuracy scores for different groups of authors on Reuters Corpus dataset.}
+	\label{fig:RCV1_methods_accuracy}
+\end{figure}
+
+In fact in \autoref{fig:GDELT_methods_accuracy} and \ref{fig:AFR_methods_accuracy} we can see that in all 3 single topic datasets the various methods proposed have a decrease in performance when the number of authors increases reaching 50 authors (or 45 in the case of the GDELT dataset).
+This is probably due to the fact that by keeping the number of documents per author fixed at 50 in the training test (and in the testing set), the number of features to represent grows proportionately as the number of authors increases. Therefore, we need to select a classification method that remains stable as the number of features we want to represent increases, and therefore remains valid for 6, 10, 30, 50 authors (and more).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{GDELT_Test_Accuracy}
+	\caption[Methods performance on GDELT corpus]{Accuracy scores for different groups of authors on GDELT corpus dataset.}
+	\label{fig:GDELT_methods_accuracy}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{AFR_Test_Accuracy}
+	\caption[Methods performance on AFR]{Accuracy scores for different groups of authors on AFR dataset.}
+	\label{fig:AFR_methods_accuracy}
+\end{figure}
+
+\subsection{Tree-based Pipeline Optimization Tool}
+Therefore, considering the more or less unsuccessful approaches of the methods presented in the previous section, we tried to find an approach that would validate our choice and those of previous works on the use of the Support Vector Machine as a classification method.
+Our choice fell on TPOT\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
+In order to give the reader of what TPOT is and how it works, I'll report the first paragraph quoting the TPOT website:
+
+\begin{quote}
+	TPOT is meant to be an assistant that gives you ideas on how to solve a particular machine learning problem by exploring pipeline configurations that you might have never considered, then leaves the fine-tuning to more constrained parameter tuning techniques such as grid search.
+\end{quote}
+So TPOT helps you find good algorithms. TPOT is built on the scikit learn library and follows the scikit learn API closely. It can be used for regression and classification tasks and has special implementations for medical research.
+TPOT is open source, well documented, and under active development. It’s development was spearheaded by researchers at the University of Pennsylvania. TPOT appears to be one of the most popular autoML libraries, with more than 7,800 GitHub stars as of the moment of writing.
+TPOT has what its developers call a genetic search algorithm to find the best parameters and model ensembles. It could also be thought of as a natural selection or evolutionary algorithm. TPOT tries a pipeline, evaluates its performance, and randomly changes parts of the pipeline in search of better performing algorithms (An example is shown in \autoref{fig:TPOT_pipeline}).
+This power of TPOT comes from evaluating all kinds of possible pipelines automatically and efficiently. Doing this manually is cumbersome and slower.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{TPOT_pipeline2}
+	\caption[Tree-based Pipeline Optimization Tool pipeline example]{An example TPOT Pipeline from TPOT docs.}
+	\label{fig:TPOT_pipeline}
+\end{figure}
+
+In \autoref{lst:TPOTpipeline} we show a snippet of code we used for extracting TPOT pipeline with hyper parameters and research space. 
+
+
+\begin{lstlisting}[frame=none,caption={TPOT pipeline generation.},captionpos=b,label=lst:TPOTpipeline]
+\end{lstlisting}
+\begin{python}	
+	!pip install -q tpot
+	from tpot import TPOTClassifier, TPOTRegressor
+	pipeline_optimizer = TPOTClassifier(generations=5, population_size=20, cv=5,
+	random_state=42, verbosity=2, scoring='accuracy', config_dict='TPOT sparse')
+	pipeline_optimizer.fit(tfidf_train, df_train['target'])
+	print(pipeline_optimizer.score(tfidf_test, df_test['target']))
+	pipeline_optimizer.export('tpot_exported_pipeline.py')
+\end{python}
+
+We chose the most appropriate hyperparameters and ran TPOT optimization pipelines on all 3 datasets with 50 authors \footnote{45 in the case of GDELT}. The result is shown in \autoref{lst:TPOTexported} for all 3 single domain selected datasets, thus proving that SVM is the best choice as a model classifier for this task.
+
+\begin{lstlisting}[frame=none,caption={TPOT pipeline extracted.},captionpos=b,label=lst:TPOTexported]
+\end{lstlisting}
+\begin{python}	
+	import numpy as np
+	import pandas as pd
+	from sklearn.model_selection import train_test_split
+	from sklearn.svm import LinearSVC
+	
+	# NOTE: Make sure that the outcome column is labeled 'target' in the data file
+	tpot_data = pd.read_csv('PATH/TO/DATA/FILE', sep='COLUMN_SEPARATOR', dtype=np.float64)
+	features = tpot_data.drop('target', axis=1)
+	training_features, testing_features, training_target, testing_target = \
+	train_test_split(features, tpot_data['target'], random_state=42)
+	
+	# Average CV score on the training set was: 0.6912
+	exported_pipeline = LinearSVC(C=0.5, dual=True, loss="squared_hinge", penalty="l2", tol=1e-05)
+	# Fix random state in exported estimator
+	if hasattr(exported_pipeline, 'random_state'):
+	setattr(exported_pipeline, 'random_state', 42)
+	
+	exported_pipeline.fit(training_features, training_target)
+	results = exported_pipeline.predict(testing_features)
+\end{python}

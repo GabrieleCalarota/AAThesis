@@ -49,7 +49,7 @@ online forum messages, source code, etc.) rather than solving disputed literary 
 as the comparison of different methods based on common benchmark corpora. In addition, factors playing a crucial role in the accuracy of the produced models are examined, such as the training text size \cite{marton2005compression}, the number
 of candidate authors \cite{koppel2006authorship}, and the distribution of training texts over the candidate authors \cite{stamatatos2008author}.
 
-\section{Training's approach}
+\section{Training's methods}
 
 In every authorship-identification problem, there is a set of candidate authors, a set of text samples of known authorship covering all the candidate authors (\textit{training corpus}), and a set of text samples of unknown authorship (\textit{test corpus}); each
 one of them should be attributed to a candidate author. In this survey, we distinguish the authorship attribution approaches according to whether they treat each training text individually or cumulatively (per author). In more detail, some approaches concatenate all the available training texts per author in one big file and extract a cumulative representation of that author’s style (usually called the author’s profile) from
@@ -68,7 +68,7 @@ different in comparison to each of the original training texts.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{profile-based-approach}
-	\caption[Profile-based approach]{Typical architecture of profile-based in authorship attribution approaches \cite{stamatatos2009survey}}
+	\caption[Profile-based approach training schema]{Typical architecture of profile-based in authorship attribution approaches. \cite{stamatatos2009survey}}
 	\label{fig:profile_based_approach}
 \end{figure}
 
@@ -89,7 +89,7 @@ classification algorithm is trained using the set of instances of known authorsh
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{instance-based-approach}
-	\caption[Instance-based approach]{Typical architecture of instance-based in authorship attribution approaches \cite{stamatatos2009survey}}
+	\caption[Instance-based approach training schema]{Typical architecture of instance-based in authorship attribution approaches. \cite{stamatatos2009survey}}
 	\label{fig:instance_based_approach}
 \end{figure}
 
@@ -98,7 +98,7 @@ we have only one, but a quite long, training text for a particular candidate aut
 From another point of view, when there are multiple training text samples of variable length per author, the training text instance length should be normalized. To that end, the training texts per author are segmented to equal-sized samples \cite{sanderson2006short}. In all these cases, the text samples should be long enough so that the text representation features can adequately represent their style. Various lengths of text samples have been reported in the literature. Sanderson and Guenter (2006) produced chunks of 500 characters \cite{sanderson2006short}. \citeauthor{koppel2006authorship} (\citeyear{koppel2006authorship}) segmented the training texts into
 chunks of about 500 words \cite{koppel2006authorship}. \citeauthor{hirst2007bigrams} (\citeyear{hirst2007bigrams}) conducted experiments with text blocks of varying length (i.e.: 200, 500, and 1000 words) and reported significantly reduced accuracy as the text-block length decreases \cite{hirst2007bigrams}. Therefore, the choice of the training instance text sample is not a trivial process and directly affects the performance of the attribution model.
 
-\section{Identify the problem}
+\section{Identify the task}
 
 Since authorship attribution has been studied for many decades now, we have witnessed the rise of many different subtasks. In the next part of this section we will illustrate one of the main difference between approaching a single domain or a cross domain dataset in order to get the stylometric markers of each authors.
 We will also discuss the difference between closed set and open set authorship attribution problem.
@@ -119,7 +119,7 @@ Some references of works tackling open set authorship attribution problem are sh
 However, we decided to focus our work in tackling the closed set authorship attribution problem, but we will leave some thoughts for future work in the correspondent chapter.
 
 
-\section{The real problem}
+\section{Research question}
 
 Statistical authorship attribution has a long history, culminating in the use of modern machine learning classification methods. Nevertheless, most of this work suffers from the limitation of assuming a small closed set of candidate authors and essentially unlimited training text for each. Real-life authorship attribution problems, however, typically fall short of this ideal. Thus in \cite{koppel2009computational} three scenarios are presented for which solutions to the basic attribution problem are inadequate.
 For example, we may encounter scenarios such as:
@@ -132,18 +132,18 @@ For example, we may encounter scenarios such as:
 
 In the following section we will show how machine learning methods can be adapted to handle the special challenges of each variant.
 
-\subsection{Profiling problem}
+\subsection{Profiling the author}
 Even in cases where we have an anonymous text and no candidate authors, we would like to say something about the anonymous author. That is, we wish to exploit the sociolinguistic observation that different groups of people speaking or writing in a particular genre and in a particular language use that language differently \cite{chambers2004handbook}.
 This authorship profiling problem is of growing importance in the current global information environment applications abound in forensics, security, and commercial settings. For example, authorship profiling can help police identify characteristics of the perpetrator of a crime when there are too few (or too many) specific suspects to consider. Similarly, large corporations may be interested in knowing what types of people like or dislike their products, based on analysis of blogs and online product reviews. The question we therefore ask is: How much can we discern about the author of a text simply by analyzing the text itself? It turns out that, with varying degrees of accuracy, we can say a great deal indeed.
 One of the approach to authorship profiling is to apply machine learning to text categorization. The process is as follows: First, we take a given corpus of training documents, each labeled according to its category for a particular profiling dimension. For example, when addressing classification by author gender, training documents are labeled as either \textit{male} or \textit{female}. Each document is then processed to produce a numerical vector, each of whose elements represents some feature of the text that might help discriminate the relevant categories. A machine learning method then computes a classifier that, to the extent possible, classifies the training examples correctly. Finally, the predictive power of the classifier is tested on out-of-training data.
 Essentially the same paradigm can be used for authorship attribution, where the training texts are known writings of given candidate authors.\cite{juola2008authorship}
 
-\subsection{Needle-in-hay-stack problem}
+\subsection{Finding a needle in a haystack}
 
 Consider now the scenario where we seek to determine the specific identity of a document’s author, but there are many thousands of potential candidates. We call this the \textit{needle-in-a-haystack} attribution problem. In this case, standard text-classification techniques are unlikely to give reasonable accuracy and may require excessive computation time to learn classification models; however, in \cite{koppel2009computational} and \cite{koppel2011authorship} state that if we are willing to tolerate our system telling us it does not know the answer, we can achieve high accuracy for the cases where the system does give us an attribution it consider reliable.
 Recent works, \cite{schwartz2013authorship} and \cite{theophilo2019needle} have addressed the problem with tackling a large set of candidate authors while keeping the documents very short, also known as "micro-messages" or "tweets"\footnote{As the name recall, the name of the posts on the popular social media platform Twitter. Its main characteristics is that originally only 140 characters per post were allowed (at the moment of writing, it has been upgraded up to 280 characters per tweet).}.
 
-\subsection{Verification problem}
+\subsection{Verification of an author}
  
 Considering the case in which we are given examples of the writing of a single author and are asked to verify that a given target text was or was not written by this author. As a categorization problem, verification is significantly more difficult than basic attribution, and virtually no work has been done on it (but see \citeauthor{halteren2004linguistic} \citeyear{halteren2004linguistic}), outside the framework of plagiarism detection \citeauthor{zu2007plagiarism} \citeyear{zu2007plagiarism}. If, for example, all we wished to do is to determine if a text had been written by Shakespeare or by Marlowe, it would be sufficient to use their respective known writings, to construct a model distinguishing them, and to test the unknown text against the model. If, on the other hand, we need
 to determine if a text was written by Shakespeare, it is difficult to assemble a representative sample of non-Shakespeare texts.

@@ -43,7 +43,7 @@ mainly people in forensic linguistic or computer scientists aim to build \enquot
 stylometry. It is a classification problem and several classifiers are used such as Na\"ive
 Bayes, SVM. Among them, SVM is observed to fit best for these kinds of problems.
 
-\section{SVM}
+\section{Support Vector Machine}
 Support Vector Machines (SVMs) recently gained popularity in the learning community \cite{vapnik1999overview}. In its simplest
 linear form, an SVM is a hyperplane that separates
 a set of positive examples from a set of negative examples with maximum interclass distance, the margin.
@@ -82,7 +82,7 @@ models.
 	\label{fig:svm_margin}
 \end{figure}
 
-\subsection{SVM for authorship attribution}
+\subsection{Support Vector Machine for authorship attribution}
 Unlike currently used
 classification approaches, like neural networks or decision trees, SVM allows for the processing of hundreds of thousands of features. This offers the opportunity to use all words of a text as inputs instead of a few hundred carefully selected characteristic words only. In similar text classification problems aiming at thematic categorization, the SVM has been shown to be quite effective \cite{joachims1998making}, \cite{dumais1998inductive}.
 A SVM is able to classify a text with respect to content. In the framework of author attribution, it is not clear whether a specific topic addressed by the author or the structural or stylistic features of the authors language lead to a successful classification.
@@ -100,7 +100,7 @@ neighbor). \citeauthor{joachims1999transductive} \cite{joachims1999transductive}
 \citeauthor{dumais1998inductive} \cite{dumais1998inductive} use linear SVMs for text categorization because they are both accurate and fast. They are 35 times faster to train than the next most accurate (a decision tree) of the tested classifiers. They applied SVMs to the Reuter-21578 collection, emails and web pages.
 \citeauthor{drucker1999support} \cite{drucker1999support} classify emails as spam and non spam. They find that boosting trees and SVMs have similar performance in terms of accuracy and speed. SVMs train significantly faster.
 
-\section{RCV1 studies}
+\section{Studies on Reuters Corpus}
 Reuters is the world’s largest international multimedia news agency, providing myriad news and mutual fund information available on \url{Reuters.com}, video, mobile, and interactive television platforms. Reuters Corpus Volume 1 (RCV1) is drawn from one of those online databases\footnote{Reuters corpora [Online]. Available, \url{http://trec.nist.gov/data/reuters/reuters.html}; 2000}. This dataset consists of all English language stories produced by Reuters journalists between August 20, 1996 and August 19, 1997. The dataset is made available on two CD-ROMs and has been formatted in XML by Reuters, Ltd. in 2000, for research purposes. Both the archiving process and later preparation of
 the XML dataset involved substantial verification and validation of the content, attempts to remove spurious or duplicated documents, normalization of dateline and byline formats, addition of copyright statements, and so on \cite{cheng2011author}. The stories cover a range of content typical of a large English language international newswire. They vary from a few hundred to several thousand words in length.\\
 It consists of a collection of newswire stories written in English that cover four main topics: corporate/industrial (CCAT), economics (ECAT), government/social (GCAT) and markets (MCAT).
@@ -110,7 +110,7 @@ overlapping between them. We will refer to this corpus as RCV1-50.\\
 The RCV1-10 and RCV1-50 datasets are both balanced over different authors and have their genre fixed to news.
 The main category of the news in both cases is fixed to corporate/industrial, but there are many subtopics covered in the news and the length of the texts is short (from 2 to 8 KBytes). These corpora resemble a more realistic scenario, when the amount of texts is limited and the number of candidate authors is large.
 
-\subsection{Studies on RCV1 on authorship attribution}
+\subsection{Studies on Reuters Corpus on authorship attribution}
 
 Although, not particularly designed for evaluating author identification approaches, the RCV1
 corpus contains ‘by-lines’ in many documents indicating authorship. In particular,
@@ -150,7 +150,7 @@ In addition to opinion articles on several thematic areas, the presented corpus 
 
 \begin{table}[h!]
 	\begin{center}  
-		\caption[The Guardian Corpus]{Details about \textit{The Guardian Corpus} ("TGC")} 
+		\caption[The Guardian Corpus topics distribution details]{Details about \textit{The Guardian Corpus} ("TGC") distribution in every topic among the authors.} 
 		\label{tab:tableTGC}
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c | c |}
@@ -204,8 +204,7 @@ the other categories. In contrast to the previously described
 benchmarks, The Guardian is a cross-topic, cross-genre and
 unbalance benchmark, representing in this way a very challenging scenario.
 
-\section{Dataset selection}
-
+\paragraph{}
 At the beginning of this work, we wondered which dataset would best validate our work. In fact, we quickly realized the importance of using a dataset that did not present bias and invalidate our results. Contrary some of previous work (\cite{diederich2003authorship}, \cite{koppel2003exploiting}), we thought it was not appropriate to use datasets that could not be reproduced by other authors and on which results could not be compared with.
 In the work of \citeauthor{potthast2016wrote} \cite{potthast2016wrote},
 the authors performed the reimplementation of 15 authorship attribution methodologies and concluded that very few of them achieve consistent results across different corpora. In

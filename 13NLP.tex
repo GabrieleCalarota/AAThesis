@@ -63,6 +63,35 @@ The main stylistic choices that character n-grams can capture are the author’s
 	\item \textbf{end-punct}: A character n-gram whose last character is punctuation, but middle characters are not.
 \end{itemize}
 
+\begin{table}[h!]
+	\begin{center}  
+		\caption[Example of the \textit{n}-gram categories (n=3)]{Example of the \textit{n}-gram categories (n=3) for the sentence: \textit{The actors wanted to see if the pact seemed like an old-fashioned one.} \\ 
+			The \textit{n}-grams that appear in more than one category are in bold.} 
+		\label{tab:examplesngram}
+		%\resizebox{\linewidth}{!}{  %
+		\begin{tabular}{|c | c |}
+			\hline 
+			\textbf{Category} & \textbf{Category n-grams} \\
+			\hline \hline
+			prefix & \textbf{act} wan pac \textbf{see} lik fas \\ \hline
+			suffix & ors ted \textbf{act} med ike ned \\ \hline
+			space-prefix & \_ac \_wa \_to \_se \_if \_th \_pa \_li \_an \_ol \_on \\ \hline
+			space suffix & he\_ rs\_ ed\_ to\_ ee\_ if\_ ct\_ ke\_ an\_ \\ \hline
+			whole-word & The \textbf{see} the old \textbf{one} \\ \hline
+			mid-word & cto tor ant nte eem eme ash shi hio ion \textbf{one} \\ \hline
+			multi-word & e\_a s\_w d\_t o\_s e\_i f\_t e\_p t\_s d\_l n\_o d\_o \\ \hline
+			beg-punct & -fa \\ \hline
+			mid-punct & d-f \\ \hline
+			end-punct & ld- ne. \\ \hline
+			%\bottomrule 
+		\end{tabular} 
+		%}
+	\end{center}
+\end{table}
+
+
+\paragraph{}
+In \autoref{tab:examplesngram} we can see an example of the n-gram categories ($ n = 3 $) for the sentence \textit{"The actors wanted to see if the pact seemed like an old-fashioned one."}. 
 In \cite{sapkota2015not} they've observed that in their data almost 80\% of the n-grams in the punct-beg and punct-mid categories contain a space. They stated that "this tight coupling of punctuation and spaces is due to the rules of English orthography: most punctuation marks require a space following them". The 20\% of n-grams that have punctuation but no spaces correspond mostly to the exceptions to this rule: quotation marks, mid-word hyphens, etc.
 They've conducted an experiment on RCV1 dataset both the \textit{CCAT\_10 split} and the \textit{CCAT\_50 split}. They've also used the Guardian dataset as a cross-domain authorship attribution experiment. In their work they stated that for the single-domain the top four categories for authorship attribution are: \textit{prefix}, \textit{suffix}, \textit{space-prefix} and \textit{mid-word}. On the other hand, for cross-domain authorship attribution the top four categories have been proven to be: \textit{prefix}, \textit{space-prefix}, \textit{beg-punct} and \textit{mid-punct}.
 For both single-domain and cross-domain authorship attribution, \textit{prefix} and \textit{space-prefix} are strong features, and are generally better than the \textit{suffix} features, perhaps because authors have more control over prefixes in English,

@@ -1,12 +1,61 @@
 \chapter{Introduction}
-
 \section{Motivation and Problem Statement}
+The task of determining or verifying the authorship of an anonymous text based solely on internal evidence is a very old one, dating back at least to the medieval scholastics, for whom the reliable attribution of a given text to a known ancient authority was essential to determining the text’s veracity. More recently, this problem of authorship attribution has gained greater prominence due to new applications in forensic analysis, humanities scholarship, and electronic commerce, and the development of computational methods for addressing the problem.
+In the simplest form of the problem, we are given examples
+of the writing of a number of candidate authors and are asked
+to determine which of them authored a given anonymous
+ext. In this straightforward form, the authorship attribution
+problem fits the standard modern paradigm of a text categorization problem. The components of text categorization systems are by
+now fairly well understood: Documents are represented as
+numerical vectors that capture statistics of potentially relevant features of the text, and machine learning methods are
+used to find classifiers that separate documents that belong
+to different classes.
+A scientific approach to the authorship attribution problem was first proposed in the late 19th century in the work of Mendenhall (1887), who studied the authorship of texts attributed to Bacon, Marlowe, and Shakespeare.
+The key idea was that
+the writing of each author could be characterized by a unique
+curve expressing the relationship between word length and
+relative frequency of occurrence; these characteristic curves
+thus would provide a basis for author attribution of anonymous texts. This early work was put on a firmer statistical
+basis in the early 20th century with the search for invariant properties of textual statistics \citeauthor{zipf1932selected} (\citeyear{zipf1932selected}). The existence
+of such invariants suggested the possibility that some related
+feature might be found that was at least invariant for any given
+author, though possibly varying among different authors.
+The majority of published works in authorship
+attribution focus on closed-set attribution where
+it is assumed that the author of the text under
+investigation is necessarily a member of a given
+well-defined set of candidate authors. This setting fits many forensic applications where usually specific individuals have access to certain resources, have knowledge of certain issues, etc.
+A more general
+framework is open-set attribution (Koppel et al.,
+2011). A special case of the latter is authorship
+verification where the set of candidate authors is
+singleton. This is essentially a
+one-class classification problem since the negative
+class (i.e., all texts by all other authors) is huge
+and extremely heterogeneous.
+In authorship attribution it is not always realistic to assume that the texts of known authorship and the texts under investigation belong in
+the same genre and are in the same thematic area.
+In most applications, there are certain restrictions
+that do not allow the construction of a representative training corpus. Unlike other text categorization tasks, a recent trend in authorship attribution research is to build cross-genre and cross-topic models, meaning that the training and test
+corpora do not share the same properties.
+One crucial issue in any authorship attribution approach is to quantify the personal style of authors, a line of research also called stylometry \cite{stamatatos2009survey}. Ideally, stylometric features should not be affected by shifts in topic or
+genre variations and they should only depend on
+personal style of the authors. However, it is not
+yet clear how the topic/genre factor can be separated from the personal writing style.
 
+\paragraph{In this work} In this work we will give a general snapshot of what authorship attribution is nowadays. We will give a key of reading from the point of view of both information retrieval and the most used methodologies, paying much attention in the selection of datasets in order not to create learning bias.
+In our experiment we will compare datasets that are very different from each other both in text content, formality and average length of documents written by authors.
+We will analyze the methods to extract the best information from the documents and how to select the classifier that best suits this type of task.
+We will compare the results obtained with those found in related work, taking care to recreate the same experiment performed.
+Finally, we will give hints for future work and a long-term vision for this branch of text categorization.
 
 \section{Thesis Structure}
 The rest of this thesis is organized into the following chapters:
 \begin{itemize}
-	\item \textbf{Chapter 2}. Chapter 2 provides a word embedding background, the main topic on which this thesis is based. We will discuss some of the most popular methods among numerical word embeddings and words representation. Then we will explain some of the most recent related work on word embeddings and ICD-9-CM classification.
-	\item \textbf{Chapter 3}. Chapter 3 presents the datasets; we divided them in our domain-specific dataset, from where each part of it was taken from and how to reproduce it. At the end of the chapter we present also the general purpose dataset used as a comparison for our less popular domain-specific word embedding.
-	\item \textbf{Chapter 4}. Chapter 4 provides the results obtained by showing most similar words in our evaluated models. It shows also characteristics of our models and dataset, with most frequently words, medical jargon, typo errors and comparison between domain-specific models and general domain one. At the end of the chapter we present the results of the F1 calculated by a classifier that used a general purpose word embedding and another one that used our domain-specific word embeddings.
+	\item \textbf{Chapter 2}. Chapter 2 provides a more detailed introduction to this task and what are the different scenarios we may encounter when tackling the authorship attribution.
+	\item \textbf{Chapter 3}. Chapter 3 presents a background in information retrieval, listing some of the most used techniques used in previous authorship attribution works for extracting useful data representing the texts.
+	\item \textbf{Chapter 4}. Chapter 4 lists a variety of related works in authorship attribution, focusing on works that used SVM as a classifier and that used either one of the Reuters Corpus dataset or The Guardian dataset to test their model.
+	\item \textbf{Chapter 5}. Chapter 5 describes our experiment in terms of the setup, the dataset preparation, the process of features extraction and the classifier selection.
+	\item \textbf{Chapter 6}. Chapter 6 shows the best results we obtained from the experiments we conducted on the selected datasets.
+	\item \textbf{Chapter 7}. Chapter 7 makes some observation on how can this work be improved in the next steps.
 \end{itemize}

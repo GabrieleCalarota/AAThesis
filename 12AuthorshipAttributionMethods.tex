@@ -2,13 +2,7 @@
 
 \epigraph{\textit{"Science is the systematic classification of experience."}\\George Henry Lewes}
 
-The task of determining or verifying the authorship of an anonymous text based solely on internal evidence is a very old one, dating back at least to the medieval scholastics,
-for whom the reliable attribution of a given text to a known ancient authority was essential to determining the text’s veracity. More recently, this problem of authorship attribution has gained greater prominence due to new applications in forensic analysis, humanities scholarship, and electronic commerce, and the development of computational methods for addressing the problem.
-Statistical authorship attribution has a long history, culminating in the use of modern machine learning classification methods.
-In the simplest form of the problem, we are given examples of the writing of a number of candidate authors and are asked to determine which of them authored a given anonymous
-text. In this straightforward form, the authorship attribution problem fits the standard modern paradigm of a text categorization problem \cite{lewis1994comparison} \cite{sebastiani2002machine}. The components of text categorization systems are by
-now fairly well understood: Documents are represented as numerical vectors that capture statistics of potentially relevant features of the text, and machine learning methods are
-used to find classifiers that separate documents that belong to different classes.
+Authorship Attribution tackles the problem of determining who, among a set of authors, wrote the document at hand. This aforementioned task has relevant applications ranging from plagiarism detection to Forensic Linguistics, such as identifying authorship of threatening emails or malicious code. Applied areas such as law and journalism can also benefit from authorship attribution, where identifying the true author of a piece of text (such as a ransom note) may help save lives or catch the offenders.
 In the next section we will briefly present the approach to this task in the era before machine learning. Later, we will discuss the different approaches of this particular task, whether to approach it as a profile-based or an instance-based problem, depending on which domain are we tackling: single-domain or cross-domain.
 In the last section, we will introduce to the latest state of the art approaches for this particular classification task. 
 

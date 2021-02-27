@@ -2,7 +2,7 @@
 In this chapter we are going to show the best results obtained by setting up the training phase as described in the previous chapters. Most of the parameter tuning was done on just one dataset\footnote{The Reuters Corpus, RCV1}, and then the same setup was used to produce results for all our datasets.
 
 \section{Metrics used}
-In order to evaluate the performance of the model being built, we computed for each training phase, 2 different scores on the testing set: the \textit{accuracy score} and the \textit{f1 score}\footnote{\url{http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html}}.\\ 
+In order to evaluate the performance of the model being built, we computed for each training phase, 2 different scores on the testing set: the \textit{accuracy score} and the \textit{F1 score}\footnote{\url{http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html}}.\\ 
 The accuracy score, one of the more obvious metrics, is the measure of all the correctly identified authors of each documents. It's mostly used when all the classes are equally important.
 \begin{equation}
 Accuracy = \frac{True Positive + True Negative}{(True Positive + False Positive + True Negative + False Negative)}
@@ -17,11 +17,11 @@ where:
 	\item \textbf{Recall:} is the fraction of relevant instances that have been retrieved over the total amount of relevant instances.
 \end{itemize}
 
-To summarise the differences between the F1-score and the accuracy:
+To summarise the differences between the F1 and the accuracy:
 \begin{itemize}
-	\item Accuracy is used when the True Positives and True negatives are more important while F1-score is used when the False Negatives and False Positives are crucial.
-	\item Accuracy can be used when the class distribution is similar while F1-score is a better metric when there are imbalanced classes.
-	\item In most real-life classification problems, imbalanced class distribution exists and thus F1-score is a better metric to evaluate our model on.
+	\item Accuracy is used when the True Positives and True negatives are more important while F1 is used when the False Negatives and False Positives are crucial.
+	\item Accuracy can be used when the class distribution is similar while F1 is a better metric when there are imbalanced classes.
+	\item In most real-life classification problems, imbalanced class distribution exists and thus F1 is a better metric to evaluate our model on.
 \end{itemize}
 
 \section{Results obtained over different datasets}
@@ -44,9 +44,9 @@ The reasoning behind this type of representation and the reason why we got the b
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{| p{5 cm} | c | c |}
 			\hline 
-			Model & Accuracy & F1 macro \\
+			Model & Accuracy & F1\\
 			\hline
-			LinearSVC (combinedDFs), tfidf, stock tokenizer & 0.7644 & 0.76 \\ \hline
+			LinearSVC (combinedDFs), tfidf, stock tokenizer & 0.7644 & 0.7600 \\ \hline
 			LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer & 0.7884 & 0.7842 \\ \hline
 			\textbf{LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer (threshold 1),
 			ngram=(1,2)} & \textbf{0.7984} & \textbf{0.7949} \\ \hline
@@ -65,12 +65,12 @@ In \autoref{tab:tableRCV1_10} we can see the results of the same models on the p
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{| p{5 cm} | c | c |}
 			\hline 
-			Model & Accuracy & F1 macro \\
+			Model & Accuracy & F1 \\
 			\hline
-			LinearSVC (combinedDFs), tfidf, simple tokenizer & 0.878 & 0.876 \\ \hline
-			LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer & 0.908 & 0.906 \\ \hline
+			LinearSVC (combinedDFs), tfidf, simple tokenizer & 0.8780 & 0.8760 \\ \hline
+			LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer & 0.9080 & 0.9060 \\ \hline
 			\textbf{LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer (threshold 1),
-			ngram=(1,2)} & \textbf{0.922} & \textbf{0.921} \\ \hline
+			ngram=(1,2)} & \textbf{0.9220} & \textbf{0.9210} \\ \hline
 			%\bottomrule 
 		\end{tabular} 
 		%}
@@ -89,12 +89,11 @@ At the end of the table we reported the best result achieved with our method, th
 			\hline 
 			Model & RCV1-10 & RCV1-50 \\
 			\hline
-			D2V words & 0.8280 & 0.7524 \\ \hline
-			Local histograms & 0.8640 & - \\ \hline
-			Tensor space models & 0.8080 & - \\ \hline
-			Character and word n-grams & 0.7940 & - \\ \hline
-			N-gram feature selection & - & 0.7404 \\ \hline
-			N-gram feature selection & - & 0.7404 \\ \hline
+			D2V words\cite{posadas2017application} & 0.8280 & 0.7524 \\ \hline
+			Local histograms \cite{sari2017continuous} & 0.8640 & - \\ \hline
+			Tensor space models \cite{plakias2008tensor} & 0.8080 & - \\ \hline
+			Character and word n-grams \cite{sapkota2015not} & 0.7940 & - \\ \hline
+			N-gram feature selection \cite{houvardas2006n} & - & 0.7404 \\ \hline
 			\textbf{Our approach} & \textbf{0.9220} & \textbf{0.7984} \\ \hline
 			%\bottomrule 
 		\end{tabular} 
@@ -115,7 +114,7 @@ Regarding the dataset downloaded from the GDELT project, composed of documents b
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{| p{5 cm} | c | c |}
 			\hline 
-			Model & Accuracy & F1 macro \\
+			Model & Accuracy & F1 \\
 			\hline
 			LinearSVC (combinedDFs), tfidf, stock tokenizer & 0.7355 & 0.7090 \\ \hline
 			LinearSVC (combinedDFs), tfidf, only-remove-quotes-tokenizer & 0.7426 & 0.7173 \\ \hline
@@ -133,7 +132,7 @@ In addition, the authors' documents were extracted from books, whose style is ve
 
 
 \subsection{Amazon Food Reviews Corpus results}
-The dataset of amazon product review collections in the food category showed the best results in the context of author attribution for a group of 50 authors with 100 documents each, 50 in the training phase and 50 in the testing phase. The best results obtained in terms of accuracy and f1-score are shown in \autoref{tab:tableAFR}.
+The dataset of amazon product review collections in the food category showed the best results in the context of author attribution for a group of 50 authors with 100 documents each, 50 in the training phase and 50 in the testing phase. The best results obtained in terms of accuracy and F1 are shown in \autoref{tab:tableAFR}.
 
 \begin{table}[h!]
 	\begin{center}  
@@ -142,7 +141,7 @@ The dataset of amazon product review collections in the food category showed the
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{| p{5 cm} | c | c |}
 			\hline 
-			Model & Accuracy & F1 macro \\
+			Model & Accuracy & F1 \\
 			\hline
 			LinearSVC (combinedDFs), tfidf, simple tokenizer & 0.7704 & 0.7674 \\ \hline
 			LinearSVC (combinedDFs), tfidf, stock tokenizer & 0.7836 & 0.7817 \\ \hline
@@ -169,7 +168,7 @@ We followed this approach by using the authors' papers in the Politics category 
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{| p{5 cm} | c | c |}
 			\hline 
-			Training topic vs Test topic & Accuracy & F1 macro \\
+			Training topic vs Test topic & Accuracy & F1 \\
 			\hline
 			Politics vs Books & 0.7446 & 0.7640 \\ \hline
 			Politics vs World & 0.7560 & 0.7470 \\ \hline
@@ -183,15 +182,15 @@ We followed this approach by using the authors' papers in the Politics category 
 \end{table}
 
 In the \autoref{tab:tableTGC} we can see the results obtained with the linearSCV(combinedDFs) model, with feature extraction method tfidf and with the \enquote{custom} tokenizer \textit{only-remove-quotes-tokenizer}.
-In the last row we can see the calculated average accuracy score and f1-score obtained.
+In the last row we can see the calculated average accuracy score and F1 obtained.
 Taking the work of \cite{posadas2017application} as a benchmark for this dataset, we can state that the results obtained with our approach in the context of cross-topic authorship attribution did not come close to the benchmark, thus demonstrating that the two types of authorship attribution tasks probably need different approaches in order to obtain performances adequate to the case study and the dataset with which they are to be compared.\\
 
 \paragraph{}
-In \autoref{fig:results_across_datasets} we can see the metrics evaluated for each dataset on the best scoring models. The metrics shown there are: accuracy, precision macro, recall macro, f1-score macro.
+In \autoref{fig:results_across_datasets} we can see the metrics evaluated for each dataset on the best scoring models. The metrics shown there are: accuracy, precision macro, recall macro, F1 macro.
 In blue we can see the result of the reuters dataset on the portion composed of 50 authors, while in yellow the best result obtained on the dataset of amazon food reviews.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth, height=1.0\textheight, keepaspectratio]{Results_across_datasets}
-	\caption[Best performance across all datasets]{Accuracy, precision, recall and f1-macro for every dataset showing only the best result achieved for each one.}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{Results_across_datasets}
+	\caption[Best performance across all datasets]{Accuracy, precision, recall and F1 for every dataset showing only the best result achieved for each one.}
 	\label{fig:results_across_datasets}
 \end{figure}

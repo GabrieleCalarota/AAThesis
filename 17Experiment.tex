@@ -101,9 +101,9 @@ The majority of our work has been conducted on the RCV1\_50, although to compare
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
 			\hline 
-			Name & N\# documents & N\# authors & Avg docs length & Avg n\# docs/author \\
+			Name & N\# docs & N\# authors & Avg docs length & Avg n\# docs/author \\
 			\hline
-			Full RCV1 dataset & 109433 & 2400 & 3061.95 & 45.60 \\ \hline
+			Full RCV1 & 109433 & 2400 & 3061.95 & 45.60 \\ \hline
 			RCV1\_10 & 1000 & 10 & 3093.82 & 100  \\ \hline
 			RCV1\_50 & 5000 & 50 & 3251.16 & 100  \\ \hline
 			%\bottomrule 
@@ -148,9 +148,9 @@ In order to make training methods reliable across dataset, we decided to select 
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
 			\hline 
-			Name & N\# documents & N\# authors & Avg docs length & Avg n\# docs/author \\
+			Name & N\# docs & N\# authors & Avg docs length & Avg n\# docs/author \\
 			\hline
-			Full GDELT dataset & 53678 & 45 & 4950.61 & 1192.84 \\ \hline
+			Full GDELT & 53678 & 45 & 4950.61 & 1192.84 \\ \hline
 			GDELT\_45 & 4500 & 45 & 4911.91 & 100  \\ \hline
 			%\bottomrule 
 		\end{tabular} 
@@ -170,9 +170,9 @@ Moreover, in order to make training methods reliable across dataset, we decided 
 		%\resizebox{\linewidth}{!}{  %
 		\begin{tabular}{|c | c | c | c | c |}
 			\hline 
-			Name & N\# documents & N\# authors & Avg docs length & Avg n\# docs/author \\
+			Name & N\# docs & N\# authors & Avg docs length & Avg n\# docs/author \\
 			\hline
-			Full AFR dataset & 568454 & 256059 & 380.70 & 2.2 \\ \hline
+			Full AFR & 568454 & 256059 & 380.70 & 2.2 \\ \hline
 			AFR\_50 & 5000 & 50 & 990.45 & 100  \\ \hline
 			%\bottomrule 
 		\end{tabular} 
@@ -199,7 +199,7 @@ scenario is as follows:
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{theguardian_dataset}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{theguardian_dataset}
 	\caption[The Guardian Politics samples distribution]{The Guardian samples distribution for the Politics topic.}
 	\label{fig:tgc_dataset}
 \end{figure}
@@ -394,7 +394,7 @@ As on the groups of "small" authors, i.e. composed of 6 authors and 10 authors, 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{RCV1_Test_Accuracy}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{RCV1_Test_Accuracy}
 	\caption[Methods performance on Reuters Corpus]{Accuracy scores for different groups of authors on Reuters Corpus dataset.}
 	\label{fig:RCV1_methods_accuracy}
 \end{figure}
@@ -404,21 +404,21 @@ This is probably due to the fact that by keeping the number of documents per aut
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{GDELT_Test_Accuracy}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{GDELT_Test_Accuracy}
 	\caption[Methods performance on GDELT corpus]{Accuracy scores for different groups of authors on GDELT corpus dataset.}
 	\label{fig:GDELT_methods_accuracy}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{AFR_Test_Accuracy}
-	\caption[Methods performance on AFR]{Accuracy scores for different groups of authors on AFR dataset.}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{AFR_Test_Accuracy}
+	\caption[Methods performance on Amazon Food Reviews dataset]{Accuracy scores for different groups of authors on Amazon Food Reviews dataset.}
 	\label{fig:AFR_methods_accuracy}
 \end{figure}
 
 \subsection{Tree-based Pipeline Optimization Tool}
 Therefore, considering the more or less unsuccessful approaches of the methods presented in the previous section, we tried to find an approach that would validate our choice and those of previous works on the use of the Support Vector Machine as a classification method.
-Our choice fell on TPOT\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
+Our choice fell on Tree-based Pipeline Optimization Tool (TPOT)\footnote{\url{http://epistasislab.github.io/tpot/}}, an automated machine learning (autoML) tool in Python.
 In order to give the reader of what TPOT is and how it works, I'll report the first paragraph quoting the TPOT website:
 
 \begin{quote}
@@ -431,7 +431,7 @@ This power of TPOT comes from evaluating all kinds of possible pipelines automat
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.8\textwidth, height=.8\textheight, keepaspectratio]{TPOT_pipeline2}
+	\includegraphics[width=1.0\textwidth, height=1.0\textheight, keepaspectratio]{TPOT_pipeline2}
 	\caption[Tree-based Pipeline Optimization Tool pipeline example]{An example TPOT Pipeline from TPOT docs.}
 	\label{fig:TPOT_pipeline}
 \end{figure}

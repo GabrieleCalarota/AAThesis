@@ -1,14 +1,143 @@
 \appendix
 \chapter{Code}
 
-\section{Closed set authorship attribution code}
+All the datasets, the notebooks and the results obtained are available at this public link: \url{https://drive.google.com/drive/folders/0AM8tHyzDct5GUk9PVA}
 
-%\input{svm_aa_rcv1}
+\section{Closed set authorship attribution code}
+In \autoref{lst:TPOTpipeline} we can see how we built our TPOT pipeline to get the classifier model we did use later on in the training process.
+
+\begin{lstlisting}[frame=none,caption={TPOT pipeline generation.},captionpos=b,label=lst:TPOTpipeline]
+\end{lstlisting}
+\begin{python}	
+	!pip install -q tpot
+	from tpot import TPOTClassifier, TPOTRegressor
+	pipeline_optimizer = TPOTClassifier(generations=5, population_size=20, cv=5,
+	random_state=42, verbosity=2, scoring='accuracy', config_dict='TPOT sparse')
+	pipeline_optimizer.fit(tfidf_train, df_train['target'])
+	print(pipeline_optimizer.score(tfidf_test, df_test['target']))
+	pipeline_optimizer.export('tpot_exported_pipeline.py')
+\end{python}
+
+\autoref{lst:D2Vtraining} shows how we adapted doc2vec method to our task and the hyperparameter used when training doc2vec model. In the last lines of code of \autoref{lst:D2Vtraining} we can see how to extract features vectors from the doc2vec model and the documents.
+\begin{lstlisting}[frame=none,caption={D2V training and features extraction.},captionpos=b,label=lst:D2Vtraining]
+\end{lstlisting}
+\begin{python}	
+	from gensim.models.doc2vec import TaggedDocument
+	import gensim
+	from tqdm import tqdm
+	from gensim.models import Doc2Vec
+	
+	def tag_dataset(df):
+	return df.apply(lambda r: TaggedDocument(words=only_remove_quoting_tokenizer(r['articles']), tags=[r.author]), axis=1)
+	
+	df_train_tagged = tag_dataset(df_train)
+	df_test_tagged = tag_dataset(df_test)
+	
+	import multiprocessing
+	
+	cores = multiprocessing.cpu_count()
+	print(cores)
+	model_dmm = Doc2Vec(dm=1, dm_mean=1, vector_size=300, window=10, negative=5, min_count=1, workers=cores, alpha=0.065, min_alpha=0.065)
+	model_dmm.build_vocab([x for x in tqdm(df_train_tagged.values)])
+	
+	model_dbow = Doc2Vec(dm=0, vector_size=300, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
+	model_dbow.build_vocab([x for x in tqdm(df_train_tagged.values)])
+	
+	d2v_model = model_dmm
+	
+	from sklearn import utils
+	
+	# time
+	def train_d2v_model(model, df):
+		for epoch in range(30):
+			model.train(utils.shuffle([x for x in tqdm(df.values)]), total_examples=len(df.values), epochs=1)
+			model.alpha -= 0.002
+			model.min_alpha = model_dmm.alpha
+		model.save(os.path.join(base_dir, 'd2v_{}_model.vec'.format(PROJECT_NAME)))
+	
+	def vec_for_learning(model, tagged_docs):
+		sents = tagged_docs.values
+		targets, regressors = zip(*[(doc.tags[0], model.infer_vector(doc.words, steps=20)) for doc in sents])
+		return targets, regressors
+	training_target, training_features = vec_for_learning(d2v_model, df_train_tagged)
+	testing_target, testing_features = vec_for_learning(d2v_model, df_test_tagged)
+	
+\end{python}
+
+
+In \autoref{lst:train_svm} we reported the code use to train the support vector machine with the features vectors chosen and how we evaluate the main metrics shown in chapter 6.
+
+\begin{lstlisting}[frame=none,caption={Training SVM model and retrieve score metrics},captionpos=b,label=lst:train_svm]
+\end{lstlisting}
+\begin{python}	
+	def double_pipeline():
+		exported_pipeline = make_pipeline(
+		make_union(
+		FunctionTransformer(copy),
+		SelectFwe(score_func=f_classif, alpha=0.004)
+		),
+		LinearSVC(C=10.0, dual=True, loss="squared_hinge", penalty="l2", tol=0.000001, max_iter=10)
+		)
+		set_param_recursive(exported_pipeline.steps, 'random_state', 42)
+		return exported_pipeline
+	
+	def single_pipeline():
+		exported_pipeline = LinearSVC(C=20.0, dual=True, loss="hinge", penalty="l2", tol=0.0001)
+		if hasattr(exported_pipeline, 'random_state'):
+			setattr(exported_pipeline, 'random_state', 42)
+		return exported_pipeline
+	
+	exported_pipeline.fit(training_features, training_target)
+	predicted = exported_pipeline.predict(testing_features)
+	
+	accuracy_result = accuracy_score(testing_target, predicted)
+	precision_result = precision_score(testing_target, predicted, average='macro')
+	recall_result = recall_score(testing_target, predicted, average='macro')
+	f1_result = f1_score(testing_target, predicted, average='macro')
+	print(f"Accuracy: {accuracy_result}\nPrecision: {precision_result}\nRecall: {recall_result}\nF1_macro: {f1_result}")
+\end{python}
+
+Finally, \autoref{lst:crossvalidation} shows the piece of code we used to cross validate our model just trained with $StratifiedShuffleSplit$. We chose this type of split when cross validating because we wanted to end up with the same number of samples in the training set and in the testing set overall and also for each authors.
+
+\begin{lstlisting}[frame=none,caption={Cross validation for balanced class.},captionpos=b,label=lst:crossvalidation]
+\end{lstlisting}
+\begin{python}	
+	from sklearn.model_selection import StratifiedKFold, KFold, StratifiedShuffleSplit
+	import numpy as np
+	
+	skf = StratifiedShuffleSplit(n_splits=10, test_size=0.5, random_state=42)
+	for train, test in skf.split(X, y):
+		print('train -  {}   |   test -  {}'.format(
+		np.bincount(y[train]), np.bincount(y[test])))
+	
+	
+	# evaluate model
+	scores = cross_val_score(exported_pipeline, X, y, scoring='accuracy', cv=skf, n_jobs=-1)
+	
+	# report performance
+	print('Accuracy: %.3f (%.3f)' % (mean(scores), std(scores)))
+\end{python}
 
 
 \section{Open set authorship attribution code}
 
-%\input{svm_aa_rcv1_open_set}
+In \autoref{lst:train_test_split_open} we can see the code for splitting the training set from the testing set documents in the open set authorship attribution scenario.
+
+\begin{lstlisting}[frame=none,caption={Training and Testing set split for open set autorship attribution},captionpos=b,label=lst:train_test_split_open]
+\end{lstlisting}
+\begin{python}	
+	# Even split 50 & 50 per author and document
+	df_train = dataset.groupby('author').head(N_DOCS/2).reset_index(drop=True)
+	if OPEN_SET:
+		df_train = df_train[df_train.groupby('author').ngroup() < (NUM_AUTHORS-OPEN_SET_NUM_AUTHORS)]
+	print_stats_dataset(df_train)
+	df_train.head()
+	
+	# get difference between dataset and df_train for df_test
+	df_test = pd.concat([dataset,df_train]).drop_duplicates(keep=False)
+	print_stats_dataset(df_test)
+	df_test.head()
+\end{python}
 
 \listoffigures
 \listoftables

@@ -1,21 +1,19 @@
 \chapter{Conclusion}
+In this thesis work we have given a general overview of what authorship attribution is and how it can be addressed with acceptable results nowadays.
+We first saw the various types of tasks that can be addressed: instance-based versus profile-based approach. We also saw the differences of single domain documents or previous work on cross domain datasets. We also saw the difference between closed and open set of authors.
+We listed the main information retrieval techniques for representing and extracting useful text information, including tf-idf and bag of words, as well as doc2vec.
+In Chapter 4 we then listed in detail the state of the art work on authorship attribution and the corpora used, as well as the main classifiers. We have seen how SVM is widely used among machine learning models for some of its peculiar features (including the speed of training and the scalability as features increase). We also showed how Reuters Corpus and The Guardian datasets are the most used datasets for autorship attribution work.
+In chapter 5 we have described the work we have done starting from the preparation of the dataset, the selection and extraction of features and finally the choice of the model using an automatic optimization tool (TPOT).
+In the last chapter 6 we showed the best metrics obtained with our approach, comparing them also with results obtained reproducing the same scenario of related works.
+We showed how for the RCV1-10 dataset we improved to the best of our knowledge by 6.71\% the accuracy of the model compared to the best result obtained with using local histograms. We also improved the RCV1-50 dataset by 6.11\% over the best result obtained using a doc2vec word model.
+We then also reported results for 4 total datasets, including a dataset of Victorian-era books collected by the GDELT project and the amazon food reviews dataset, which showed the best results in terms of accuracy among the top 3 datasets that are united by number of authors and number of documents in training and testing.
+We then also showed how our approach did not show significant improvements on The Guardian corpus dataset, thus proving suboptimal cross domain and cross topic performance.
+
+
 In this work we mainly focused our efforts towards author attribution in its most straightforward form, i.e. we are given examples of the writing of a number of candidate authors and are asked
 to determine which of them authored a given anonymous text \cite{koppel2009computational}.
 This approach to author attribution has been the only one studied until the last decade, as it is already quite complex.
-The enormous steps forward both in terms of modern computing power and in terms of studies of new models of machine learning, have allowed to leave the concept of classical attribution and explore some of the tasks still unsolved, presented in the research question of chapter 2 of this work. In order to let the reader have a clear idea of what are these possible scenarios that we might encounter while studying modern author attribution model, we are going to discuss each one briefly:
-\begin{enumerate}
-	\item There is no candidate set at all. In this case, the challenge is to provide as much demographic or psychological information as possible about the author. This is \textbf{the profiling problem}.
-	\item There are many thousands of candidates for each of whom	we might have a very limited writing sample. This is \textbf{the needle-in-a-haystack problem}.
-	\item There is no closed candidate set but there is one suspect.
-	In this case, the challenge is to determine if the suspect is or is not the author. This is \textbf{the verification problem}.
-\end{enumerate}
-
-\paragraph{The profiling problem} The profiling problem requires a collection of datasets for the supervised classification approach that features demographic and psychological properties of the author. This type of task is quite challenging because of these assumptions just listed, especially if we are talking about large data collections with tens or hundreds of authors.
-
-\paragraph{The verification problem} The verification problem is the most applicable in reality especially in the forensic field. This type of author attribution task, however, is the one that represents more challenges at the time of writing this work. In fact, the most difficult challenge to overcome successfully this task is to find the right balance between positive examples (i.e. belonging to a given author) and negative examples (potentially all the texts of any other author present in the dataset but also outside of it).
-This leads to have a strong unbalance towards the negative samples that puts in great difficulty the accuracy of the resulting model.
-
-\paragraph{The needle-in-haystack problem} The needle-in-haystack problem in fact is not a scenario so different from those encountered so far. The main difference from the classical approach is for the greater closeness towards real datasets, such as having few examples per author for a large number of authors (just for the sake of mentioning the datasets collected by social media). These documents are fundamentally very short, we only have to look at Twitter's 140-character limitations, and for this very reason present a major challenge in this field that has yet to be resolved.
+The enormous steps forward both in terms of modern computing power and in terms of studies of new models of machine learning, have allowed to leave the concept of classical attribution and explore some of the tasks still unsolved. 
 
 \paragraph{The open set authorship attribution} One of the closest problems to being solved in this field of authorship attribution is undoubtedly moving from a closed set group of authors to an open set group of authors. This revolution in approach allows us to have a group of authors in the supervised training phase and a classifier who must take into account that in the testing phase it may have to deal with labels (i.e. authors in this case) that it has never seen in the training phase and classify them as unknown. This approach is complex because it puts together similarities between the verification problem and the needle-in-haystack problem with the classic approach of author attribution in a closed set.
 During the study of our work we have tried to validate our approach by dealing also with a type of open set of author attribution.

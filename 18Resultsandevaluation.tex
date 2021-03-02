@@ -202,12 +202,12 @@ We followed this approach by using the authors' papers in the Politics category 
 	\end{center}
 \end{table}
 
-In the \autoref{tab:tableTGC} we can see the results obtained with the linearSCV(combinedDFs) model, with feature extraction method tfidf and with the \enquote{custom} tokenizer \textit{only-remove-quotes-tokenizer}.
+In the \autoref{tab:tableTGC} we can see the results obtained with the linearSVC(combinedDFs) model, with feature extraction method tfidf and with the \enquote{custom} tokenizer \textit{only-remove-quotes-tokenizer}.
 In the last row we can see the calculated average accuracy score and F1 obtained.
 Taking the work of \cite{posadas2017application} as a benchmark for this dataset, we can state that the results obtained with our approach in the context of cross-topic authorship attribution did not come close to the benchmark, thus demonstrating that the two types of authorship attribution tasks probably need different approaches in order to obtain performances adequate to the case study and the dataset with which they are to be compared.\\
 
 \paragraph{}
-In \autoref{fig:results_across_datasets} we can see the metrics evaluated for each dataset on the best scoring models. The metrics shown there are: accuracy, precision macro, recall macro, F1 macro.
+In \autoref{fig:results_across_datasets} we can see the metrics evaluated for each dataset on the best scoring models. The metrics shown are: accuracy, precision macro, recall macro, F1 macro.
 In blue we can see the result of the reuters dataset on the portion composed of 50 authors, while in yellow the best result obtained on the dataset of amazon food reviews.
 \begin{figure}[ht]
 	\centering

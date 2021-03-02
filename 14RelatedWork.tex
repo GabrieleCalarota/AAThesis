@@ -88,7 +88,7 @@ classification approaches, like neural networks or decision trees, SVM allows fo
 A SVM is able to classify a text with respect to content. In the framework of author attribution, it is not clear whether a specific topic addressed by the author or the structural or stylistic features of the authors language lead to a successful classification.
 Among the earliest methods to be applied were various types of neural networks, typically using small sets of FWs as features \cite{holmes1995forensic}.
 More recently, \citeauthor{hirst2007bigrams} used neural networks on a wide variety of features. Other studies have used k-nearest neighbor \cite{zhao2005effective}, support vector machines \cite{diederich2003authorship}, \cite{koppel2005determining}, \cite{zheng2006framework}, and Bayesian regression \cite{madigan2005author}.
-Comparative studies on machine learning methods for topic-based text categorization problems \citeauthor{dumais1998inductive}, \citeauthor{joachims1998making} have shown that in general, support vector machine (SVM) learning is at least as good for text categorization as any other
+Comparative studies on machine learning methods for topic-based text categorization problems \cite{dumais1998inductive}, \cite{joachims1998making} have shown that in general, support vector machine (SVM) learning is at least as good for text categorization as any other
 learning method, and the same has been found for authorship attribution \cite{zheng2006framework}.
 The distinctive advantage of the SVM for text categorization is its ability to process many thousand different inputs. This opens the opportunity to use all words
 in a text directly as features. For each word $w_i$ the number of times of occurrence is recorded. Typically a corpus contains more than 100,000 different words,
@@ -104,7 +104,7 @@ neighbor). \citeauthor{joachims1999transductive} \cite{joachims1999transductive}
 Reuters is the world’s largest international multimedia news agency, providing myriad news and mutual fund information available on \url{Reuters.com}, video, mobile, and interactive television platforms. Reuters Corpus Volume 1 (RCV1) is drawn from one of those online databases\footnote{Reuters corpora [Online]. Available, \url{http://trec.nist.gov/data/reuters/reuters.html}; 2000}. This dataset consists of all English language stories produced by Reuters journalists between August 20, 1996 and August 19, 1997. The dataset is made available on two CD-ROMs and has been formatted in XML by Reuters, Ltd. in 2000, for research purposes. Both the archiving process and later preparation of
 the XML dataset involved substantial verification and validation of the content, attempts to remove spurious or duplicated documents, normalization of dateline and byline formats, addition of copyright statements, and so on \cite{cheng2011author}. The stories cover a range of content typical of a large English language international newswire. They vary from a few hundred to several thousand words in length.\\
 It consists of a collection of newswire stories written in English that cover four main topics: corporate/industrial (CCAT), economics (ECAT), government/social (GCAT) and markets (MCAT).
-Although it was not compiled for authorship attribution task, it has been adapted to this task in previous works. For example, in \citeauthor{stamatatos2008author} (\citeyear{stamatatos2008author}); \citeauthor{plakias2008tensor} (\citeyear{plakias2008tensor}) the 10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50 examples for testing were selected randomly with no overlapping between training and testing sets. In further sections, we will reference to this corpus as RCV1-10.\\
+Although it was not compiled for authorship attribution task, it has been adapted to this task in previous works. For example, in \cite{stamatatos2008author}; \cite{plakias2008tensor} the 10 most prolific authors were chosen from the CCAT category, and then, 50 examples per author for training and 50 examples for testing were selected randomly with no overlapping between training and testing sets. In further sections, we will reference to this corpus as RCV1-10.\\
 In \citet{houvardas2006n}, the authors proposed another adaptation of the RCV1 corpus for the authorship attribution task. They choose the 50 most prolific authors from the Reuters Corpus, keeping 50 examples per author for training and 50 examples per author for testing with no
 overlapping between them. We will refer to this corpus as RCV1-50.\\
 The RCV1-10 and RCV1-50 datasets are both balanced over different authors and have their genre fixed to news.
@@ -123,24 +123,6 @@ The RCV1 corpus has already been used in author identification experiments. In
 samples. Hence, the top 50 authors of texts labeled with at least one subtopic of the class CCAT (corporate/industrial) were selected. That way, it is attempted to minimize the topic factor in distinguishing among the texts. Therefore, since steps to reduce the impact of genre have been taken, it is to be hoped that authorship differences will be a more significant factor in differentiating the texts. Consequently, it is more difficult to distinguish among authors when all the text samples deal with similar topics rather than when some authors deal mainly with economics, others with foreign affairs etc.
 The training corpus consists of 2,500 texts (50 per author) and the test corpus includes
 other 2,500 texts (50 per author) non-overlapping with the training texts \cite{houvardas2006n}.
-
-\section{GDELT studies}
-The GDELT Project is one of the largest publicly available digitized book database which has more than 3.5 million books published from 1800-2015. The GDELT Project is an open platform for research and analysis of global society and thus all datasets released by the GDELT Project are available for unlimited and unrestricted use for any academic, commercial, or governmental use of any kind without any fee\footnote{\url{https://www.gdeltproject.org/about.html}}. The whole digitized dataset is publicly available and interested researchers can freely perform SQL queries using the Google big query platform. For example; the book names, publication year, quotations, themes, the original text of the book of “Mark Twain” which were written between 1890 to 1900 can be found as follows
-using the Big query platform of Google in \autoref{lst:bigQuerySQL}.
-\begin{lstlisting}[linewidth=18cm, frame=none,caption={Google Big Query on GDELT},captionpos=b,label=lst:bigQuerySQL]
-SELECT Themes, V2Themes, Quotations, AllNames, 
-TranslationInfo, BookMeta_Identifier, BookMeta_Title, 
-BookMeta_Creator, BookMeta_Subjects, BookMeta_Year,
-FROM (TABLE_QUERY([gdelt-bq:internetarchivebooks],
-'REGEXP_EXTRACT(table_id, r"(\d{4})") BETWEEN "1890" 
-AND "1900"'))
-WHERE BookMeta_Creator CONTAINS "Mark Twain"
-LIMIT 50
-\end{lstlisting}
-To decrease the bias and create a reliable dataset the following criteria have been chosen to filter out authors: English language writing authors, authors that have enough books available (at least 5), 19th century authors. With these criteria 50 authors have been selected and their books were queried through Big Query Gdelt database. The next task has been cleaning the dataset due to OCR reading problems in the original raw form. To achieve that, firstly all books have been scanned through
-to get the overall number of unique words and each words frequencies. While scanning the texts, the first 500 words and the last 500 words have been removed to take out specific features such as the name of the author, the name of the book and other word specific features that could make the classification task easier. After this step, we have chosen top 10, 000 words that occurred in the whole 50 authors text data corpus. The words that are not in top 10, 000 words were removed while keeping the rest of the sentence structure intact.
-Afterwards, the words are represented with numbers from 1 to 10, 000 reverse ordered according to their frequencies. The entire book is split into text fragments with 1000 words each. We separately maintained author and book identification number for each one of them in different arrays. Text segments with less than 1000 words were filled with zeros to keep them in the dataset as well.
-1000 words make approximately 2 pages of writing, which is long enough to extract a variety of features from the document. The reason why we have represented top 10, 000 words with numbers is to keep the anonymity of texts and allow researchers to run feature extraction techniques faster. Dealing with large amounts of text data can be more challenging than numerical data for some feature extraction techniques.
 
 \section{The guardian corpus: a case of cross-topic authorship attribution}
 
@@ -208,13 +190,17 @@ unbalance benchmark, representing in this way a very challenging scenario.
 At the beginning of this work, we wondered which dataset would best validate our work. In fact, we quickly realized the importance of using a dataset that did not present bias and invalidate our results. Contrary some of previous work (\cite{diederich2003authorship}, \cite{koppel2003exploiting}), we thought it was not appropriate to use datasets that could not be reproduced by other authors and on which results could not be compared with.
 In the work of \citeauthor{potthast2016wrote} \cite{potthast2016wrote},
 the authors performed the reimplementation of 15 authorship attribution methodologies and concluded that very few of them achieve consistent results across different corpora. In
-this work, we show the consistency of our approach on 4 different datasets, evaluating a wide range of testing scenarios.\cite{posadas2017application}
+this work, we show the consistency of our approach on 4 different datasets, evaluating a wide range of testing scenarios \cite{posadas2017application}.
 Despite we had initially included datasets used in the literature such as Enron's email collection and documents collected experimentally we decided not to use them because they were not recognized as valid by other studies on authorship attribution.
 We would have liked to obtain the twitter dataset used by \citeauthor{layton2010authorship} in \cite{layton2010authorship}, to have a comparison also with very short text; we wrote him and to his collaborators an email but we never got a reply :(.\\
 The datasets we selected at the end of the selection process are the following:
 \begin{itemize}
 \item \textbf{RCV1}: both in the form RCV1\_10 and RCV1\_50, i.e. 10 and 50 authors always belonging to the CCAT category, in order to reproduce the same conditions of previous related works.
-\item \textbf{GDELT}: selection of 45 authors taken from a work of \cite{gungor2018benchmarking}, selected by BigQuery and parsed as described in previous section.
+\item \textbf{GDELT}: A selection of 45 authors taken from a work of \cite{gungor2018benchmarking}, selected by BigQuery, available on the GDELT project\footnote{The GDELT Project is one of the largest publicly available digitized book database which
+	has more than 3.5 million books published from 1800-2015. The GDELT Project is an
+	open platform for research and analysis of global society and thus all datasets released by
+	the GDELT Project are available for unlimited and unrestricted use for any academic,
+	commercial, or governmental use of any kind without any fee. \url{https://www.gdeltproject.org/about.html}}.
 \item \textbf{AFR}\footnote{Amazon Food Reviews available at \url{https://snap.stanford.edu/data/web-FineFoods.html}}: This dataset consists of reviews of fine foods from amazon. The data span a period of more than 10 years, including all ~500,000 reviews up to October 2012. Reviews include product and user information, ratings, and a plain text review. It also includes reviews from all other Amazon categories.
 \end{itemize}
 All previously selected datasets were used as authorship attribution closed set analysis and in single topic context.

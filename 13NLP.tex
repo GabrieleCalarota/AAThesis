@@ -10,10 +10,11 @@ Although the problem of recognition of handwriting text is still far from its fi
 \section{Character Features}
 
 Based on these features a sentence consists of a characters sequence. Some of the character-level features are alphabetic characters count, digit characters count, uppercase and lowercase character counts, letter and character n-gram frequencies. This type of feature extraction techniques has been found quite useful to quantify the writing style.\cite{grieve2007quantitative}
-A more practical approach in character-level features are the extraction of n-gram characters. This procedure of extracting such features are language independent and requires less complex toolboxes. On the other hand, comparing to word n-grams approach the dimensional of these approaches are vastly increased and it has a curse of dimensional problem. A simple way of explaining what a character n-grams could be with the following example: assume that a word “thesis” is going to be represented by 2-gram characters. So, the resulting sets of points will be {“th", "he", "es", "si", "is"}.\\
+A more practical approach in character-level features are the extraction of n-gram characters. This procedure of extracting such features are language independent and requires less complex toolboxes. On the other hand, comparing to word n-grams approach the dimensional of these approaches are vastly increased and it has a curse of dimensional problem. A simple way of explaining what a character n-grams could be with the following example: assume that a word “thesis” is going to be represented by 2-gram characters. So, the resulting sets of points will be {\enquote{th}, \enquote{he}, \enquote{es}, \enquote{si}, \enquote{is}}.\\
 A simple python algorithm is shown in \ref{lst:CharNGramSplit}:\\
 
-
+\begin{lstlisting}[frame=none,caption={Split word into character n-grams, parametric on n.},captionpos=b,label=lst:CharNGramSplit]
+\end{lstlisting}
 \begin{python}
 	def get_char_n_gram(text, n=2):
 		"""Convert text into character n-grams list"""
@@ -27,11 +28,10 @@ A simple python algorithm is shown in \ref{lst:CharNGramSplit}:\\
 	print(get_char_n_gram("student", n=3))
 	>>Out: ['stu', 'tud', 'ude', 'den', 'ent']
 \end{python}
-\begin{lstlisting}[frame=none,caption={Split word into character n-grams, parametric on n},captionpos=b,label=lst:CharNGramSplit]
-\end{lstlisting}
+
 
 In \cite{sapkota2015not} have been identified 10 character n-grams categories, being proven as the most successful feature in both single-domain and cross-domain Authorship Attribution.\\
-This 10 categories are grouped into 3 groups: Affix n-grams, Word n-grams, Punctuation n-grams.
+These 10 categories are grouped into 3 groups: Affix n-grams, Word n-grams, Punctuation n-grams.
 
 \subsection{Affix n-grams}
 Character n-grams are generally too short to represent any deep syntax, but some of them can reflect morphology to some degree. In particular, the following affix-like features are extracted by looking at n-grams that begin or end a word:
@@ -91,9 +91,9 @@ The main stylistic choices that character n-grams can capture are the author’s
 
 
 \paragraph{}
-In \autoref{tab:examplesngram} we can see an example of the n-gram categories ($ n = 3 $) for the sentence \textit{"The actors wanted to see if the pact seemed like an old-fashioned one."}. 
-In \cite{sapkota2015not} they've observed that in their data almost 80\% of the n-grams in the punct-beg and punct-mid categories contain a space. They stated that "this tight coupling of punctuation and spaces is due to the rules of English orthography: most punctuation marks require a space following them". The 20\% of n-grams that have punctuation but no spaces correspond mostly to the exceptions to this rule: quotation marks, mid-word hyphens, etc.
-They've conducted an experiment on RCV1 dataset both the \textit{CCAT\_10 split} and the \textit{CCAT\_50 split}. They've also used the Guardian dataset as a cross-domain authorship attribution experiment. In their work they stated that for the single-domain the top four categories for authorship attribution are: \textit{prefix}, \textit{suffix}, \textit{space-prefix} and \textit{mid-word}. On the other hand, for cross-domain authorship attribution the top four categories have been proven to be: \textit{prefix}, \textit{space-prefix}, \textit{beg-punct} and \textit{mid-punct}.
+In \autoref{tab:examplesngram} we can see an example of the n-gram categories ($ n = 3 $) for the sentence \textit{\enquote{The actors wanted to see if the pact seemed like an old-fashioned one.}}. 
+In \cite{sapkota2015not} they've observed that in their data almost 80\% of the n-grams in the punct-beg and punct-mid categories contain a space. They stated that \enquote{this tight coupling of punctuation and spaces is due to the rules of English orthography: most punctuation marks require a space following them}. The 20\% of n-grams that have punctuation but no spaces correspond mostly to the exceptions to this rule: quotation marks, mid-word hyphens, etc.
+The authors of \cite{sapkota2015not} conducted an experiment on Reuters Corpus Volume 1 (RCV1) dataset both the \textit{CCAT\_10 split} and the \textit{CCAT\_50 split}\footnote{CCAT\_10/CCAT\_50 split on RCV1 dataset is the selection of the 10/50 most prolific authors belonging to the Corporate/Industrial Category (CCAT)}. They've also used the Guardian dataset as a cross-domain authorship attribution experiment. In their work they stated that for the single-domain the top four categories for authorship attribution are: \textit{prefix}, \textit{suffix}, \textit{space-prefix} and \textit{mid-word}. On the other hand, for cross-domain authorship attribution the top four categories have been proven to be: \textit{prefix}, \textit{space-prefix}, \textit{beg-punct} and \textit{mid-punct}.
 For both single-domain and cross-domain authorship attribution, \textit{prefix} and \textit{space-prefix} are strong features, and are generally better than the \textit{suffix} features, perhaps because authors have more control over prefixes in English,
 while suffixes are often obligatory for grammatical reasons. For cross-domain authorship attribution, \textit{beg-punct} and \textit{mid-punct} they found to be the top features, likely because an author’s use of punctuation is consistent even when the topic
 changes. For single-domain authorship attribution, \textit{mid-word} was also
@@ -113,7 +113,7 @@ At the very beginning, we applied this representation to our datasets, using the
 	\item \textbf{ngram\_range}=(1, 2)
 \end{itemize}
 In the approach, for each text fragment the number of instances of each unique word is found to create a vector representation of word counts. We capped the max number of features to 10'000 words and discarding the words with a higher frequency of 0.8 across the document and a lower frequency of 0.02. We've also taken into account both single word and word bi-grams. In order to give the reader a better perspective of the impact of this process for the task of authorship attribution, we choose two among the top ten most prolific authors in the RCV1 dataset: \textit{David Lawder} and \textit{Alexander Smith}.
-In \ref{fig:chartRCV1Top2Authors} we can see the number of documents written by the two selected authors in the RCV1 corpus for the \textit{CCAT} topic.
+In \autoref{fig:chartRCV1Top2Authors} we can see the number of documents written by the two selected authors in the RCV1 corpus for the \textit{CCAT} topic.
 
 \begin{figure}[ht]
 	\centering
@@ -185,20 +185,20 @@ With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{Alexander_Smith_wordcloud}
-	\caption[Alexander Smith WordCloud in RCV1]{Image Generated on \href{wordclouds.com} for every word in RCV1 corpus data for the documents written by Alexander Smith}
+	\caption[Alexander Smith WordCloud in Reuters Corpus Volume 1]{Image Generated on \href{wordclouds.com} for every word in Reuters Corpus Volume 1 corpus data for the documents written by Alexander Smith}
 	\label{fig:wordcloudAS}
 \end{figure}
 
-As expected top words are determiners that every writer use while constructing an English sentence. For example, for \textit{David Lawder} top 20 words are \textit{"the, to, of, and, a, in, said, that, for, GM, on, at, its, The, with, is, it, will, by, from"} but for \textit{Alexander Smith} they are \textit{"the, of, to, and, a, in, said, was, for, on, it, had, by, be, its, is, with, would, that, as"} in decreasing order. Even though the two sets are mostly the same, the orders and the frequency are different for most authors.
+As expected top words are determiners that every writer use while constructing an English sentence. For example, for \textit{David Lawder} top 20 words are \textit{"the, to, of, and, a, in, said, that, for, GM, on, at, its, The, with, is, it, will, by, from"} but for \textit{Alexander Smith} they are \textit{\enquote{the, of, to, and, a, in, said, was, for, on, it, had, by, be, its, is, with, would, that, as}} in decreasing order. Even though the two sets are mostly the same, the orders and the frequency are different for most authors.
 
-The main assumption with authorship attribution problems is that every authors word usage and content differs and based on these differences the work of one author can be differentiated from the other. In order to illustrate this assumption, in \ref{fig:chartRCV1ALvsDL} we can see the top 20 words in the RCV1 corpus in the document written by David Lawder, compared to the same words in the documents of Alexander Smith.
+The main assumption with authorship attribution problems is that every authors word usage and content differs and based on these differences the work of one author can be differentiated from the other. In order to illustrate this assumption, in \autoref{fig:chartRCV1ALvsDL} we can see the top 20 words in the RCV1 corpus in the document written by David Lawder, compared to the same words in the documents of Alexander Smith.
 
-In figure \ref{fig:wordcloudDL} \& \ref{fig:wordcloudAS} we plotted using \href{wordclouds.com} the Word Cloud identikit of David Lawder and Alexander Smith, generated by every document written by them in the RCV1 corpus.
+In \autoref{fig:wordcloudDL} \& \autoref{fig:wordcloudAS} we plotted using \href{wordclouds.com} the Word Cloud identikit of David Lawder and Alexander Smith, generated by every document written by them in the RCV1 corpus.
 
 
 \subsection{Word N-grams}
 It is a type of probabilistic language model for predicting the next item in the form of a (n-1) order. Considering n-grams are useful since Bag of words miss out the word order when considering a text. For example, a verb “take on” can be missed out by Bag of words representation which considers “take” and “on” as two separate words. N-gram also establishes the approach of “Skip-gram” language model. An N-gram is a consecutive sub-sequence of length $N$ of some sequence of sentence while a Skip-gram is a N-length sub-sequence where the components occur at a distance of at most $k$ from each other \cite{mikolov2013efficient}.
-In order to extract N-grams from a given text data a simple snippet of code is shown in \ref{lst:MostCommonGrams}, tested for the word grams on the documents written by David Lawder and Alexander Smith of the RCV1 corpus data. No pre-processing on the dataset, such as discarding stopwords, has been done while constructing the N-grams. For David Lawder “the, of the, General Motors Corp.” are the most occurrent uni-gram, bi-gram and 
+In order to extract N-grams from a given text data a simple snippet of code is shown in \autoref{lst:MostCommonGrams}, tested for the word grams on the documents written by David Lawder and Alexander Smith of the RCV1 corpus data. No pre-processing on the dataset, such as discarding stopwords, has been done while constructing the N-grams. For David Lawder “the, of the, General Motors Corp.” are the most occurrent uni-gram, bi-gram and 
 three-gram respectively whilst in Alexander Smith documents they are “the, of the, said it would”.
 
 \begin{lstlisting}[frame=none,caption={Get the top 3 most common grams in the corpus, for uni-grams, bi-grams and three-grams},captionpos=b,label=lst:MostCommonGrams]
@@ -331,7 +331,7 @@ terms meaning words that have high term frequency (\textit{tf}). The problem her
 \begin{equation}\label{TFIDF}
 	Tf - Idf = TF(t) * IDF(t)
 \end{equation}
-As an example, we buil a Tf-Idf model by considering documents alone within the text corpus for the authors David Lawder and Alexander Smith.
+As an example, we built a Tf-Idf model by considering documents alone within the text corpus for the authors David Lawder and Alexander Smith.
 In the model, not only the single forms of word tokens but their n-grams are considered as well. Table \ref{tab:tableTFIDFRCV1} provides the top 5 words with highest Tf-Idf scores for the two authors. Comparing between Table \ref{tab:tableNGramsRCV1} and Table \ref{tab:tableTFIDFRCV1} new meaningful words have appeared that could serve as a new feature for each author such as “dow, kmart, coupe” for David Lawder or “hsbc, pensions, panel” for Alexander Smith.
 
 \begin{table}[h!]
@@ -359,7 +359,7 @@ In the model, not only the single forms of word tokens but their n-grams are con
 
 For certain text grammatical and syntactic features could be more useful compared to lexical or character level features. However, this kind of feature extraction techniques requires specific usage of Part of Speech taggers. Some of these features consider the frequency of nouns, adjectives, verbs, adverbs, prepositions, and tense information (past tense,etc). The motivation for extracting these features is that authors tend to use similar syntactic patterns unconsciously \cite{stamatatos2009survey}.
 Some researchers are also interested in exploring different dialects of the same language and building classifiers based on features derived from syntactic characteristic of the text. One great example is the work that aims to discriminate between texts written in either the Netherlandic or the Flemish variant of the Dutch language \cite{van2017exploring}.
-The feature set in this case consists of lexical, syntactic and word-n grams build on different classifiers and F1-score has been recorded for each cases.\\
+The feature set in this case consists of lexical, syntactic and word-n grams build on different classifiers and F1 has been recorded for each cases.\\
 Employed syntactic features are function words ratio, descriptive words to nominal words ratio personal pronouns ratio, question words ratio, question mark ratio, exclamation
 mark ratio \cite{van2017exploring}.
 
@@ -439,8 +439,7 @@ text data separately, or can be imported using previously trained word vectors o
 other large text corpus. It can, then, be plotted into two dimensional vector space
 by using dimensionality reduction techniques (TSNE, for example\footnote{t-Distributed Stochastic Neighbor Embedding (t-SNE) is a technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets}). 
 We can also make use of pre-trained word vectors of
-Glove to see the difference of usages in such words between an author and a pre-
-trained word vector.
+Glove to see the difference of usages in such words between an author and a pretrained word vector.
 Moving with the idea of training Word2Vec per author, one can also do a cosine
 distance measure for the same word or same sentence.
 There are two types of Word2Vec, Skip-gram and Continuous Bag of Words (CBOW). I will briefly describe how these two methods work in the following paragraphs.
@@ -490,6 +489,6 @@ When training the word vectors W, the document vector D is trained as well, and 
 	\label{fig:pv-dbow}
 \end{figure}
 
-The model above is called \textit{Distributed Memory version of Paragraph Vector} (PV-DM) \ref{fig:pv-dm}. It acts as a memory that remembers what is missing from the current context — or as the topic of the paragraph. While the word vectors represent the concept of a word, the document vector intends to represent the concept of a document.
+The model above is called \textit{Distributed Memory version of Paragraph Vector} (PV-DM) \autoref{fig:pv-dm}. It acts as a memory that remembers what is missing from the current context — or as the topic of the paragraph. While the word vectors represent the concept of a word, the document vector intends to represent the concept of a document.
 As in word2vec, another algorithm, which is similar to skip-gram may be used \textit{Distributed Bag of Words version of Paragraph Vector} (PV-DBOW).
-As we can see in \ref{fig:pv-dbow}, this algorithm is actually faster (as opposed to word2vec) and consumes less memory, since there is no need to save the word vectors.
+As we can see in \autoref{fig:pv-dbow}, this algorithm is actually faster (as opposed to word2vec) and consumes less memory, since there is no need to save the word vectors.

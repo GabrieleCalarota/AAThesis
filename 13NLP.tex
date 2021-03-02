@@ -171,7 +171,7 @@ With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1.0\textwidth, height=.8\textheight, keepaspectratio]{rcv1_top20_words_alexander_smith_vs_david_lawder}
-	\caption[David Lawder vs Alexander Smith top 20 words]{Frequency usage of the top 20 words used in the RCV1 corpus by David Lawder, compared to the frequencies of the same words in the corpus by Alexander Smith}
+	\caption[David Lawder vs Alexander Smith top 20 words]{Frequency usage of the top 20 words used in the RCV1 corpus by David Lawder, compared to the frequencies of the same words in the corpus by Alexander Smith.}
 	\label{fig:chartRCV1ALvsDL}
 \end{figure}
 
@@ -185,7 +185,7 @@ With a simple snippet of python code shown in \ref{lst:MostCommonWords}, we can 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.8\textwidth, height=.6\textheight, keepaspectratio]{Alexander_Smith_wordcloud}
-	\caption[Alexander Smith WordCloud in Reuters Corpus Volume 1]{Image Generated on \href{wordclouds.com} for every word in Reuters Corpus Volume 1 corpus data for the documents written by Alexander Smith}
+	\caption[Alexander Smith WordCloud in Reuters Corpus Volume 1]{Image Generated on \href{wordclouds.com} for every word in Reuters Corpus Volume 1 corpus data for the documents written by Alexander Smith.}
 	\label{fig:wordcloudAS}
 \end{figure}
 
@@ -201,7 +201,7 @@ It is a type of probabilistic language model for predicting the next item in the
 In order to extract N-grams from a given text data a simple snippet of code is shown in \autoref{lst:MostCommonGrams}, tested for the word grams on the documents written by David Lawder and Alexander Smith of the RCV1 corpus data. No pre-processing on the dataset, such as discarding stopwords, has been done while constructing the N-grams. For David Lawder “the, of the, General Motors Corp.” are the most occurrent uni-gram, bi-gram and 
 three-gram respectively whilst in Alexander Smith documents they are “the, of the, said it would”.
 
-\begin{lstlisting}[frame=none,caption={Get the top 3 most common grams in the corpus, for uni-grams, bi-grams and three-grams},captionpos=b,label=lst:MostCommonGrams]
+\begin{lstlisting}[frame=none,caption={Get the top 3 most common grams in the corpus, for uni-grams, bi-grams and three-grams.},captionpos=b,label=lst:MostCommonGrams]
 \end{lstlisting}
 \begin{python}	
 	from collections import Counter
@@ -250,7 +250,7 @@ Table \ref{tab:tableNGramsRCV1} contains top 3 uni-grams, bi-grams, three-grams 
 It is also referred as vocabulary diversity. It attempts to quantify the diversity of the vocabulary text. It is simply the ratio of $V / N$ where $V$ refers to the total number of unique tokens and $N$ refers to the total number of tokens in the considered texts \cite{stamatatos2009survey}. As an example, we applied this feature to the RCV1 CCAT\_10 dataset\footnote{The top ten most prolific authors in the RCV1 corpus, selecting the documents belonging to the \textit{CCAT} topic}.
 A snippet of the code to extract such feature, is shown in \ref{lst:vocabRichNessRCV1CCAT10}.
 
-\begin{lstlisting}[frame=none,caption={Calculate vocabulary richness in RCV1 CCAT10 dataset.},captionpos=b,label=lst:vocabRichNessRCV1CCAT10]
+\begin{lstlisting}[frame=none,caption={Calculate vocabulary richness in Reuters Corpus Volume 1 CCAT\_10 split dataset.},captionpos=b,label=lst:vocabRichNessRCV1CCAT10]
 \end{lstlisting}
 \begin{python}	
 		tmp_df = dataset
@@ -343,11 +343,11 @@ In the model, not only the single forms of word tokens but their n-grams are con
 			\hline 
 			Author & Token & Value & Author & Token & Value \\
 			\hline \hline
-			David Lawder & \textbf{dow} & \textbf{0.702} & Alexander Smith & \textbf{hsbc} & \textbf{0.697} \\ \hline
-			David Lawder & kmart & 0.658	& Alexander Smith & pensions & 0.601  \\ \hline
-			David Lawder & south & 0.559	& Alexander Smith & bzw & 0.592 \\ \hline
-			David Lawder & coupe & 0.539 & Alexander Smith & panel & 0.579 \\ \hline
-			David Lawder & bags & 0.517 & Alexander Smith & read & 0.570 \\ \hline
+			David Lawder & \textbf{dow} & \textbf{0.7020} & Alexander Smith & \textbf{hsbc} & \textbf{0.6970} \\ \hline
+			David Lawder & kmart & 0.6580	& Alexander Smith & pensions & 0.6010  \\ \hline
+			David Lawder & south & 0.5590	& Alexander Smith & bzw & 0.5920 \\ \hline
+			David Lawder & coupe & 0.5390 & Alexander Smith & panel & 0.5790 \\ \hline
+			David Lawder & bags & 0.5170 & Alexander Smith & read & 0.5700 \\ \hline
 			%\bottomrule 
 		\end{tabular} 
 		%}
@@ -447,7 +447,7 @@ There are two types of Word2Vec, Skip-gram and Continuous Bag of Words (CBOW). I
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.6\textwidth, height=.6\textheight, keepaspectratio]{skip_gram_2}
-	\caption[Word embedding vector representation]{Examples of Word2Vec representation with vector distance}
+	\caption[Word embedding vector representation]{Examples of Word2Vec representation with vector distance.}
 	\label{fig:skipgram}
 \end{figure}
 

@@ -15,7 +15,7 @@ The key idea was that
 the writing of each author could be characterized by a unique
 curve expressing the relationship between word length and
 relative frequency of occurrence; these characteristic curves
-thus would provide a basis for author attribution of anonymous texts. This early work was put on a firmer statistical
+would thus provide a basis for author attribution of anonymous texts. This early work was put on a firmer statistical
 basis in the early 20th century with the search for invariant properties of textual statistics \citeauthor{zipf1932selected} (\citeyear{zipf1932selected}). The existence
 of such invariants suggested the possibility that some related
 feature might be found that was at least invariant for any given
@@ -23,7 +23,7 @@ author, though possibly varying among different authors.
 The majority of published works in authorship
 attribution focus on closed-set attribution where
 it is assumed that the author of the text under
-investigation is necessarily a member of a given
+investigation is specifically a member of a given
 well-defined set of candidate authors. This setting fits many forensic applications where usually specific individuals have access to certain resources, have knowledge of certain issues, etc.
 A more general framework is open-set attribution \cite{koppel2011authorship}. A special case of the latter is authorship verification where the set of candidate authors is singleton. This is essentially a one-class classification problem since the negative class (i.e., all texts by all other authors) is huge and extremely heterogeneous.
 In authorship attribution it is not always realistic to assume that the texts of known authorship and the texts under investigation belong in
@@ -36,7 +36,7 @@ genre variations and they should only depend on
 personal style of the authors. However, it is not
 yet clear how the topic/genre factor can be separated from the personal writing style.
 
-\paragraph{In this work} In this work we will give a general snapshot of what authorship attribution is nowadays. We will give a key of reading from the point of view of both information retrieval and the most used methodologies, paying much attention in the selection of datasets in order not to create learning bias.
+\paragraph{In this work} In this work we will give a general snapshot of what authorship attribution is nowadays. We will give a key of reading from the point of view of both information retrieval and the most used methodologies, paying much attention to the selection of datasets in order not to create learning bias.
 In our experiment we will compare datasets that are very different from each other both in text content, formality and average length of documents written by authors.
 We will analyze the methods to extract the best information from the documents and how to select the classifier that best suits this type of task.
 We will compare the results obtained with those found in related work, taking care to recreate the same experiment performed.
@@ -46,7 +46,7 @@ Finally, we will give hints for future work and a long-term vision for this bran
 The rest of this thesis is organized into the following chapters:
 \begin{itemize}
 	\item \textbf{Chapter 2}. Chapter 2 provides a more detailed introduction to this task and what are the different scenarios we may encounter when tackling the authorship attribution.
-	\item \textbf{Chapter 3}. Chapter 3 presents a background in information retrieval, listing some of the most used techniques used in previous authorship attribution works for extracting useful data representing the texts.
+	\item \textbf{Chapter 3}. Chapter 3 presents a background in information retrieval, listing some of the most common techniques used in previous authorship attribution works for extracting useful data representing the texts.
 	\item \textbf{Chapter 4}. Chapter 4 lists a variety of related works in authorship attribution, focusing on works that used SVM as a classifier and that used either one of the Reuters Corpus dataset or The Guardian dataset to test their model.
 	\item \textbf{Chapter 5}. Chapter 5 describes our experiment in terms of the setup, the dataset preparation, the process of features extraction and the classifier selection.
 	\item \textbf{Chapter 6}. Chapter 6 shows the best results we obtained from the experiments we conducted on the selected datasets.

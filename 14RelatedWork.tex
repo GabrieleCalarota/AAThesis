@@ -164,7 +164,7 @@ Society, World, U.K.) and different genres (opinion articles and book reviews). 
 TGC provides texts on two different genres from the same set of authors. Moreover, one genre is divided into four thematic areas. Therefore, it can be used to examine authorship
 attribution models under cross-genre and cross-topic conditions  \cite{gomez2018document}.
 \citeauthor{stamatatos2013robustness} (\citeyear{stamatatos2013robustness}) demonstrated that high frequency character n-grams allow to discriminate effectively between authors
-not only for single-topic authorship attribution, but also for cross-topic authorship attribution. \citeauthor{sapkota2014cross} \cite{sapkota2014cross} improve the prediction results in cross-topic authorship attribution using an enriched training corpus in order to predict authors on a corpus with different topics.
+not only for single-topic authorship attribution, but also for cross-topic authorship attribution. \citeauthor{sapkota2014cross} \cite{sapkota2014cross} improved the prediction results in cross-topic authorship attribution using an enriched training corpus in order to predict authors on a corpus with different topics.
 The role of preprocessing steps was evaluated in \cite{markov2017improving}. The approach proposed in
 that paper is considered to be more topic-neutral by their authors, because they replace
 the named entities and some topic-related words while preprocessing the corpus. Their
@@ -175,7 +175,7 @@ to exploit high-level features for stylometric purposes. More recently, the
 usage of the distributed document representation for the cross-topic authorship attribution task has shown great results in terms of accuracy \cite{posadas2017application} and \cite{gomez2018document}, because
 of its capability to encode the semantic information of texts in a low dimension vector,.
 Recently, the Paragraph Vector (Doc2vec) model was proposed by Le \&
-Mikolov \cite{le2014distributed} for learning distributed representation for both sentences and documents. The Doc2vec model basically treats each document as a special word and learn
+Mikolov \cite{le2014distributed} for learning distributed representation for both sentences and documents. The Doc2vec model basically treats each document as a special word and learns
 both document vectors and word vectors simultaneously by predicting the target word.
 Vectors obtained by the Doc2vec model outperforms both bag-of-words and word ngrams models producing the new state-of-the-art results for several text classification and sentiment analysis tasks \cite{gomez2018document}.
 \textit{The Guardian corpus} offers the opportunity to explore
@@ -184,15 +184,15 @@ the exception of the category “Books reviews,” which is
 considered as another genre. It is assumed that each category represents a topic, which is different enough from
 the other categories. In contrast to the previously described
 benchmarks, The Guardian is a cross-topic, cross-genre and
-unbalance benchmark, representing in this way a very challenging scenario.
+unbalanced benchmark, representing in this way a very challenging scenario.
 
 \paragraph{}
-At the beginning of this work, we wondered which dataset would best validate our work. In fact, we quickly realized the importance of using a dataset that did not present bias and invalidate our results. Contrary some of previous work (\cite{diederich2003authorship}, \cite{koppel2003exploiting}), we thought it was not appropriate to use datasets that could not be reproduced by other authors and on which results could not be compared with.
+At the beginning of this work, we wondered which dataset would best validate our work. In fact, we quickly realized the importance of using a dataset that did not present bias and invalidate our results. Contrary to some previous work (\cite{diederich2003authorship}, \cite{koppel2003exploiting}), we thought it was not appropriate to use datasets that could not be reproduced by other authors and on which results could not be compared.
 In the work of \citeauthor{potthast2016wrote} \cite{potthast2016wrote},
 the authors performed the reimplementation of 15 authorship attribution methodologies and concluded that very few of them achieve consistent results across different corpora. In
 this work, we show the consistency of our approach on 4 different datasets, evaluating a wide range of testing scenarios \cite{posadas2017application}.
-Despite we had initially included datasets used in the literature such as Enron's email collection and documents collected experimentally we decided not to use them because they were not recognized as valid by other studies on authorship attribution.
-We would have liked to obtain the twitter dataset used by \citeauthor{layton2010authorship} in \cite{layton2010authorship}, to have a comparison also with very short text; we wrote him and to his collaborators an email but we never got a reply :(.\\
+Despite what we had initially included, datasets used in the literature such as Enron's email collection and documents collected experimentally, we decided not to use them because they were not recognized as valid by other studies on authorship attribution.
+We would have liked to obtain the twitter dataset used by \citeauthor{layton2010authorship} in \cite{layton2010authorship}, to have a comparison also with very short text; we wrote him and his collaborators an email but we never got a reply :(.\\
 The datasets we selected at the end of the selection process are the following:
 \begin{itemize}
 \item \textbf{RCV1}: both in the form RCV1\_10 and RCV1\_50, i.e. 10 and 50 authors always belonging to the CCAT category, in order to reproduce the same conditions of previous related works.

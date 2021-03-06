@@ -1,7 +1,7 @@
 \chapter{Our approach}
 In authorship attribution problems, there is a set of candidate authors and a set of
 text samples in the training set covering some of the works of the authors. In the
-test dataset, there are sample of texts and each of them needs to be attributed to
+test dataset, there are samples of texts and each of them needs to be attributed to
 a candidate author.
 In the next sections, we are going to describe the experiment we carried out taking care of the chronological path of the events.
 Our main focus has always been on closed set authorship attribution, training with instance-based approach (i.e. extracting features by not considering the other available text samples in the training).
@@ -170,7 +170,7 @@ In order to make training methods reliable across dataset, we decided to select 
 \end{table}
 
 \subsection{Amazon Food Reviews}
-This dataset consists of reviews of fine foods from amazon. The data span a period of more than 10 years, including all ~500,000 reviews up to October 2012. Reviews include product and user information, ratings, and a plain text review. It also includes reviews from all other Amazon categories.
+This dataset consists of reviews of fine foods from amazon. The data span of over a period of more than 10 years, including all ~500,000 reviews up to October 2012. Reviews include product and user information, ratings, and a plain text review. It also includes reviews from all other Amazon categories.
 We decided to consider this dataset for our experiment, because we were missing a more \enquote{everyday} example of dataset to work with. As \autoref{tab:tableAFRkpi} shows, the average documents length is dramatically lower than the other two datasets presented previously, providing us with a good challenge to show consistency of our method across all these different scenarios.
 Moreover, in order to make training methods reliable across dataset, we decided to select 100 reviews of each customers, with a 50/50 split (i.e. 50 reviews in the training set, 50 reviews in the testing set, no overlapping among them). In the following sections, we will refer to this as the \textit{"AFR\_50"}.
 
